@@ -1,90 +1,49 @@
 #!/usr/bin/env python3
-"""Example script to demonstrate layout and testing."""
+
 # Core Library modules
+import argparse
+import json
+import logging.config
+import os
+import re
+import shutil
+import subprocess
 import sys
-from typing import Any
+from pathlib import Path
 
-# Local modules
-from . import logger
+# Third party modules
+import requests  # type: ignore
+import yaml  # type: ignore
+from jinja2 import Environment, FileSystemLoader
 
-
-def handle_exception(exc_type, exc_value, exc_traceback):  # type: ignore
-    if issubclass(exc_type, KeyboardInterrupt):
-        sys.__excepthook__(exc_type, exc_value, exc_traceback)
-        return
-    logger.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
+ROOT_DIR = Path.cwd()
+ORIGINAL_PROJECT_NAME = "project_name"
 
 
-sys.excepthook = handle_exception
+try:
+    with open("log_config.yaml") as f:
+        logging.config.dictConfig(yaml.safe_load(f))
+    logger = logging.getLogger("main")
+except FileNotFoundError:
+    raise SystemExit(
+        "trying to configure logging but 'log_config.yaml' cannot be found"
+    )
 
 
-def fizzbuzz(number_range: int) -> list:
-    """Demonstrate one solution to the FizzBuzz problem.
-
-    Return integers 1 to N, but print “Fizz” if an integer is divisible by 3,
-    “Buzz” if an integer is divisible by 5, and “FizzBuzz” if an integer is
-    divisible by both 3 and 5
-
-    Parameters
-    ----------
-    number_range : int
-        The maximum number that will be used
-
-    Returns
-    -------
-    list
-        The result will be returned as a list
-
-    Examples
-    --------
-    >>> fizzbuzz(20)
-    """
-    result: list[Any] = []
-    for num in range(1, number_range):
-        if num % 15 == 0:
-            result.append("FizzBuzz")
-        elif num % 5 == 0:
-            result.append("Buzz")
-        elif num % 3 == 0:
-            result.append("Fizz")
-        else:
-            result.append(num)
-    logger.debug(f"fizzbuzz result: {result}")
-    return result
+def rename_project_dir(old_name: str, new_name: str) -> None:
+    old_directory_path = Path(old_name)
+    new_directory_path = Path(new_name)
+    logger.debug("renaming project directory from %s to %s", old_name, new_name)
+    try:
+        old_directory_path.rename(new_directory_path)
+    except FileNotFoundError:
+        logger.error("directory %s cannot be found:", old_directory_path)
 
 
-def fibonacci(number_range: int) -> list:
-    """series of numbers in which each number is the sum of the two that precede it.
-
-    Parameters
-    ----------
-    number_range : int
-        The maximum number that will be used
-
-    Returns
-    -------
-    list
-        The result will be returned as a list
-
-    Examples
-    --------
-    >>> fibonacci(20)
-    """
-
-    result: list = []
-    a, b = 1, 1
-    while True:
-        if a >= number_range:
-            logger.debug(f"fibonacci result: {result}")
-            return result
-        result.append(a)
-        a, b = b, (a + b)
-
-
-def main():  # type: ignore
-    print(fizzbuzz(20))
-    print(fibonacci(20))
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+def create_setup(new_project_name: str) -> None:
+    environment = Environment(autoescape=True, loader=FileSystemLoader("."))
+    template = environment.get_template("setup.txt")
+    content = template.render(PROJECT_NAME=new_project_name)
+    with open("setup.py", mode="w", encoding="utf-8") as message:
+        logger.debug("creating new setup.py with the following: \n %s", content)
+        message.write(content)

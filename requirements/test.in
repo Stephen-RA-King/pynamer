@@ -1,0 +1,8 @@
+-r production.txt
+
+pytest
+pytest-cov
+pytest-sugar
+pytest-tldr
+pytest-randomly
+pytest-clarity

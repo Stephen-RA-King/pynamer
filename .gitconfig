@@ -1,0 +1,14 @@
+[alias]
+    prev = checkout HEAD^
+    next = !git checkout `git rev-list HEAD..$(git branch --contains | tail -1) | tail -1`
+    ci = commit
+    co = checkout
+    st = status
+    ll = log --oneline
+    ls = ls-tree --full-tree -r --name-only HEAD
+    con = config --list --show-origin
+[core]
+	autocrlf = true
+	editor = 'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin
+[commit]
+	template = C:\\Program Files\\Git\\.gitmessage

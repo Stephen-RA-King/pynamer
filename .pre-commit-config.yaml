@@ -1,0 +1,98 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-ast
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: fix-byte-order-marker
+      - id: check-case-conflict
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-xml
+      - id: check-yaml
+      - id: debug-statements
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v2.42.1
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+
+  - repo: https://github.com/jazzband/pip-tools
+    rev: 6.13.0
+    hooks:
+      - id: pip-compile
+        name: pip-compile base.in
+        files: ^requirements/base\.(in|txt)$
+        args: ["-U", "requirements/base.in"]
+      - id: pip-compile
+        name: pip-compile development.in
+        files: ^requirements/development\.(in|txt)$
+        args: ["-U", "requirements/development.in"]
+      - id: pip-compile
+        name: pip-compile production.in
+        files: ^requirements/production\.(in|txt)$
+        args: ["-U", "requirements/production.in"]
+      - id: pip-compile
+        name: pip-compile test.in
+        files: ^requirements/test\.(in|txt)$
+        args: ["-U", "requirements/test.in"]
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        args: ["--filter-files"]
+
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+        additional_dependencies:
+          #          - flake8-bugbear
+          #          - flake8-comprehensions
+          #          - flake8-eradicate
+          - flake8-simplify
+        args: ["--ignore=E800,F842,F841,W503"]
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.3.1
+    hooks:
+      - id: pyupgrade
+        args: [--py39]
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.0-alpha.6
+    hooks:
+      - id: prettier
+        stages: [commit]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.2.0
+    hooks:
+      - id: mypy
+        args: [--ignore-missing-imports, --disallow-untyped-defs]
+        exclude: ^tests/|^tasks.py|^cleanup.py|^conf.py
+        additional_dependencies:
+          - types-dataclasses >= 0.1.3
+          - lxml
+          - types-click
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        args:
+          - -s
+          - B101,B404,B603,B607

@@ -1,0 +1,10 @@
+# https://packaging.python.org/guides/using-manifest-in/
+
+include AUTHORS.md
+include CHANGELOG.md
+include LICENSE
+include README.md
+
+recursive-exclude * __pycache__
+recursive-exclude * *.py[cod]
+recursive-exclude test/test*.py

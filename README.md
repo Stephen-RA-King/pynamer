@@ -1,6 +1,6 @@
 # pynamer
 
-> Short blurb about what your product does.
+> Utility to find an available package name on the PyPI repository and register it.
 
 [![PyPI][pypi-image]][pypi-url]
 [![Downloads][downloads-image]][downloads-url]
@@ -26,7 +26,7 @@
 
 One to two paragraph statement about your product and what it does.
 
-![](assets/header.png)
+![](assets/bliss.svg)
 
 ## Installation
 

@@ -61,3 +61,29 @@ def delete_director(items_to_delete: list) -> None:
         else:
             logger.debug("Deleting File: %s", item)
             Path.unlink(item, missing_ok=True)
+
+
+def run_command(*arguments, shell=False, working_dir=None, project=None):
+    working_dir = os.getcwd() if working_dir is None else working_dir
+    try:
+        process = subprocess.Popen(
+            arguments,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=shell,
+            text=True,
+            cwd=working_dir,
+        )
+        stdout, stderr = process.communicate()
+        if process.returncode != 0:
+            logger.error("Error running command: %s", args)
+            logger.error("stderr: %s", stderr)
+            cleanup(project)
+            return
+        logger.debug("%s", stdout)
+        return
+    except Exception as e:
+        logger.error("Exception running command: %s", args)
+        logger.error(e)
+        cleanup(project)
+        return

@@ -47,3 +47,17 @@ def create_setup(new_project_name: str) -> None:
     with open("setup.py", mode="w", encoding="utf-8") as message:
         logger.debug("creating new setup.py with the following: \n %s", content)
         message.write(content)
+
+
+def delete_director(items_to_delete: list) -> None:
+    """Utility function to delete files or directories"""
+    for item in items_to_delete:
+        if not item.exists():
+            logger.debug("trying to delete %s but it does not exist", item)
+            continue
+        if item.is_dir():
+            logger.debug("Deleting Directory: %s", item)
+            shutil.rmtree(item, ignore_errors=True)
+        else:
+            logger.debug("Deleting File: %s", item)
+            Path.unlink(item, missing_ok=True)

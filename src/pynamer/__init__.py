@@ -7,7 +7,7 @@ import logging.config
 import yaml  # type: ignore
 
 __title__ = "pynamer"
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "Stephen R A King"
 __description__ = (
     "Utility to find an available package name on the PyPI repository and register it "

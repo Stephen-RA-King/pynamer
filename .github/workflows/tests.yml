@@ -4,9 +4,9 @@ name: test
 
 on:
   push:
-    branches: [default-branch1]
+    branches: [main]
   pull_request:
-    branches: [default-branch2]
+    branches: [main]
 
 jobs:
   test:
@@ -47,7 +47,7 @@ jobs:
       # Step 6. Run the tests
       - name: Test with pytest
         run: |
-          pytest tests/ --cov=package_name --cov-report=xml
+          pytest tests/ --cov=pynamer --cov-report=xml
       # Step 7. Use Codecov to track coverage
       - uses: codecov/codecov-action@v3
         with:

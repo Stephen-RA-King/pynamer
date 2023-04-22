@@ -63,7 +63,7 @@ def delete_director(items_to_delete: list) -> None:
             Path.unlink(item, missing_ok=True)
 
 
-def run_command(*arguments, shell=False, working_dir=None, project=None):
+def run_command(*arguments: str, shell=False, working_dir=None, project=None) -> None:
     working_dir = os.getcwd() if working_dir is None else working_dir
     try:
         process = subprocess.Popen(
@@ -87,3 +87,38 @@ def run_command(*arguments, shell=False, working_dir=None, project=None):
         logger.error(e)
         cleanup(project)
         return
+
+
+def ping_project(new_project_name: str) -> bool:
+    url_project = "".join(["https://pypi.org/project/", new_project_name, "/"])
+    logger.debug("attempting to get url %s", url_project)
+    project_ping = requests.get(url_project, timeout=10)
+    if project_ping.status_code == 200:
+        logger.info("%s EXISTS", new_project_name)
+        if args.output != "None":
+            message = f"{new_project_name:20} is already registered"
+            write_output_file(args.output, message)
+        return True
+    else:
+        logger.info("%s DOES NOT EXIST", new_project_name)
+        if args.output != "None":
+            message = f"{new_project_name:20} is available"
+            write_output_file(args.output, message)
+        return False
+
+
+def ping_json(new_project_name: str) -> bool:
+    url_json = "".join(["https://pypi.org/pypi/", new_project_name, "/json"])
+    logger.debug("attempting to get url %s", url_json)
+    project_json_raw = requests.get(url_json, timeout=10)
+    if project_json_raw.status_code == 200:
+        project_json = json.loads(project_json_raw.content)
+        author = project_json["info"]["author"]
+        logger.info("Author: %s", author)
+        logger.info("Author Email: %s", project_json["info"]["author_email"])
+        logger.info("Summary: %s", project_json["info"]["summary"])
+        logger.info("Latest Version: %s", project_json["info"]["version"])
+        return True
+    else:
+        logger.info("No response from JSON URL")
+        return False

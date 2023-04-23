@@ -186,3 +186,98 @@ def write_output_file(file, message):
     file_path = Path(file)
     with file_path.open(mode="w") as file:
         file.write(message)
+
+
+def main():
+    if args.projects == "None" and args.file == "None":
+        raise SystemExit("No projects to analyse")
+
+    project_list = []
+
+    if args.projects != "None":
+        logger.debug("adding project names from command line %s", args.projects)
+        project_list.extend(list(set(args.projects)))
+        logger.debug("project_list = %s", project_list)
+
+    if args.file != "None":
+        logger.debug("adding project names from file %s", args.file)
+        project_list.extend(process_input_file(args.file))
+        logger.debug("project_list = %s", project_list)
+
+    for new_project in project_list:
+        if ping := ping_project(new_project):
+            ping_json(new_project)
+
+        if not ping and args.register is True:
+            rename_project_dir(ORIGINAL_PROJECT_NAME, new_project)
+            create_setup(new_project)
+            build_dist(new_project)
+            if args.dryrun is False:
+                upload_dist(new_project)
+            else:
+                logger.info("Dryrun .... bypassing upload to PyPI..")
+            cleanup(new_project)
+        elif ping and args.register is True:
+            logger.info("Project already exists ... wont attempt to 'register'")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        prog="pynamer",
+        description="Determine if project name is available on pypi "
+        "with the option to 'register' it for future "
+        "use if available",
+    )
+    parser.add_argument(
+        "projects",
+        nargs="*",
+        default="None",
+        help="Optional - one or more project names",
+    )
+    parser.add_argument(
+        "-r",
+        "--register",
+        action="store_true",
+        help="Register the name on PyPi if the name is available",
+    )
+    parser.add_argument(
+        "-d",
+        "--dryrun",
+        action="store_true",
+        help="Perform all tests but without uploading a dist to PyPI",
+    )
+    parser.add_argument(
+        "-f",
+        "--file",
+        default="None",
+        type=str,
+        help="File containing a list of projects to analyze",
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        default="None",
+        type=str,
+        help="File to output the results to",
+    )
+    parser.add_argument(
+        "-n",
+        "--nocleanup",
+        action="store_true",
+        help="Debug option to bypass deletion of build artifacts",
+    )
+
+    args = parser.parse_args()
+    logger.debug(
+        "arguments collected from the command line: "
+        "\n projects: %s, \n register: %s, \n dryrun: %s, \n file: %s, \n output: %s "
+        "\n nocleanup: %s",
+        args.projects,
+        args.register,
+        args.dryrun,
+        args.file,
+        args.output,
+        args.nocleanup,
+    )
+
+    SystemExit(main())

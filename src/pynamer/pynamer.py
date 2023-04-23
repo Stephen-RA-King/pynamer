@@ -155,3 +155,17 @@ def cleanup(new_project_name):
     ]
     logger.debug("cleaning build artifacts %s", build_artifacts)
     delete_director(build_artifacts)
+
+
+def generate_pypi_index():
+    pypi_index = Path("pypi_index.txt")
+    if pypi_index.exists():
+        Path.unlink(pypi_index, missing_ok=True)
+    pattern = re.compile(r'<a href="/simple/[\w\W]*?/">')
+    index_object = requests.get("https://pypi.org/simple/", timeout=10)
+    index_content_1 = str(index_object.content)
+    index_content_2 = re.sub(pattern, "", index_content_1)
+    index_content_3 = re.sub(r"</a>", "", index_content_2)
+    pypi_index = Path("pypi_index.txt")
+    with pypi_index.open(mode="w") as file:
+        file.write(str(index_content_3))

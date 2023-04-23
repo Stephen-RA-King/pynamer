@@ -143,3 +143,15 @@ def upload_dist(project_name):
         "dist/*",
         project=project_name,
     )
+
+
+def cleanup(new_project_name):
+    rename_project_dir(new_project_name, ORIGINAL_PROJECT_NAME)
+    build_artifacts = [
+        ROOT_DIR / "build",
+        ROOT_DIR / "dist",
+        ROOT_DIR / "".join([new_project_name, ".egg-info"]),
+        ROOT_DIR / "setup.py",
+    ]
+    logger.debug("cleaning build artifacts %s", build_artifacts)
+    delete_director(build_artifacts)

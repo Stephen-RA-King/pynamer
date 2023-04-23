@@ -21,8 +21,8 @@ ORIGINAL_PROJECT_NAME = "project_name"
 
 
 try:
-    with open("log_config.yaml") as f:
-        logging.config.dictConfig(yaml.safe_load(f))
+    with open("log_config.yaml") as log_config:
+        logging.config.dictConfig(yaml.safe_load(log_config))
     logger = logging.getLogger("main")
 except FileNotFoundError:
     raise SystemExit(
@@ -122,3 +122,24 @@ def ping_json(new_project_name: str) -> bool:
     else:
         logger.info("No response from JSON URL")
         return False
+
+
+def build_dist(project_name):
+    logger.info("Building the distribution... ")
+    run_command(
+        sys.executable, "-m", "build", "--sdist", "--wheel", ".", project=project_name
+    )
+
+
+def upload_dist(project_name):
+    logger.info("Uploading the distribution... ")
+    run_command(
+        sys.executable,
+        "-m",
+        "twine",
+        "upload",
+        "--config-file",
+        ".pypirc",
+        "dist/*",
+        project=project_name,
+    )

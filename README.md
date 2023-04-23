@@ -1,6 +1,6 @@
 # pynamer
 
-> Utility to find an available package name on the PyPI repository and register it.
+_**Utility to find an available package name on the PyPI repository and optionally 'register' it.**_
 
 [![PyPI][pypi-image]][pypi-url]
 [![Downloads][downloads-image]][downloads-url]
@@ -24,43 +24,130 @@
 [![DeepSource][deepsource-image]][deepsource-url]
 [![license][license-image]][license-url]
 
-One to two paragraph statement about your product and what it does.
+As a pseudo replacement for pip search, pynamer will quickly ascertain if a project name is 'available' on PyPI.
 
-![](assets/bliss.svg)
+![](assets/pynamer.svg)
 
-## Installation
+# Contents
+
+-   [TLDR](#TLDR)
+-   [Introduction](#Introduction)
+-   [Quick Start](#Quick-Start)
+    -   [Prerequisites](#Prerequisites)
+    -   [Installation](#Installation)
+    -   [Basic Usage](#Basic-Usage-example)
+-   [Documentation](#Documentation)
+    -   [Read the Docs](https://pynamer.readthedocs.io/en/latest/)
+    -   [Wiki](https://github.com/Stephen-RA-King/pynamer/wiki)
+
+## Introduction
+
+Some of you may have reached the point where you want to publish a package on the PyPI python repository.
+The first step of which is to choose a unique name. Here lies the problem.
+
+A recent look at the PyPI repository revealed there were over 449,007 projects, so many names have already been taken.
+
+pip leaps to the rescue with its search utility... or does it?
+
+```python
+pip search zaphod
+```
+
+```commandline
+ERROR: XMLRPC request failed [code: -32500]
+RuntimeError: PyPI no longer supports 'pip search' (or XML-RPC search).
+Please use https://pypi.org/search (via a browser) instead.
+See https://warehouse.pypa.io/api-reference/xml-rpc.html#deprecated-methods for more information.
+```
+
+A quick search will show the internet replete with articles explaining the situation:
+
+-   [The Register: Why Python's pip search isn't working](https://www.theregister.com/2021/05/25/pypi_search_error/)
+-   [Pytyhon.org discussion: Pip search is still broken](https://discuss.python.org/t/pip-search-is-still-broken/18680)
+
+OK so I go to the PyPI website and do a search for 'zaphod' as suggested by pip and 7 results are displayed none of which have the package name 'zaphod'
+
+![](assets/pypi_zaphod.png)
+
+Fantastic! I now think unbelievably that I have a unique name for a project that I can use.
+So, I go ahead and code my new project, along with all the test files, documentation and meta data.
+I diligently debug and commit and push to git and github so I have a history.
+
+Finally the project is good enough to release and publish as an installable package on PyPI.
+
+Here goes....
+
+```commandline
+python -m twine upload --config-file .pypirc dist/*
+Uploading distributions to https://upload.pypi.org/legacy/
+Uploading zaphod-0.0.0-py3-none-any.whl
+100% ---------------------------------------- 3.8/3.8 kB • 00:00 • ?
+WARNING  Error during upload. Retry with the --verbose option for more details.
+ERROR    HTTPError: 403 Forbidden from https://upload.pypi.org/legacy/
+         The user 'stephenking' isn't allowed to upload to project 'zaphod'. See https://pypi.org/help/#project-name for more information.
+```
+
+AARGH!
+
+What just happened?
+
+Yes unbelievably the project already exists and yes unbelievably PyPI's own search
+did not find the project.
+
+Enter Pynamer that does not rely on a single method of finding a PyPI package:
+
+#### TLDR
+
+Pynamer uses the following methods to ascertain whether a package already exists on PyPI:
+
+-   A simple request to the project url on PyPI.
+-   Uses the PyPI API
+-   Uses the PyPI "simple" repository - a text-based listing of all the packages available on PyPI.
+-   Uses PyPI's own search engine and scrapes the results.
+
+Pynamer provides a way to optionally 'register' a name on PyPI by building a minimalistic package and uploading
+
+## Quick Start
 
 ---
 
-OS X & Linux:
-
-```sh
-pip3 install pynamer
-```
-
-Windows:
-
-```sh
-pip install pynamer
-```
-
-## Usage example
+### Prerequisites
 
 ---
 
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
+-   [x] Python >= 3.9.
+-   [x] pipx
+
+Optional but required for 'registering' a project name on PyPI
+
+-   [x] An account on PyPI and an API key.
+-   [x] A .pypirc file containing your API key
+
+### Installation
+
+```sh
+pipx install pynamer
+```
+
+### Basic Usage
+
+```commandline
+~ $ pynamer flake8
+
+INFO:main:flake8 EXISTS
+INFO:main:Author: Tarek Ziade
+INFO:main:Author Email: tarek@ziade.org
+INFO:main:Summary: the modular source code checker: pep8 pyflakes and co
+INFO:main:Latest Version: 6.0.0
+```
+
+```commandline
+~ $ pynamer zeedonk
+
+INFO:main:zeedonk DOES NOT EXIST
+```
 
 _For more examples and usage, please refer to the [Wiki][wiki]._
-
-## Development setup
-
----
-
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
-
-```sh
-pip install --editable pynamer
-```
 
 ## Documentation
 
@@ -85,7 +172,7 @@ pip install --editable pynamer
 [![](assets/www.png)](https://www.justpython.tech)
 [![](assets/email.png)](mailto:sking.github@gmail.com)
 
-Stephen R A King : sking.github@gmail.com
+Stephen R A King : [sking.github@gmail.com](sking.github@gmail.com)
 
 Distributed under the MIT license. See [![][license-image]][license-url] for more information.
 

@@ -76,14 +76,14 @@ def run_command(*arguments: str, shell=False, working_dir=None, project=None) ->
         )
         stdout, stderr = process.communicate()
         if process.returncode != 0:
-            logger.error("Error running command: %s", args)
+            logger.error("Error running command: %s", arguments)
             logger.error("stderr: %s", stderr)
             cleanup(project)
             return
         logger.debug("%s", stdout)
         return
     except Exception as e:
-        logger.error("Exception running command: %s", args)
+        logger.error("Exception running command: %s", arguments)
         logger.error(e)
         cleanup(project)
         return
@@ -169,3 +169,20 @@ def generate_pypi_index():
     pypi_index = Path("pypi_index.txt")
     with pypi_index.open(mode="w") as file:
         file.write(str(index_content_3))
+
+
+def process_input_file(file):
+    file_path = Path(file)
+    if not file_path.exists():
+        raise SystemExit(f"The file {file} does not exist")
+    with file_path.open(mode="r") as file:
+        file_contents = file.read()
+        projects = file_contents.split()
+        projects_list = list(projects)
+        return list(set(projects_list))
+
+
+def write_output_file(file, message):
+    file_path = Path(file)
+    with file_path.open(mode="w") as file:
+        file.write(message)

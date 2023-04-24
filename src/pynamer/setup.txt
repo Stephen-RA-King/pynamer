@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+"""The setup script."""
+
+# Third party modules
+from setuptools import setup
+
+setup(name='{{ PROJECT_NAME }}',
+      version='0.0.0',
+      description='place holder',
+      url='http://github.com/SK/{{ PROJECT_NAME }}',
+      author='sking',
+      author_email='flyingcircus@example.com',
+      license='MIT',
+      packages=['{{ PROJECT_NAME }}'],
+      zip_safe=False)

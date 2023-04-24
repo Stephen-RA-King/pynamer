@@ -134,17 +134,17 @@ pipx install pynamer
 ```commandline
 ~ $ pynamer flake8
 
-INFO:main:flake8 EXISTS
-INFO:main:Author: Tarek Ziade
-INFO:main:Author Email: tarek@ziade.org
-INFO:main:Summary: the modular source code checker: pep8 pyflakes and co
-INFO:main:Latest Version: 6.0.0
+flake8 EXISTS
+Author: Tarek Ziade
+Author Email: tarek@ziade.org
+Summary: the modular source code checker: pep8 pyflakes and co
+Latest Version: 6.0.0
 ```
 
 ```commandline
 ~ $ pynamer zeedonk
 
-INFO:main:zeedonk DOES NOT EXIST
+zeedonk DOES NOT EXIST
 ```
 
 _For more examples and usage, please refer to the [Wiki][wiki]._

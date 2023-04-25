@@ -3,7 +3,6 @@
 # Core Library modules
 import argparse
 import json
-import logging.config
 import os
 import re
 import shutil
@@ -16,18 +15,34 @@ import requests  # type: ignore
 import yaml  # type: ignore
 from jinja2 import Environment, FileSystemLoader
 
-ROOT_DIR = Path.cwd()
-ORIGINAL_PROJECT_NAME = "project_name"
+# Local modules
+from . import logger
 
 
-try:
-    with open("log_config.yaml") as log_config:
-        logging.config.dictConfig(yaml.safe_load(log_config))
-    logger = logging.getLogger("main")
-except FileNotFoundError:
-    raise SystemExit(
-        "trying to configure logging but 'log_config.yaml' cannot be found"
-    )
+class Config:
+    PYPIRC = None
+    ROOT_DIR = Path.cwd()
+    ORIGINAL_PROJECT_NAME = "project_name"
+
+
+config = Config()
+
+
+def find_pypirc_file():
+    filename = ".pypirc"
+    system_path = os.getenv("PATH")
+    path_directories = list()
+    path_directories.append(os.getcwd())
+    path_directories.extend(system_path.split(os.pathsep))
+    for directory in path_directories:
+        print(directory)
+        file_path = Path(directory) / filename
+        if file_path.exists():
+            print(f"{filename} is present in the system's PATH at {directory}")
+            config.PYPIRC = file_path
+            break
+    else:
+        print(f"{filename} is not present in the system's PATH.")
 
 
 def rename_project_dir(old_name: str, new_name: str) -> None:
@@ -89,21 +104,21 @@ def run_command(*arguments: str, shell=False, working_dir=None, project=None) ->
         return
 
 
-def ping_project(new_project_name: str) -> bool:
+def ping_project(new_project_name: str, output_file: str = None) -> bool:
     url_project = "".join(["https://pypi.org/project/", new_project_name, "/"])
     logger.debug("attempting to get url %s", url_project)
     project_ping = requests.get(url_project, timeout=10)
     if project_ping.status_code == 200:
         logger.info("%s EXISTS", new_project_name)
-        if args.output != "None":
+        if output_file is not None:
             message = f"{new_project_name:20} is already registered"
-            write_output_file(args.output, message)
+            write_output_file(output_file, message)
         return True
     else:
         logger.info("%s DOES NOT EXIST", new_project_name)
-        if args.output != "None":
+        if output_file is not None:
             message = f"{new_project_name:20} is available"
-            write_output_file(args.output, message)
+            write_output_file(output_file, message)
         return False
 
 
@@ -146,18 +161,19 @@ def upload_dist(project_name):
 
 
 def cleanup(new_project_name):
-    rename_project_dir(new_project_name, ORIGINAL_PROJECT_NAME)
+    rename_project_dir(new_project_name, config.ORIGINAL_PROJECT_NAME)
     build_artifacts = [
-        ROOT_DIR / "build",
-        ROOT_DIR / "dist",
-        ROOT_DIR / "".join([new_project_name, ".egg-info"]),
-        ROOT_DIR / "setup.py",
+        config.ROOT_DIR / "build",
+        config.ROOT_DIR / "dist",
+        config.ROOT_DIR / "".join([new_project_name, ".egg-info"]),
+        config.ROOT_DIR / "setup.py",
     ]
     logger.debug("cleaning build artifacts %s", build_artifacts)
     delete_director(build_artifacts)
 
 
-def generate_pypi_index():
+# TODO: complete pypi simple search
+def pypi_simple_index():
     pypi_index = Path("pypi_index.txt")
     if pypi_index.exists():
         Path.unlink(pypi_index, missing_ok=True)
@@ -169,6 +185,11 @@ def generate_pypi_index():
     pypi_index = Path("pypi_index.txt")
     with pypi_index.open(mode="w") as file:
         file.write(str(index_content_3))
+
+
+# TODO: finish pypi search function
+def pypi_search():
+    pass
 
 
 def process_input_file(file):
@@ -189,44 +210,10 @@ def write_output_file(file, message):
 
 
 def main():
-    if args.projects == "None" and args.file == "None":
-        raise SystemExit("No projects to analyse")
-
-    project_list = []
-
-    if args.projects != "None":
-        logger.debug("adding project names from command line %s", args.projects)
-        project_list.extend(list(set(args.projects)))
-        logger.debug("project_list = %s", project_list)
-
-    if args.file != "None":
-        logger.debug("adding project names from file %s", args.file)
-        project_list.extend(process_input_file(args.file))
-        logger.debug("project_list = %s", project_list)
-
-    for new_project in project_list:
-        if ping := ping_project(new_project):
-            ping_json(new_project)
-
-        if not ping and args.register is True:
-            rename_project_dir(ORIGINAL_PROJECT_NAME, new_project)
-            create_setup(new_project)
-            build_dist(new_project)
-            if args.dryrun is False:
-                upload_dist(new_project)
-            else:
-                logger.info("Dryrun .... bypassing upload to PyPI..")
-            cleanup(new_project)
-        elif ping and args.register is True:
-            logger.info("Project already exists ... wont attempt to 'register'")
-
-
-if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         prog="pynamer",
-        description="Determine if project name is available on pypi "
-        "with the option to 'register' it for future "
-        "use if available",
+        description="Determine if project name is available on pypi with the "
+        "option to 'register' it for future use if available",
     )
     parser.add_argument(
         "projects",
@@ -280,4 +267,37 @@ if __name__ == "__main__":
         args.nocleanup,
     )
 
+    if args.projects == "None" and args.file == "None":
+        raise SystemExit("No projects to analyse")
+
+    project_list = []
+
+    if args.projects != "None":
+        logger.debug("adding project names from command line %s", args.projects)
+        project_list.extend(list(set(args.projects)))
+        logger.debug("project_list = %s", project_list)
+
+    if args.file != "None":
+        logger.debug("adding project names from file %s", args.file)
+        project_list.extend(process_input_file(args.file))
+        logger.debug("project_list = %s", project_list)
+
+    for new_project in project_list:
+        if ping := ping_project(new_project):
+            ping_json(new_project)
+
+        if not ping and args.register is True:
+            rename_project_dir(config.ORIGINAL_PROJECT_NAME, new_project)
+            create_setup(new_project)
+            build_dist(new_project)
+            if args.dryrun is False:
+                upload_dist(new_project)
+            else:
+                logger.info("Dryrun .... bypassing upload to PyPI..")
+            cleanup(new_project)
+        elif ping and args.register is True:
+            logger.info("Project already exists ... wont attempt to 'register'")
+
+
+if __name__ == "__main__":
     SystemExit(main())

@@ -30,6 +30,7 @@ handlers:
     class: logging.FileHandler
     level: DEBUG
     filename: pynamer.log
+    mode: w
     encoding: utf-8
     formatter: timestamp
 

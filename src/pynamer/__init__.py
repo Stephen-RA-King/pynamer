@@ -2,12 +2,13 @@
 """Top-level package for pynamer."""
 # Core Library modules
 import logging.config
+from importlib.resources import as_file, files
 
 # Third party modules
 import yaml  # type: ignore
 
 __title__ = "pynamer"
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 __author__ = "Stephen R A King"
 __description__ = (
     "Utility to find an available package name on the PyPI repository and register it "
@@ -37,7 +38,7 @@ handlers:
 formatters:
   basic:
     style: "{"
-    format: "{levelname:s}:{name:s}:{message:s}"
+    format: "{message:s}"
   timestamp:
     style: "{"
     format: "{asctime} - {levelname} - {name} - {message}"
@@ -51,3 +52,9 @@ loggers:
 
 logging.config.dictConfig(yaml.safe_load(LOGGING_CONFIG))
 logger = logging.getLogger("init")
+
+
+project_path = files("pynamer")
+setup_file_path = project_path.joinpath("setup.txt")
+with as_file(setup_file_path) as _setup_path:
+    setup_text = _setup_path.read_text()

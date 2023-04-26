@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 
+# TODO: suppress verbose output from build.
+# TODO: add docstrings
+# TODO: add typing
+# TODO: add 'fix' function to check package structure and fix if necessary
+# TODO: add twine support for keyring
+# TODO: add twine support for username / password entry
+# TODO: add random standoff timer to prevent dossing PyPI
+# TODO: write tests
+
+
 # Core Library modules
 import argparse
 import json
@@ -168,7 +178,6 @@ def upload_dist(project_name):
 def cleanup(new_project_name):
     if config.NO_CLEANUP is True:
         return
-
     rename_project_dir(
         project_path.joinpath(new_project_name),
         project_path.joinpath(config.ORIGINAL_PROJECT_NAME),
@@ -264,7 +273,7 @@ def main():
         "-n",
         "--nocleanup",
         action="store_true",
-        help="Debug option to bypass deletion of build artifacts",
+        help=argparse.SUPPRESS,
     )
     parser.add_argument(
         "-a",

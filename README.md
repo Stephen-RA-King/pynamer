@@ -26,11 +26,11 @@ _**Utility to find an available package name on the PyPI repository and optional
 
 As a pseudo replacement for pip search, pynamer will quickly ascertain if a project name is 'available' on PyPI.
 
-![](assets/pynamer.svg)
+![](assets/pynamer.png)
 
 # Contents
 
--   [TLDR](#TLDR)
+-   [tl;dr](#TLDR)
 -   [Introduction](#Introduction)
 -   [Quick Start](#Quick-Start)
     -   [Prerequisites](#Prerequisites)
@@ -101,7 +101,6 @@ Enter Pynamer that does not rely on a single method of finding a PyPI package:
 Pynamer uses the following methods to ascertain whether a package already exists on PyPI:
 
 -   A simple request to the project url on PyPI.
--   Uses the PyPI API
 -   Uses the PyPI "simple" repository - a text-based listing of all the packages available on PyPI.
 -   Uses PyPI's own search engine and scrapes the results.
 
@@ -116,12 +115,30 @@ Pynamer provides a way to optionally 'register' a name on PyPI by building a min
 ---
 
 -   [x] Python >= 3.9.
--   [x] pipx
+-   [x] [**pipx**](https://pypa.github.io/pipx/)
 
-Optional but required for 'registering' a project name on PyPI
+The following are optional but required for 'registering' a project name on PyPI
 
--   [x] An account on PyPI and an API key.
--   [x] A .pypirc file containing your API key
+-   [x] An account on PyPI (generate an API token).
+-   [x] A [**.pypirc**](https://packaging.python.org/en/latest/specifications/pypirc/) file containing your PyPI API key
+
+    or
+
+-   [x] [Twine environment variables](https://twine.readthedocs.io/en/latest/#environment-variables)
+
+Your .pypirc file should contain the following:
+
+```file
+[distutils]
+index-servers =
+    pypi
+    testpypi
+
+[pypi]
+repository = https://upload.pypi.org/legacy/
+username = __token__
+password = your_API_key_here
+```
 
 ### Installation
 
@@ -147,7 +164,28 @@ Latest Version: 6.0.0
 zeedonk DOES NOT EXIST
 ```
 
-_For more examples and usage, please refer to the [Wiki][wiki]._
+# Usage
+
+---
+
+```commandline
+pynamer --help
+usage: pynamer [-h] [-r] [-d] [-f FILE] [-o OUTPUT] [-a] [projects ...]
+
+Determine if project name is available on pypi with the option to 'register' it for future use if available
+
+positional arguments:
+  projects              Optional - one or more project names
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -r, --register        Register the name on PyPi if the name is available
+  -d, --dryrun          Perform all tests but without uploading a dist to PyPI
+  -f FILE, --file FILE  File containing a list of projects to analyze
+  -o OUTPUT, --output OUTPUT
+                        File to output the results to
+  -a, --alltests        Perform all tests
+```
 
 ## Documentation
 

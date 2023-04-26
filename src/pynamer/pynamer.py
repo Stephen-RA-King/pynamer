@@ -11,18 +11,20 @@ import sys
 from pathlib import Path
 
 # Third party modules
+import build
 import requests  # type: ignore
 import yaml  # type: ignore
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Template
 
 # Local modules
-from . import logger
+from . import logger, project_path, setup_text
 
 
 class Config:
     PYPIRC = None
     ROOT_DIR = Path.cwd()
     ORIGINAL_PROJECT_NAME = "project_name"
+    NO_CLEANUP: bool = False
 
 
 config = Config()
@@ -35,14 +37,15 @@ def find_pypirc_file():
     path_directories.append(os.getcwd())
     path_directories.extend(system_path.split(os.pathsep))
     for directory in path_directories:
-        print(directory)
         file_path = Path(directory) / filename
         if file_path.exists():
-            print(f"{filename} is present in the system's PATH at {directory}")
+            logger.debug(
+                "%s is present in the system's PATH at %s", filename, directory
+            )
             config.PYPIRC = file_path
             break
     else:
-        print(f"{filename} is not present in the system's PATH.")
+        logger.debug("%s is not present in the system's PATH.", filename)
 
 
 def rename_project_dir(old_name: str, new_name: str) -> None:
@@ -56,10 +59,10 @@ def rename_project_dir(old_name: str, new_name: str) -> None:
 
 
 def create_setup(new_project_name: str) -> None:
-    environment = Environment(autoescape=True, loader=FileSystemLoader("."))
-    template = environment.get_template("setup.txt")
+    template = Template(setup_text)
     content = template.render(PROJECT_NAME=new_project_name)
-    with open("setup.py", mode="w", encoding="utf-8") as message:
+    setup_file = project_path.joinpath("setup.py")
+    with open(setup_file, mode="w", encoding="utf-8") as message:
         logger.debug("creating new setup.py with the following: \n %s", content)
         message.write(content)
 
@@ -78,7 +81,7 @@ def delete_director(items_to_delete: list) -> None:
             Path.unlink(item, missing_ok=True)
 
 
-def run_command(*arguments: str, shell=False, working_dir=None, project=None) -> None:
+def run_command(*arguments: str, shell=True, working_dir=None, project=None) -> None:
     working_dir = os.getcwd() if working_dir is None else working_dir
     try:
         process = subprocess.Popen(
@@ -139,34 +142,44 @@ def ping_json(new_project_name: str) -> bool:
         return False
 
 
-def build_dist(project_name):
+def build_dist():
     logger.info("Building the distribution... ")
-    run_command(
-        sys.executable, "-m", "build", "--sdist", "--wheel", ".", project=project_name
-    )
+    builder = build.ProjectBuilder(project_path)
+    builder.build("wheel", project_path / "dist")
+    builder.build("sdist", project_path / "dist")
 
 
 def upload_dist(project_name):
     logger.info("Uploading the distribution... ")
+    dir_path = os.fspath(project_path / "dist" / "*")
+    pypirc_path = os.fspath(config.PYPIRC)
     run_command(
         sys.executable,
         "-m",
         "twine",
         "upload",
         "--config-file",
-        ".pypirc",
-        "dist/*",
+        pypirc_path,
+        dir_path,
         project=project_name,
     )
 
 
 def cleanup(new_project_name):
-    rename_project_dir(new_project_name, config.ORIGINAL_PROJECT_NAME)
+    if config.NO_CLEANUP is True:
+        return
+
+    rename_project_dir(
+        project_path.joinpath(new_project_name),
+        project_path.joinpath(config.ORIGINAL_PROJECT_NAME),
+    )
     build_artifacts = [
-        config.ROOT_DIR / "build",
-        config.ROOT_DIR / "dist",
-        config.ROOT_DIR / "".join([new_project_name, ".egg-info"]),
-        config.ROOT_DIR / "setup.py",
+        project_path / "build",
+        project_path / "dist",
+        project_path / "".join([new_project_name, ".egg-info"]),
+        project_path / "setup.py",
+        project_path / "".join([new_project_name, "-0.0.0.tar.gz"]),
+        project_path / "".join([new_project_name, "-0.0.0-py3-none-any.whl"]),
     ]
     logger.debug("cleaning build artifacts %s", build_artifacts)
     delete_director(build_artifacts)
@@ -253,6 +266,12 @@ def main():
         action="store_true",
         help="Debug option to bypass deletion of build artifacts",
     )
+    parser.add_argument(
+        "-a",
+        "--alltests",
+        action="store_true",
+        help="Perform all tests",
+    )
 
     args = parser.parse_args()
     logger.debug(
@@ -271,6 +290,9 @@ def main():
         raise SystemExit("No projects to analyse")
 
     project_list = []
+    find_pypirc_file()
+    if args.nocleanup is True:
+        config.NO_CLEANUP = True
 
     if args.projects != "None":
         logger.debug("adding project names from command line %s", args.projects)
@@ -286,15 +308,29 @@ def main():
         if ping := ping_project(new_project):
             ping_json(new_project)
 
-        if not ping and args.register is True:
-            rename_project_dir(config.ORIGINAL_PROJECT_NAME, new_project)
+        if (
+            args.alltests is True
+            and args.register is True
+            and config.PYPIRC is not None
+            or not ping
+            and args.register is True
+            and config.PYPIRC is not None
+        ):
+            rename_project_dir(
+                project_path.joinpath(config.ORIGINAL_PROJECT_NAME),
+                project_path.joinpath(new_project),
+            )
             create_setup(new_project)
-            build_dist(new_project)
+            build_dist()
             if args.dryrun is False:
                 upload_dist(new_project)
             else:
                 logger.info("Dryrun .... bypassing upload to PyPI..")
             cleanup(new_project)
+        elif config.PYPIRC is None:
+            logger.infog(
+                ".pypirc file cannot be located ... wont attempt to 'register'"
+            )
         elif ping and args.register is True:
             logger.info("Project already exists ... wont attempt to 'register'")
 

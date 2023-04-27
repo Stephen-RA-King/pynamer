@@ -2,6 +2,7 @@
 """Top-level package for pynamer."""
 # Core Library modules
 import logging.config
+import pickle
 from importlib.resources import as_file, files
 
 # Third party modules
@@ -53,8 +54,20 @@ loggers:
 logging.config.dictConfig(yaml.safe_load(LOGGING_CONFIG))
 logger = logging.getLogger("init")
 
-
 project_path = files("pynamer")
+
 setup_file_path = project_path.joinpath("setup.txt")
-with as_file(setup_file_path) as _setup_path:
-    setup_text = _setup_path.read_text()
+with as_file(setup_file_path) as _setup_file:
+    if _setup_file.exists():
+        setup_text = _setup_file.read_text()
+    else:
+        pass
+        # fix method
+
+pickle_file_path = project_path.joinpath("project_count.pickle")
+with as_file(pickle_file_path) as _pickle_file:
+    if _pickle_file.exists():
+        _pickle_bytes = _pickle_file.read_bytes()
+        project_count = pickle.loads(_pickle_bytes)
+    else:
+        project_count = 449691

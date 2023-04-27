@@ -138,3 +138,4 @@ dmypy.json
 TODO.txt
 *.docx
 post_installation.py
+pypi_index.txt

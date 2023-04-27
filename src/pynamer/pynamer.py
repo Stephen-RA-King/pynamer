@@ -14,6 +14,7 @@
 import argparse
 import json
 import os
+import pickle
 import re
 import shutil
 import subprocess
@@ -25,9 +26,10 @@ import build
 import requests  # type: ignore
 import yaml  # type: ignore
 from jinja2 import Template
+from tqdm import tqdm
 
 # Local modules
-from . import logger, project_path, setup_text
+from . import logger, project_count, project_path, setup_text
 
 
 class Config:
@@ -35,9 +37,11 @@ class Config:
     ROOT_DIR = Path.cwd()
     ORIGINAL_PROJECT_NAME = "project_name"
     NO_CLEANUP: bool = False
+    PROJECT_COUNT = 0
 
 
 config = Config()
+config.PROJECT_COUNT = project_count
 
 
 def find_pypirc_file():
@@ -120,15 +124,19 @@ def run_command(*arguments: str, shell=True, working_dir=None, project=None) -> 
 def ping_project(new_project_name: str, output_file: str = None) -> bool:
     url_project = "".join(["https://pypi.org/project/", new_project_name, "/"])
     logger.debug("attempting to get url %s", url_project)
-    project_ping = requests.get(url_project, timeout=10)
+    try:
+        project_ping = requests.get(url_project, timeout=10)
+    except requests.RequestException as e:
+        logger.error("An error occurred: %s", e)
+        raise SystemExit(f"An error occurred with an HTTP request")
     if project_ping.status_code == 200:
-        logger.info("%s EXISTS", new_project_name)
+        logger.info("%s FOUND in the project area of PyPI", new_project_name)
         if output_file is not None:
             message = f"{new_project_name:20} is already registered"
             write_output_file(output_file, message)
         return True
     else:
-        logger.info("%s DOES NOT EXIST", new_project_name)
+        logger.info("%s NOT FOUND in the project area of PyPI", new_project_name)
         if output_file is not None:
             message = f"{new_project_name:20} is available"
             write_output_file(output_file, message)
@@ -138,7 +146,11 @@ def ping_project(new_project_name: str, output_file: str = None) -> bool:
 def ping_json(new_project_name: str) -> bool:
     url_json = "".join(["https://pypi.org/pypi/", new_project_name, "/json"])
     logger.debug("attempting to get url %s", url_json)
-    project_json_raw = requests.get(url_json, timeout=10)
+    try:
+        project_json_raw = requests.get(url_json, timeout=10)
+    except requests.RequestException as e:
+        logger.error("An error occurred: %s", e)
+        raise SystemExit(f"An error occurred with an HTTP request")
     if project_json_raw.status_code == 200:
         project_json = json.loads(project_json_raw.content)
         author = project_json["info"]["author"]
@@ -194,19 +206,45 @@ def cleanup(new_project_name):
     delete_director(build_artifacts)
 
 
-# TODO: complete pypi simple search
-def pypi_simple_index():
-    pypi_index = Path("pypi_index.txt")
+def generate_pypi_index():
+    new_count = 0
+    progress_bar = tqdm(total=config.PROJECT_COUNT)
+    pypi_index = project_path / "pypi_index.txt"
+    pypi_count = project_path / "project_count.pickle"
     if pypi_index.exists():
         Path.unlink(pypi_index, missing_ok=True)
-    pattern = re.compile(r'<a href="/simple/[\w\W]*?/">')
-    index_object = requests.get("https://pypi.org/simple/", timeout=10)
-    index_content_1 = str(index_object.content)
-    index_content_2 = re.sub(pattern, "", index_content_1)
-    index_content_3 = re.sub(r"</a>", "", index_content_2)
-    pypi_index = Path("pypi_index.txt")
-    with pypi_index.open(mode="w") as file:
-        file.write(str(index_content_3))
+    try:
+        index_object_raw = requests.get("https://pypi.org/simple/", timeout=10)
+    except requests.RequestException as e:
+        logger.error("An error occurred: %s", e)
+        raise SystemExit(f"An error occurred with an HTTP request")
+    pattern = re.compile(r"(?:>)([\w\W]*?)(?:<)")
+    with pypi_index.open(mode="a") as file:
+        for line in index_object_raw.iter_lines():
+            line = str(line)
+            project_text = re.search(pattern, line)
+            if project_text is not None:
+                new_count += 1
+                progress_bar.update(1)
+                project = "".join([project_text.group(1), " \n"])
+                file.write(project)
+    progress_bar.close()
+    with open(pypi_count, "wb") as f:
+        pickle.dump(new_count, f)
+
+
+def pypi_search_index(project_name):
+    pypi_index = project_path / "pypi_index.txt"
+    if not pypi_index.exists():
+        generate_pypi_index()
+    with pypi_index.open(mode="r") as file:
+        projects = file.read()
+        if project_name in projects:
+            logger.info("%s FOUND in the PyPI simple index", project_name)
+            return True
+        else:
+            logger.info("%s NOT FOUND in the PyPI simple index", project_name)
+            return False
 
 
 # TODO: finish pypi search function
@@ -281,6 +319,12 @@ def main():
         action="store_true",
         help="Perform all tests",
     )
+    parser.add_argument(
+        "-g",
+        "--generate",
+        action="store_true",
+        help="Generate a new PyPI simple index",
+    )
 
     args = parser.parse_args()
     logger.debug(
@@ -294,6 +338,9 @@ def main():
         args.output,
         args.nocleanup,
     )
+
+    if args.generate is True:
+        generate_pypi_index()
 
     if args.projects == "None" and args.file == "None":
         raise SystemExit("No projects to analyse")
@@ -316,6 +363,9 @@ def main():
     for new_project in project_list:
         if ping := ping_project(new_project):
             ping_json(new_project)
+
+        if args.alltests is True:
+            pypi_search_index(new_project)
 
         if (
             args.alltests is True

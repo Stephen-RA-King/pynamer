@@ -1,31 +1,37 @@
 #!/usr/bin/env python3
 
 # TODO: suppress verbose output from build.
+# TODO: add rich text table
 # TODO: add docstrings
 # TODO: add typing
 # TODO: add 'fix' function to check package structure and fix if necessary
-# TODO: add twine support for keyring
-# TODO: add twine support for username / password entry
 # TODO: add random standoff timer to prevent dossing PyPI
 # TODO: write tests
+# TODO: final version - turn off file logging
 
 
 # Core Library modules
 import argparse
+import contextlib
 import json
+import logging
 import os
 import pickle
 import re
 import shutil
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
 # Third party modules
 import build
 import requests  # type: ignore
 import yaml  # type: ignore
+from bs4 import BeautifulSoup
 from jinja2 import Template
+from rich.console import Console
+from rich.table import Table
 from tqdm import tqdm
 
 # Local modules
@@ -38,6 +44,10 @@ class Config:
     ORIGINAL_PROJECT_NAME = "project_name"
     NO_CLEANUP: bool = False
     PROJECT_COUNT = 0
+    PACKAGE_VERSION = "0.0.0"
+    pypi_search_url: str = "https://pypi.org/search/"
+    pypi_project_url: str = "https://pypi.org/project/"
+    pypi_json_url: str = "https://pypi.org/pypi/"
 
 
 config = Config()
@@ -62,6 +72,17 @@ def find_pypirc_file():
         logger.debug("%s is not present in the system's PATH.", filename)
 
 
+@contextlib.contextmanager
+def suppress_stdout():
+    with open(os.devnull, "w") as devnull:
+        old_stdout = sys.stdout
+        sys.stdout = devnull
+        try:
+            yield
+        finally:
+            sys.stdout = old_stdout
+
+
 def rename_project_dir(old_name: str, new_name: str) -> None:
     old_directory_path = Path(old_name)
     new_directory_path = Path(new_name)
@@ -74,7 +95,10 @@ def rename_project_dir(old_name: str, new_name: str) -> None:
 
 def create_setup(new_project_name: str) -> None:
     template = Template(setup_text)
-    content = template.render(PROJECT_NAME=new_project_name)
+    content = template.render(
+        PROJECT_NAME=new_project_name,
+        PACKAGE_VERSION=config.PACKAGE_VERSION,
+    )
     setup_file = project_path.joinpath("setup.py")
     with open(setup_file, mode="w", encoding="utf-8") as message:
         logger.debug("creating new setup.py with the following: \n %s", content)
@@ -130,20 +154,20 @@ def ping_project(new_project_name: str, output_file: str = None) -> bool:
         logger.error("An error occurred: %s", e)
         raise SystemExit(f"An error occurred with an HTTP request")
     if project_ping.status_code == 200:
-        logger.info("%s FOUND in the project area of PyPI", new_project_name)
+        logger.debug("%s FOUND in the project area of PyPI", new_project_name)
         if output_file is not None:
             message = f"{new_project_name:20} is already registered"
             write_output_file(output_file, message)
         return True
     else:
-        logger.info("%s NOT FOUND in the project area of PyPI", new_project_name)
+        logger.debug("%s NOT FOUND in the project area of PyPI", new_project_name)
         if output_file is not None:
             message = f"{new_project_name:20} is available"
             write_output_file(output_file, message)
         return False
 
 
-def ping_json(new_project_name: str) -> bool:
+def ping_json(new_project_name: str) -> str:
     url_json = "".join(["https://pypi.org/pypi/", new_project_name, "/json"])
     logger.debug("attempting to get url %s", url_json)
     try:
@@ -153,26 +177,33 @@ def ping_json(new_project_name: str) -> bool:
         raise SystemExit(f"An error occurred with an HTTP request")
     if project_json_raw.status_code == 200:
         project_json = json.loads(project_json_raw.content)
-        author = project_json["info"]["author"]
-        logger.info("Author: %s", author)
-        logger.info("Author Email: %s", project_json["info"]["author_email"])
-        logger.info("Summary: %s", project_json["info"]["summary"])
-        logger.info("Latest Version: %s", project_json["info"]["version"])
-        return True
+        result = "".join(
+            [
+                project_json["info"]["author"],
+                "\n",
+                project_json["info"]["author_email"],
+                "\n",
+                project_json["info"]["version"],
+                "\n",
+                project_json["info"]["summary"],
+            ]
+        )
+        return result
     else:
-        logger.info("No response from JSON URL")
-        return False
+        logger.debug("No response from JSON URL")
+        return ""
 
 
 def build_dist():
-    logger.info("Building the distribution... ")
+    logger.debug("Building the distribution... ")
     builder = build.ProjectBuilder(project_path)
+    logging.getLogger("build").disabled = True
     builder.build("wheel", project_path / "dist")
     builder.build("sdist", project_path / "dist")
 
 
 def upload_dist(project_name):
-    logger.info("Uploading the distribution... ")
+    logger.debug("Uploading the distribution... ")
     dir_path = os.fspath(project_path / "dist" / "*")
     pypirc_path = os.fspath(config.PYPIRC)
     run_command(
@@ -199,14 +230,12 @@ def cleanup(new_project_name):
         project_path / "dist",
         project_path / "".join([new_project_name, ".egg-info"]),
         project_path / "setup.py",
-        project_path / "".join([new_project_name, "-0.0.0.tar.gz"]),
-        project_path / "".join([new_project_name, "-0.0.0-py3-none-any.whl"]),
     ]
     logger.debug("cleaning build artifacts %s", build_artifacts)
     delete_director(build_artifacts)
 
 
-def generate_pypi_index():
+def generate_pypi_index() -> None:
     new_count = 0
     progress_bar = tqdm(total=config.PROJECT_COUNT)
     pypi_index = project_path / "pypi_index.txt"
@@ -240,16 +269,44 @@ def pypi_search_index(project_name):
     with pypi_index.open(mode="r") as file:
         projects = file.read()
         if project_name in projects:
-            logger.info("%s FOUND in the PyPI simple index", project_name)
+            logger.debug("%s FOUND in the PyPI simple index", project_name)
             return True
         else:
-            logger.info("%s NOT FOUND in the PyPI simple index", project_name)
+            logger.debug("%s NOT FOUND in the PyPI simple index", project_name)
             return False
 
 
 # TODO: finish pypi search function
-def pypi_search():
-    pass
+def pypi_search(search_project):
+    api_url: str = "https://pypi.org/search/"
+    s = requests.Session()
+    projects_raw, match, others = [], [], []
+    params = {"q": {search_project}, "page": 1}
+    r = s.get(api_url, params=params)
+    soup = BeautifulSoup(r.text, "html.parser")
+    projects_raw.extend(soup.select('a[class*="package-snippet"]'))
+
+    for project_raw in projects_raw:
+        project_name = project_raw.select_one(
+            'span[class*="package-snippet__name"]'
+        ).text.strip()
+        version = project_raw.select_one(
+            'span[class*="package-snippet__version"]'
+        ).text.strip()
+        released_iso_8601 = project_raw.select_one(
+            'span[class*="package-snippet__created"]'
+        ).find("time")["datetime"]
+        released = datetime.strptime(released_iso_8601, "%Y-%m-%dT%H:%M:%S%z").strftime(
+            "%Y-%m-%d"
+        )
+        description = project_raw.select_one(
+            'p[class*="package-snippet__description"]'
+        ).text.strip()
+        if project_name.lower() == search_project.lower():
+            match.append([project_name, version, released, description])
+        else:
+            others.append([project_name, version, released, description])
+    return match, others
 
 
 def process_input_file(file):
@@ -327,6 +384,25 @@ def main():
     )
 
     args = parser.parse_args()
+
+    test_table = Table(title="Test Results")
+    test_table.add_column("No.", style="cyan")
+    test_table.add_column("Test", style="bold yellow")
+    test_table.add_column("Result", style="bold green")
+    test_table.add_column("Details", style="bold blue")
+
+    match_table = Table(title="Exact Match")
+    match_table.add_column("Package", style="cyan")
+    match_table.add_column("Version", style="bold yellow")
+    match_table.add_column("Released", style="bold green")
+    match_table.add_column("Description", style="bold blue")
+
+    others_table = Table(title="Close Matches")
+    others_table.add_column("Package", style="cyan")
+    others_table.add_column("Version", style="bold yellow")
+    others_table.add_column("Released", style="bold green")
+    others_table.add_column("Description", style="bold blue")
+
     logger.debug(
         "arguments collected from the command line: "
         "\n projects: %s, \n register: %s, \n dryrun: %s, \n file: %s, \n output: %s "
@@ -361,12 +437,46 @@ def main():
         logger.debug("project_list = %s", project_list)
 
     for new_project in project_list:
+        # perform the tests
         if ping := ping_project(new_project):
-            ping_json(new_project)
+            json_data = ping_json(new_project)
+            test_table.add_row("1", "Basic http get to project URL", "FOUND", json_data)
+        else:
+            test_table.add_row("1", "Basic http get to project URL", "NOT FOUND", "")
 
         if args.alltests is True:
-            pypi_search_index(new_project)
+            if pypi_search_index(new_project):
+                test_table.add_row(
+                    "2",
+                    "Check PyPI simple index",
+                    "FOUND",
+                    f"Searched {project_count} projects",
+                )
+            else:
+                test_table.add_row(
+                    "2",
+                    "Check PyPI simple index",
+                    "NOT FOUND",
+                    f"Searched {project_count} projects",
+                )
+            match, others = pypi_search(new_project)
+            if match:
+                test_table.add_row("3", "Check PyPI search", "FOUND", "")
+                for items in match:
+                    match_table.add_row(items[0], items[1], items[2], items[3])
+            else:
+                test_table.add_row("3", "Check PyPI search", "NOT FOUND", "")
+            if others:
+                for items in others:
+                    others_table.add_row(items[0], items[1], items[2], items[3])
 
+        console = Console()
+        console.print(test_table)
+        if args.alltests:
+            console.print(match_table)
+            console.print(others_table)
+
+        # build and upload
         if (
             args.alltests is True
             and args.register is True

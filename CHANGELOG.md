@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.0 (2023-04-27)
+### Feature
+* Add generate_pypi_index & pypi_search_index functions ([`96ff544`](https://github.com/Stephen-RA-King/pynamer/commit/96ff54496f8f6455a1a011ac723fd05afa1c547b))
+
+### Documentation
+* Bump version ([`d985a36`](https://github.com/Stephen-RA-King/pynamer/commit/d985a36edb4ada5f59786e1c55fff832e56ca1ec))
+
 ## v0.3.1 (2023-04-26)
 ### Fix
 * Numerous fixes to get a working script ([`5fb56cc`](https://github.com/Stephen-RA-King/pynamer/commit/5fb56cc77c5d6a5552dbf381abbb3100ded29f76))

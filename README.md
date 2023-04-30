@@ -132,12 +132,11 @@ Your .pypirc file should contain the following:
 [distutils]
 index-servers =
     pypi
-    testpypi
 
 [pypi]
 repository = https://upload.pypi.org/legacy/
 username = __token__
-password = your_API_key_here
+password = your_API_token_here
 ```
 
 ### Installation
@@ -168,6 +167,8 @@ zeedonk DOES NOT EXIST
 
 ---
 
+Display the options ...
+
 ```commandline
 pynamer --help
 usage: pynamer [-h] [-r] [-d] [-f FILE] [-o OUTPUT] [-a] [projects ...]
@@ -185,6 +186,7 @@ optional arguments:
   -o OUTPUT, --output OUTPUT
                         File to output the results to
   -a, --alltests        Perform all tests
+  -g, --generate        Generate a new PyPI simple index
 ```
 
 ## Documentation

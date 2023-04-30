@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 
 # TODO: suppress verbose output from build.
-# TODO: add rich text table
 # TODO: add docstrings
 # TODO: add typing
 # TODO: add 'fix' function to check package structure and fix if necessary
 # TODO: add random standoff timer to prevent dossing PyPI
 # TODO: write tests
 # TODO: final version - turn off file logging
+# TODO: split and rename files into logical components
 
 
 # Core Library modules
 import argparse
 import contextlib
 import json
-import logging
 import os
 import pickle
 import re
 import shutil
+import string
 import subprocess
 import sys
 from datetime import datetime
@@ -29,6 +29,7 @@ import build
 import requests  # type: ignore
 import yaml  # type: ignore
 from bs4 import BeautifulSoup
+from colorama import Back, Fore, Style
 from jinja2 import Template
 from rich.console import Console
 from rich.table import Table
@@ -40,7 +41,6 @@ from . import logger, project_count, project_path, setup_text
 
 class Config:
     PYPIRC = None
-    ROOT_DIR = Path.cwd()
     ORIGINAL_PROJECT_NAME = "project_name"
     NO_CLEANUP: bool = False
     PROJECT_COUNT = 0
@@ -48,10 +48,36 @@ class Config:
     pypi_search_url: str = "https://pypi.org/search/"
     pypi_project_url: str = "https://pypi.org/project/"
     pypi_json_url: str = "https://pypi.org/pypi/"
+    IDLEMODE = 1 if "idlelib.run" in sys.modules else 0
 
 
 config = Config()
 config.PROJECT_COUNT = project_count
+
+
+def _feedback(message: str, feedback_type: str) -> None:
+    """A utility method to generate formatted messages appropriate to the
+    environment.
+
+    Args:
+        message:        Text to be echoed.
+        feedback_type:  identifies type of message to display.
+    """
+    if feedback_type not in ["null", "nominal", "warning", "error"]:
+        return
+    if config.IDLEMODE == 1:
+        print(message)
+    else:
+        if feedback_type == "null":
+            print(Fore.WHITE + Style.BRIGHT + f"{message}" + Style.RESET_ALL)
+        elif feedback_type == "nominal":
+            print(Fore.GREEN + Style.BRIGHT + f"{message}" + Style.RESET_ALL)
+        elif feedback_type == "warning":
+            print(
+                Fore.YELLOW + Back.BLACK + Style.BRIGHT + f"{message}" + Style.RESET_ALL
+            )
+        elif feedback_type == "error":
+            print(Fore.RED + Back.BLACK + Style.BRIGHT + f"{message}" + Style.RESET_ALL)
 
 
 def find_pypirc_file():
@@ -197,7 +223,6 @@ def ping_json(new_project_name: str) -> str:
 def build_dist():
     logger.debug("Building the distribution... ")
     builder = build.ProjectBuilder(project_path)
-    logging.getLogger("build").disabled = True
     builder.build("wheel", project_path / "dist")
     builder.build("sdist", project_path / "dist")
 
@@ -276,16 +301,15 @@ def pypi_search_index(project_name):
             return False
 
 
-# TODO: finish pypi search function
 def pypi_search(search_project):
     api_url: str = "https://pypi.org/search/"
+    pattern = re.compile(r">([\d,]+?)<")
     s = requests.Session()
     projects_raw, match, others = [], [], []
     params = {"q": {search_project}, "page": 1}
     r = s.get(api_url, params=params)
     soup = BeautifulSoup(r.text, "html.parser")
     projects_raw.extend(soup.select('a[class*="package-snippet"]'))
-
     for project_raw in projects_raw:
         project_name = project_raw.select_one(
             'span[class*="package-snippet__name"]'
@@ -306,7 +330,14 @@ def pypi_search(search_project):
             match.append([project_name, version, released, description])
         else:
             others.append([project_name, version, released, description])
-    return match, others
+
+    total_div_raw = soup.select(
+        'div[class="split-layout split-layout--table split-layout--wrap-on-tablet"]'
+    )
+    total_raw = re.search(pattern, str(total_div_raw)).group(1)
+    total_str = total_raw.translate(str.maketrans("", "", string.punctuation))
+    others_total = int(total_str) - len(match)
+    return match, others, others_total
 
 
 def process_input_file(file):
@@ -324,6 +355,34 @@ def write_output_file(file, message):
     file_path = Path(file)
     with file_path.open(mode="w") as file:
         file.write(message)
+
+
+def final_analysis(pattern: list) -> None:
+    table = Table(show_header=True, header_style="bold magenta")
+    table.add_column("FINAL ANALYSIS", style="cyan")
+    if pattern == [0, 1, 0]:
+        table.add_row("[red]NOT AVAILABLE![/red]\n")
+        table.add_row(
+            "A Gotcha!, whereby the package is not found even with PyPI's own search facility.\n"
+            "It can only be found by searching the simple index which is not available "
+            "through the interface"
+        )
+    elif pattern == [1, 1, 0]:
+        table.add_row("[red]NOT AVAILABLE![/red]\n")
+        table.add_row(
+            "A Gotcha!, whereby the package is not found even with PyPI's own search facility.\n"
+            "However if appears in the simple index and can be displayed by simply browsing "
+            "to the projects URL"
+        )
+    elif sum(pattern) > 1:
+        table.add_row("[red]NOT AVAILABLE![/red]\n")
+        table.add_row("The package name was found in at least one place")
+    elif sum(pattern) == 0:
+        table.add_row("[green]AVAILABLE![/green]\n")
+        table.add_row("The package name was found in any part of PyPI")
+
+    console = Console()
+    console.print(table)
 
 
 def main():
@@ -371,10 +430,10 @@ def main():
         help=argparse.SUPPRESS,
     )
     parser.add_argument(
-        "-a",
-        "--alltests",
+        "-v",
+        "--verbose",
         action="store_true",
-        help="Perform all tests",
+        help="output additional information",
     )
     parser.add_argument(
         "-g",
@@ -384,44 +443,17 @@ def main():
     )
 
     args = parser.parse_args()
-
-    test_table = Table(title="Test Results")
-    test_table.add_column("No.", style="cyan")
-    test_table.add_column("Test", style="bold yellow")
-    test_table.add_column("Result", style="bold green")
-    test_table.add_column("Details", style="bold blue")
-
-    match_table = Table(title="Exact Match")
-    match_table.add_column("Package", style="cyan")
-    match_table.add_column("Version", style="bold yellow")
-    match_table.add_column("Released", style="bold green")
-    match_table.add_column("Description", style="bold blue")
-
-    others_table = Table(title="Close Matches")
-    others_table.add_column("Package", style="cyan")
-    others_table.add_column("Version", style="bold yellow")
-    others_table.add_column("Released", style="bold green")
-    others_table.add_column("Description", style="bold blue")
-
-    logger.debug(
-        "arguments collected from the command line: "
-        "\n projects: %s, \n register: %s, \n dryrun: %s, \n file: %s, \n output: %s "
-        "\n nocleanup: %s",
-        args.projects,
-        args.register,
-        args.dryrun,
-        args.file,
-        args.output,
-        args.nocleanup,
-    )
+    logger.debug(" args: %s", args)
 
     if args.generate is True:
         generate_pypi_index()
 
     if args.projects == "None" and args.file == "None":
+        parser.print_help()
         raise SystemExit("No projects to analyse")
 
     project_list = []
+    test_results = []
     find_pypirc_file()
     if args.nocleanup is True:
         config.NO_CLEANUP = True
@@ -436,52 +468,86 @@ def main():
         project_list.extend(process_input_file(args.file))
         logger.debug("project_list = %s", project_list)
 
+    # Main loop
     for new_project in project_list:
+        test_table = Table(title=f"Test Results for {new_project}")
+        test_table.add_column("No.", style="blue")
+        test_table.add_column("Test", style="bold green")
+        test_table.add_column("Result", style="bold yellow")
+        test_table.add_column("Details", style="bold cyan")
+
+        match_table = Table(title=f"PyPI Search: Exact Match {new_project}")
+        match_table.add_column("Package", style="blue")
+        match_table.add_column("Version", style="bold green")
+        match_table.add_column("Released", style="bold yellow")
+        match_table.add_column("Description", style="bold cyan")
+
+        others_table = Table(title="Other Close Matches or Related Projects")
+        others_table.add_column("Package", style="blue")
+        others_table.add_column("Version", style="bold green")
+        others_table.add_column("Released", style="bold yellow")
+        others_table.add_column("Description", style="bold cyan")
+
         # perform the tests
-        if ping := ping_project(new_project):
+        if ping_project(new_project):
+            test_results.append(1)
             json_data = ping_json(new_project)
             test_table.add_row("1", "Basic http get to project URL", "FOUND", json_data)
         else:
+            test_results.append(0)
             test_table.add_row("1", "Basic http get to project URL", "NOT FOUND", "")
 
-        if args.alltests is True:
-            if pypi_search_index(new_project):
-                test_table.add_row(
-                    "2",
-                    "Check PyPI simple index",
-                    "FOUND",
-                    f"Searched {project_count} projects",
-                )
-            else:
-                test_table.add_row(
-                    "2",
-                    "Check PyPI simple index",
-                    "NOT FOUND",
-                    f"Searched {project_count} projects",
-                )
-            match, others = pypi_search(new_project)
-            if match:
-                test_table.add_row("3", "Check PyPI search", "FOUND", "")
-                for items in match:
-                    match_table.add_row(items[0], items[1], items[2], items[3])
-            else:
-                test_table.add_row("3", "Check PyPI search", "NOT FOUND", "")
-            if others:
-                for items in others:
-                    others_table.add_row(items[0], items[1], items[2], items[3])
+        if pypi_search_index(new_project):
+            test_results.append(1)
+            test_table.add_row(
+                "2",
+                "Check PyPI simple index",
+                "FOUND",
+                f"Searched {project_count} projects",
+            )
+        else:
+            test_results.append(0)
+            test_table.add_row(
+                "2",
+                "Check PyPI simple index",
+                "NOT FOUND",
+                f"Searched {project_count} projects",
+            )
+        match, others, others_total = pypi_search(new_project)
+
+        if match:
+            test_results.append(1)
+            test_table.add_row(
+                "3",
+                "Check PyPI search",
+                "FOUND",
+                f"Exact match found: {len(match)}, Others found: {others_total}",
+            )
+            for items in match:
+                match_table.add_row(items[0], items[1], items[2], items[3])
+        else:
+            test_results.append(0)
+            test_table.add_row(
+                "3",
+                "Check PyPI search",
+                "NOT FOUND",
+                f"Exact match found: 0, Others found: {others_total}",
+            )
+        if others:
+            for items in others:
+                others_table.add_row(items[0], items[1], items[2], items[3])
 
         console = Console()
         console.print(test_table)
-        if args.alltests:
+        if match:
             console.print(match_table)
+
+        if args.verbose and others:
             console.print(others_table)
 
         # build and upload
         if (
-            args.alltests is True
-            and args.register is True
-            and config.PYPIRC is not None
-            or not ping
+            test_results == [0, 0, 0]
             and args.register is True
             and config.PYPIRC is not None
         ):
@@ -494,14 +560,18 @@ def main():
             if args.dryrun is False:
                 upload_dist(new_project)
             else:
-                logger.info("Dryrun .... bypassing upload to PyPI..")
+                _feedback("Dryrun .... bypassing upload to PyPI..", "warning")
             cleanup(new_project)
         elif config.PYPIRC is None:
-            logger.infog(
-                ".pypirc file cannot be located ... wont attempt to 'register'"
+            _feedback(
+                ".pypirc file cannot be located ... wont attempt to 'register'",
+                "warning",
             )
-        elif ping and args.register is True:
-            logger.info("Project already exists ... wont attempt to 'register'")
+        elif sum(test_results) > 0 and args.register is True:
+            _feedback(
+                "Project already exists ... wont attempt to 'register'", "warning"
+            )
+        final_analysis(test_results)
 
 
 if __name__ == "__main__":

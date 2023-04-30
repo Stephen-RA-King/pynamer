@@ -21,7 +21,7 @@ __copyright__ = "Copyright 2023 Stephen R A King"
 
 LOGGING_CONFIG = """
 version: 1
-disable_existing_loggers: False
+disable_existing_loggers: True
 handlers:
   console:
     class: logging.StreamHandler

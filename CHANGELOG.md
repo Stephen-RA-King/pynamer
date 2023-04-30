@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.0 (2023-04-30)
+### Feature
+* Add pypi search function and rich tables ([`089356b`](https://github.com/Stephen-RA-King/pynamer/commit/089356b574a3eca65dfcac69951f335a97e5e063))
+
+### Fix
+* Total projects found ([`4b42701`](https://github.com/Stephen-RA-King/pynamer/commit/4b42701fc9655573918251179b44e21855adc09b))
+
+### Documentation
+* Minor updates ([`1521d13`](https://github.com/Stephen-RA-King/pynamer/commit/1521d13be80aaee3b745ecb2da6362fe4c488b94))
+
 ## v0.4.0 (2023-04-27)
 ### Feature
 * Add generate_pypi_index & pypi_search_index functions ([`96ff544`](https://github.com/Stephen-RA-King/pynamer/commit/96ff54496f8f6455a1a011ac723fd05afa1c547b))

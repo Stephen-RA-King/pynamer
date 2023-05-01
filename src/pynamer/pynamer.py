@@ -12,7 +12,6 @@
 
 # Core Library modules
 import argparse
-import contextlib
 import json
 import os
 import pickle
@@ -96,17 +95,6 @@ def find_pypirc_file():
             break
     else:
         logger.debug("%s is not present in the system's PATH.", filename)
-
-
-@contextlib.contextmanager
-def suppress_stdout():
-    with open(os.devnull, "w") as devnull:
-        old_stdout = sys.stdout
-        sys.stdout = devnull
-        try:
-            yield
-        finally:
-            sys.stdout = old_stdout
 
 
 def rename_project_dir(old_name: str, new_name: str) -> None:
@@ -272,7 +260,7 @@ def generate_pypi_index() -> None:
     except requests.RequestException as e:
         logger.error("An error occurred: %s", e)
         raise SystemExit(f"An error occurred with an HTTP request")
-    pattern = re.compile(r"(?:>)([\w\W]*?)(?:<)")
+    pattern = re.compile(r">([\w\W]*?)<")
     with pypi_index.open(mode="a") as file:
         for line in index_object_raw.iter_lines():
             line = str(line)
@@ -303,7 +291,7 @@ def pypi_search_index(project_name):
 
 def pypi_search(search_project):
     api_url: str = "https://pypi.org/search/"
-    pattern = re.compile(r">([\d,]+?)<")
+    pattern = re.compile(r">([\d,+]*?)<")
     s = requests.Session()
     projects_raw, match, others = [], [], []
     params = {"q": {search_project}, "page": 1}
@@ -335,8 +323,11 @@ def pypi_search(search_project):
         'div[class="split-layout split-layout--table split-layout--wrap-on-tablet"]'
     )
     total_raw = re.search(pattern, str(total_div_raw)).group(1)
-    total_str = total_raw.translate(str.maketrans("", "", string.punctuation))
-    others_total = int(total_str) - len(match)
+    total = int(total_raw.translate(str.maketrans("", "", string.punctuation)))
+    others_total = (
+        "".join([str(total), "+"]) if total == 10000 else (str(int(total) - len(match)))
+    )
+
     return match, others, others_total
 
 
@@ -379,7 +370,7 @@ def final_analysis(pattern: list) -> None:
         table.add_row("The package name was found in at least one place")
     elif sum(pattern) == 0:
         table.add_row("[green]AVAILABLE![/green]\n")
-        table.add_row("The package name was found in any part of PyPI")
+        table.add_row("The package name was not found in any part of PyPI")
 
     console = Console()
     console.print(table)

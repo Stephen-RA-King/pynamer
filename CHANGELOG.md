@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.1 (2023-05-01)
+### Fix
+* Regex pattern for 10,000+ projects found ([`9ec94ea`](https://github.com/Stephen-RA-King/pynamer/commit/9ec94ea1bdd90244be0b4cf7e0941b40ad7bb2ba))
+
 ## v0.5.0 (2023-04-30)
 ### Feature
 * Add pypi search function and rich tables ([`089356b`](https://github.com/Stephen-RA-King/pynamer/commit/089356b574a3eca65dfcac69951f335a97e5e063))

@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.2 (2023-05-01)
+### Fix
+* Table colours and variable case ([`4a1d40e`](https://github.com/Stephen-RA-King/pynamer/commit/4a1d40e349c7849411eff2337ef8dd465b6398d6))
+
 ## v0.5.1 (2023-05-01)
 ### Fix
 * Regex pattern for 10,000+ projects found ([`9ec94ea`](https://github.com/Stephen-RA-King/pynamer/commit/9ec94ea1bdd90244be0b4cf7e0941b40ad7bb2ba))

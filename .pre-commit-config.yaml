@@ -30,19 +30,19 @@ repos:
       - id: pip-compile
         name: pip-compile base.in
         files: ^requirements/base\.(in|txt)$
-        args: ["-U", "requirements/base.in"]
+        args: ["--resolver=backtracking", "-U", "requirements/base.in"]
       - id: pip-compile
         name: pip-compile development.in
         files: ^requirements/development\.(in|txt)$
-        args: ["-U", "requirements/development.in"]
+        args: ["--resolver=backtracking", "-U", "requirements/development.in"]
       - id: pip-compile
         name: pip-compile production.in
         files: ^requirements/production\.(in|txt)$
-        args: ["-U", "requirements/production.in"]
+        args: ["--resolver=backtracking", "-U", "requirements/production.in"]
       - id: pip-compile
         name: pip-compile test.in
         files: ^requirements/test\.(in|txt)$
-        args: ["-U", "requirements/test.in"]
+        args: ["--resolver=backtracking", "-U", "requirements/test.in"]
 
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0

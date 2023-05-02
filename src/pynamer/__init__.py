@@ -9,7 +9,7 @@ from importlib.resources import as_file, files
 import yaml  # type: ignore
 
 __title__ = "pynamer"
-__version__ = "0.5.1"
+__version__ = "0.5.2"
 __author__ = "Stephen R A King"
 __description__ = (
     "Utility to find an available package name on the PyPI repository and register it "
@@ -28,13 +28,7 @@ handlers:
     level: INFO
     stream: ext://sys.stdout
     formatter: basic
-  file:
-    class: logging.FileHandler
-    level: DEBUG
-    filename: pynamer.log
-    mode: w
-    encoding: utf-8
-    formatter: timestamp
+
 
 formatters:
   basic:
@@ -46,7 +40,7 @@ formatters:
 
 loggers:
   init:
-    handlers: [console, file]
+    handlers: []
     level: DEBUG
     propagate: False
 """

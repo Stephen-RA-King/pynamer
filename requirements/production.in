@@ -1,1 +1,12 @@
 -r base.txt
+
+jinja2
+bs4
+build
+colorama
+pyyaml
+requests
+rich
+twine
+tqdm
+wheel

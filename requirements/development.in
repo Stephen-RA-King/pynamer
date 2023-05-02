@@ -3,7 +3,6 @@
 bandit
 black
 build
-
 python-semantic-release
 colorama
 commitizen

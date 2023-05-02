@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.3 (2023-05-02)
+### Fix
+* Some type hints and add docstrings ([`d5b212d`](https://github.com/Stephen-RA-King/pynamer/commit/d5b212daf2d8e4d96f0fd16435c0d58b240701d0))
+
+### Documentation
+* Add png files for README ([`1c8987f`](https://github.com/Stephen-RA-King/pynamer/commit/1c8987f8b2350b14dc887274dc0cb11589a658b6))
+
 ## v0.5.2 (2023-05-01)
 ### Fix
 * Table colours and variable case ([`4a1d40e`](https://github.com/Stephen-RA-King/pynamer/commit/4a1d40e349c7849411eff2337ef8dd465b6398d6))

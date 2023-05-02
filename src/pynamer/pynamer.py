@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
-# TODO: suppress verbose output from build.
-# TODO: add docstrings
-# TODO: add typing
-# TODO: add 'fix' function to check package structure and fix if necessary
-# TODO: add random standoff timer to prevent dossing PyPI
-# TODO: write tests
-# TODO: final version - turn off file logging
-# TODO: split and rename files into logical components
+# TODO: finish readme.
+# TODO: write tests.
+# TODO: add 'fix' function to check package structure and fix if necessary.
+# TODO: add random standoff timer to prevent dossing PyPI.
+# TODO: split and rename files into logical components.
+# TODO: refactor / fix output file to include all tests and json info.
+# TODO: look at methods to improve performance of generate_pypi_index() function.
 
 
 # Core Library modules
@@ -23,11 +22,11 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
+from typing import Any, List, Optional, Tuple, Union
 
 # Third party modules
 import build
-import requests  # type: ignore
-import yaml  # type: ignore
+import requests
 from bs4 import BeautifulSoup
 from colorama import Back, Fore, Style
 from jinja2 import Template
@@ -36,7 +35,7 @@ from rich.table import Table
 from tqdm import tqdm
 
 # Local modules
-from . import logger, project_count, project_path, setup_text
+from . import project_count, project_path, setup_text
 
 logger = logging.getLogger()
 for handler in logger.handlers:
@@ -44,7 +43,7 @@ for handler in logger.handlers:
 
 
 class Config:
-    pypirc = None
+    pypirc: Optional[Path] = None
     original_project_name = "project_name"
     no_cleanup: bool = False
     project_count = 0
@@ -52,6 +51,7 @@ class Config:
     pypi_search_url: str = "https://pypi.org/search/"
     pypi_project_url: str = "https://pypi.org/project/"
     pypi_json_url: str = "https://pypi.org/pypi/"
+    pypi_simple_index_url: str = "https://pypi.org/simple/"
     idlemode = 1 if "idlelib.run" in sys.modules else 0
 
 
@@ -60,8 +60,7 @@ config.project_count = project_count
 
 
 def _feedback(message: str, feedback_type: str) -> None:
-    """A utility method to generate formatted messages appropriate to the
-    environment.
+    """Generates a formatted messages appropriate to the message type.
 
     Args:
         message:        Text to be echoed.
@@ -84,24 +83,45 @@ def _feedback(message: str, feedback_type: str) -> None:
             print(Fore.RED + Back.BLACK + Style.BRIGHT + f"{message}" + Style.RESET_ALL)
 
 
-def find_pypirc_file(filename: str = ".pypirc") -> None:
+def _find_pypirc_file(filename: str = ".pypirc") -> None:
+    """Function to iterate over paths in the PATH environment variable to find a file.
+
+     Designed to find a .pypirc file starting with the current working directory.
+     If identified will update the config.pypirc variable so it can be used elsewhere.
+
+    Args:
+        filename:       filename to find.
+    """
     system_path = os.getenv("PATH")
-    path_directories = list()
-    path_directories.append(os.getcwd())
-    path_directories.extend(system_path.split(os.pathsep))
-    for directory in path_directories:
-        file_path = Path(directory) / filename
-        if file_path.exists():
-            logger.debug(
-                "%s is present in the system's PATH at %s", filename, directory
-            )
-            config.pypirc = file_path
-            break
-    else:
-        logger.debug("%s is not present in the system's PATH.", filename)
+    if system_path is not None:
+        path_directories = list()
+        path_directories.append(os.getcwd())
+        path_directories.extend(system_path.split(os.pathsep))
+        for directory in path_directories:
+            file_path = Path(directory) / filename
+            if file_path.exists():
+                logger.debug(
+                    "%s is present in the system's PATH at %s", filename, directory
+                )
+                config.pypirc = file_path
+                break
+        else:
+            logger.debug("%s is not present in the system's PATH.", filename)
 
 
-def rename_project_dir(old_name: str, new_name: str) -> None:
+def _rename_project_dir(old_name: str, new_name: str) -> None:
+    """Utility script to rename a directory.
+
+    The object being to rename a 'template' directory for the purpose of creating a
+    minimalist package for upload to PyPI.
+
+    Args:
+        old_name:       source name.
+        new_name:       dst name.
+
+    Raises:
+        FileNotFoundError
+    """
     old_directory_path = Path(old_name)
     new_directory_path = Path(new_name)
     logger.debug("renaming project directory from %s to %s", old_name, new_name)
@@ -111,7 +131,15 @@ def rename_project_dir(old_name: str, new_name: str) -> None:
         logger.error("directory %s cannot be found:", old_directory_path)
 
 
-def create_setup(new_project_name: str) -> None:
+def _create_setup(new_project_name: str) -> None:
+    """Utility script to create a setup.py file.
+
+    The object being to create a setup.py file from a 'template' file for the purpose of
+    creating a minimalist package for upload to PyPI.
+
+    Args:
+        new_project_name:       name used to render the template.
+    """
     template = Template(setup_text)
     content = template.render(
         PROJECT_NAME=new_project_name,
@@ -123,8 +151,12 @@ def create_setup(new_project_name: str) -> None:
         message.write(content)
 
 
-def delete_director(items_to_delete: list) -> None:
-    """Utility function to delete files or directories"""
+def _delete_director(items_to_delete: list[Path]) -> None:
+    """Utility function to delete files and directories.
+
+    Args:
+        items_to_delete:    A list of Path like objects to delete.
+    """
     for item in items_to_delete:
         if not item.exists():
             logger.debug("trying to delete %s but it does not exist", item)
@@ -137,7 +169,21 @@ def delete_director(items_to_delete: list) -> None:
             Path.unlink(item, missing_ok=True)
 
 
-def run_command(*arguments: str, shell=True, working_dir=None, project=None) -> None:
+def _run_command(
+    *arguments: str,
+    shell: bool = True,
+    working_dir: Union[Path, str, None] = None,
+    project: Union[None, str] = None,
+) -> None:
+    """Utility designed to execute a command line utility.
+
+    Args:
+        arguments:  Comma separated strings- "utility", "arg1", "arg2", etc.
+        shell:      command executed by the shell or directly by the operating system.
+        cwd:        specifies the current working directory to use when starting the subprocess.
+                    e.g. "/home/user/mydir"
+        project:    the name of the project currently being tested
+    """
     working_dir = os.getcwd() if working_dir is None else working_dir
     try:
         process = subprocess.Popen(
@@ -152,19 +198,34 @@ def run_command(*arguments: str, shell=True, working_dir=None, project=None) -> 
         if process.returncode != 0:
             logger.error("Error running command: %s", arguments)
             logger.error("stderr: %s", stderr)
-            cleanup(project)
+            if project is not None:
+                cleanup(project)
             return
         logger.debug("%s", stdout)
         return
     except Exception as e:
         logger.error("Exception running command: %s", arguments)
         logger.error(e)
-        cleanup(project)
+        if project is not None:
+            cleanup(project)
         return
 
 
-def ping_project(new_project_name: str, output_file: str = None) -> bool:
-    url_project = "".join([config.pypi_project_url, new_project_name, "/"])
+def _ping_project(project_name: str, output_file: Union[None, str] = None) -> bool:
+    """Determines if the URL to the project exists on PyPI.
+
+    Args:
+        project_name:   the name of the project to test.
+        output_file:    optionally write the results to this filename (simple string).
+
+    Returns:
+        True:           If the URLs response code is 200
+        False:          If the URLs response code is not 200
+
+    Raises:
+        SystemExit:     If any requests.RequestException occurs.
+    """
+    url_project = "".join([config.pypi_project_url, project_name, "/"])
     logger.debug("attempting to get url %s", url_project)
     try:
         project_ping = requests.get(url_project, timeout=10)
@@ -172,21 +233,29 @@ def ping_project(new_project_name: str, output_file: str = None) -> bool:
         logger.error("An error occurred: %s", e)
         raise SystemExit(f"An error occurred with an HTTP request")
     if project_ping.status_code == 200:
-        logger.debug("%s FOUND in the project area of PyPI", new_project_name)
+        logger.debug("%s FOUND in the project area of PyPI", project_name)
         if output_file is not None:
-            message = f"{new_project_name:20} is already registered"
+            message = f"{project_name:20} is already registered"
             write_output_file(output_file, message)
         return True
     else:
-        logger.debug("%s NOT FOUND in the project area of PyPI", new_project_name)
+        logger.debug("%s NOT FOUND in the project area of PyPI", project_name)
         if output_file is not None:
-            message = f"{new_project_name:20} is available"
+            message = f"{project_name:20} is available"
             write_output_file(output_file, message)
         return False
 
 
-def ping_json(new_project_name: str) -> str:
-    url_json = "".join([config.pypi_json_url, new_project_name, "/json"])
+def _ping_json(project_name: str) -> str:
+    """Collects some details about the project if it exists.
+
+    Args:
+        project_name:   the name of the project to test.
+
+    Raises:
+        SystemExit:     If any requests.RequestException occurs.
+    """
+    url_json = "".join([config.pypi_json_url, project_name, "/json"])
     logger.debug("attempting to get url %s", url_json)
     try:
         project_json_raw = requests.get(url_json, timeout=10)
@@ -212,18 +281,27 @@ def ping_json(new_project_name: str) -> str:
         return ""
 
 
-def build_dist():
+def build_dist() -> None:
+    """Builds the sdist and wheel of the minimalist project to upload to PyPI."""
     logger.debug("Building the distribution... ")
     builder = build.ProjectBuilder(project_path)
     builder.build("wheel", project_path / "dist")
     builder.build("sdist", project_path / "dist")
 
 
-def upload_dist(project_name):
+def _upload_dist(project_name: str) -> None:
+    """Builds the twine command line to upload the minimalist project to PyPI.
+
+    Args:
+        project_name:   the name of the project currently under test.
+
+    Notes:
+        twine expects a filesystem path not Path object so use os.fspath()
+    """
     logger.debug("Uploading the distribution... ")
     dir_path = os.fspath(project_path / "dist" / "*")
-    pypirc_path = os.fspath(config.pypirc)
-    run_command(
+    pypirc_path = os.fspath(config.pypirc)  # type: ignore
+    _run_command(
         sys.executable,
         "-m",
         "twine",
@@ -235,36 +313,52 @@ def upload_dist(project_name):
     )
 
 
-def cleanup(new_project_name):
+def cleanup(project_name: str) -> None:
+    """Builds a manifest of artifacts to delete into a list of Path objects.
+
+    Args:
+        project_name:   the name of the project currently under test.
+    """
     if config.no_cleanup is True:
         return
-    rename_project_dir(
-        project_path.joinpath(new_project_name),
+    _rename_project_dir(
+        project_path.joinpath(project_name),
         project_path.joinpath(config.original_project_name),
     )
     build_artifacts = [
         project_path / "build",
         project_path / "dist",
-        project_path / "".join([new_project_name, ".egg-info"]),
+        project_path / "".join([project_name, ".egg-info"]),
         project_path / "setup.py",
     ]
     logger.debug("cleaning build artifacts %s", build_artifacts)
-    delete_director(build_artifacts)
+    _delete_director(build_artifacts)
 
 
 def generate_pypi_index() -> None:
+    """Generates a list of all projects in PyPI's simple index and writes results to a file.
+
+    Raises:
+        SystemExit:     If any requests.RequestException occurs.
+
+    Notes:
+        A potentially expensive operation as there are almost 500,000 projects to process..
+        Can take 2-3 seconds. Look to improve performance at a later date:
+        look at asyncio, asyncio.http etc.
+        Would be an improvement to automatically periodically run this in the background.
+    """
     new_count = 0
+    pattern = re.compile(r">([\w\W]*?)<")
     progress_bar = tqdm(total=config.project_count)
     pypi_index = project_path / "pypi_index.txt"
     pypi_count = project_path / "project_count.pickle"
     if pypi_index.exists():
         Path.unlink(pypi_index, missing_ok=True)
     try:
-        index_object_raw = requests.get("https://pypi.org/simple/", timeout=10)
+        index_object_raw = requests.get(config.pypi_simple_index_url, timeout=10)
     except requests.RequestException as e:
         logger.error("An error occurred: %s", e)
         raise SystemExit(f"An error occurred with an HTTP request")
-    pattern = re.compile(r">([\w\W]*?)<")
     with pypi_index.open(mode="a") as file:
         for line in index_object_raw.iter_lines():
             line = str(line)
@@ -279,7 +373,16 @@ def generate_pypi_index() -> None:
         pickle.dump(new_count, f)
 
 
-def pypi_search_index(project_name):
+def pypi_search_index(project_name: str) -> bool:
+    """Open the generated index file and search for the project name.
+
+    Args:
+        project_name:   the name of the project currently under test.
+
+    Returns:
+        True:           A match was found.
+        False:          A match was not found.
+    """
     pypi_index = project_path / "pypi_index.txt"
     if not pypi_index.exists():
         generate_pypi_index()
@@ -293,12 +396,26 @@ def pypi_search_index(project_name):
             return False
 
 
-def pypi_search(search_project):
+def pypi_search(
+    search_project: str,
+) -> tuple[list[list[Union[str, Any]]], list[list[Union[str, Any]]], str]:
+    """Performs a get request to PyPI's search API for the project name.
+
+    Args:
+        search_project:   the name of the project currently under test.
+
+    Returns:
+        match:          A list of projects matching name comprising:
+                            [project_name, version, released, description]
+        others:         A list of projects not matching but PyPI thinks are relevant comprising:
+                            [project_name, version, released, description]
+        others_total:   A str representation of total projects found (minus matches)
+    """
     pattern = re.compile(r">([\d,+]*?)<")
     s = requests.Session()
     projects_raw, match, others = [], [], []
     params = {"q": {search_project}, "page": 1}
-    r = s.get(config.pypi_search_url, params=params)
+    r = s.get(config.pypi_search_url, params=params)  # type: ignore
     soup = BeautifulSoup(r.text, "html.parser")
     projects_raw.extend(soup.select('a[class*="package-snippet"]'))
     for project_raw in projects_raw:
@@ -325,33 +442,58 @@ def pypi_search(search_project):
     total_div_raw = soup.select(
         'div[class="split-layout split-layout--table split-layout--wrap-on-tablet"]'
     )
-    total_raw = re.search(pattern, str(total_div_raw)).group(1)
-    total = int(total_raw.translate(str.maketrans("", "", string.punctuation)))
-    others_total = (
-        "".join([str(total), "+"]) if total == 10000 else (str(int(total) - len(match)))
-    )
-
+    total_raw = re.search(pattern, str(total_div_raw))
+    if total_raw is not None:
+        total_string = total_raw.group(1)
+        # total_raw = re.search(pattern, str(total_div_raw)).group(1)
+        total = int(total_string.translate(str.maketrans("", "", string.punctuation)))
+        others_total = (
+            "".join([str(total), "+"])
+            if total == 10000
+            else (str(int(total) - len(match)))
+        )
+    else:
+        others_total = "0"
     return match, others, others_total
 
 
-def process_input_file(file):
+def process_input_file(file: str) -> list[Union[str, Any]]:
+    """Processes the contents of the file to a list of strings.
+
+    Args:
+        file:           simple string for the file.
+
+    Raises:
+        SystemExit:     If the file is found to not exist.
+
+    Notes:
+        file contents should contain any number of space separated strings on any
+        number of lines.
+    """
     file_path = Path(file)
     if not file_path.exists():
         raise SystemExit(f"The file {file} does not exist")
-    with file_path.open(mode="r") as file:
-        file_contents = file.read()
+    with file_path.open(mode="r") as f:
+        file_contents = f.read()
         projects = file_contents.split()
-        projects_list = list(projects)
-        return list(set(projects_list))
+        return list(set(projects))
 
 
-def write_output_file(file, message):
+def write_output_file(file: str, message: str) -> None:
+    """TBC"""
     file_path = Path(file)
-    with file_path.open(mode="w") as file:
-        file.write(message)
+    with file_path.open(mode="w") as f:
+        f.write(message)
 
 
-def final_analysis(pattern: list) -> None:
+def final_analysis(pattern: list[int]) -> None:
+    """Displays a rich console table displaying the conclusion of the test results
+
+    Args:
+        pattern:    A list of the test results:
+                    1 - A 'negative' result, indicating the project has been found.
+                    0 - A 'positive' result, indicating the project was not found.
+    """
     table = Table(show_header=True)
     table.add_column("FINAL ANALYSIS", style="bold cyan")
     if pattern == [0, 1, 0]:
@@ -401,7 +543,7 @@ def main():
         "-d",
         "--dryrun",
         action="store_true",
-        help="Perform all tests but without uploading a dist to PyPI",
+        help=argparse.SUPPRESS,
     )
     parser.add_argument(
         "-f",
@@ -448,7 +590,7 @@ def main():
 
     project_list = []
     test_results = []
-    find_pypirc_file()
+    _find_pypirc_file()
     if args.nocleanup is True:
         config.no_cleanup = True
 
@@ -476,16 +618,18 @@ def main():
         match_table.add_column("Released", style="bold yellow")
         match_table.add_column("Description", style="bold cyan")
 
-        others_table = Table(title="Other Close Matches or Related Projects")
+        others_table = Table(
+            title="Other Close Matches or Related Projects (from page 1)"
+        )
         others_table.add_column("Package", style="bold yellow")
         others_table.add_column("Version", style="bold green")
         others_table.add_column("Released", style="bold yellow")
         others_table.add_column("Description", style="bold cyan")
 
         # perform the tests
-        if ping_project(new_project):
+        if _ping_project(new_project):
             test_results.append(1)
-            json_data = ping_json(new_project)
+            json_data = _ping_json(new_project)
             test_table.add_row(
                 "1", "Basic http get to project URL", "[red]FOUND[/red]", json_data
             )
@@ -543,33 +687,32 @@ def main():
         if args.verbose and others:
             console.print(others_table)
 
+        final_analysis(test_results)
+
         # build and upload
         if (
             test_results == [0, 0, 0]
             and args.register is True
             and config.pypirc is not None
         ):
-            rename_project_dir(
+            _rename_project_dir(
                 project_path.joinpath(config.original_project_name),
                 project_path.joinpath(new_project),
             )
-            create_setup(new_project)
+            _create_setup(new_project)
             build_dist()
             if args.dryrun is False:
-                upload_dist(new_project)
+                _upload_dist(new_project)
             else:
                 _feedback("Dryrun .... bypassing upload to PyPI..", "warning")
             cleanup(new_project)
         elif config.pypirc is None:
             _feedback(
                 ".pypirc file cannot be located ... wont attempt to 'register'",
-                "warning",
+                "error",
             )
         elif sum(test_results) > 0 and args.register is True:
-            _feedback(
-                "Project already exists ... wont attempt to 'register'", "warning"
-            )
-        final_analysis(test_results)
+            _feedback("Project already exists ... wont attempt to 'register'", "error")
 
 
 if __name__ == "__main__":

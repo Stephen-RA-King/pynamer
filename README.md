@@ -36,11 +36,22 @@ As a pseudo replacement for pip search, pynamer will quickly ascertain if a proj
     -   [Prerequisites](#Prerequisites)
     -   [Installation](#Installation)
     -   [Basic Usage](#Basic-Usage-example)
+-   [Usage](#Usage)
+    -   [Specifying multiple names](#Specifying-multiple names)
+    -   [Using an input file](#Using-an-input-file)
+    -   [Saving the results to a file](#Saving-the-results-to-a-file "coming soon")
+    -   [Register the name with PyPI](#Register-the-name-with-PyPI)
+    -   [Verbose output](#Verbose-output)
+    -   [Regenerate the PyPI simple Repository Index](#Regenerate-the-PyPI-simple-Repository-Index)
+-   [The oddities](#The-Oddities)
+-   [Planned Future improvements](Planned-Future-improvements)
 -   [Documentation](#Documentation)
     -   [Read the Docs](https://pynamer.readthedocs.io/en/latest/)
     -   [Wiki](https://github.com/Stephen-RA-King/pynamer/wiki)
 
 ## Introduction
+
+### Project Rationale
 
 Some of you may have reached the point where you want to publish a package on the PyPI python repository.
 The first step of which is to choose a unique name. Here lies the problem.
@@ -63,7 +74,7 @@ See https://warehouse.pypa.io/api-reference/xml-rpc.html#deprecated-methods for 
 A quick search will show the internet replete with articles explaining the situation:
 
 -   [The Register: Why Python's pip search isn't working](https://www.theregister.com/2021/05/25/pypi_search_error/)
--   [Pytyhon.org discussion: Pip search is still broken](https://discuss.python.org/t/pip-search-is-still-broken/18680)
+-   [Python.org discussion: Pip search is still broken](https://discuss.python.org/t/pip-search-is-still-broken/18680)
 
 OK so I go to the PyPI website and do a search for 'zaphod' as suggested by pip and 7 results are displayed none of which have the package name 'zaphod'
 
@@ -126,7 +137,7 @@ The following are optional but required for 'registering' a project name on PyPI
 
 -   [x] [Twine environment variables](https://twine.readthedocs.io/en/latest/#environment-variables)
 
-Your .pypirc file should contain the following:
+Your .pypirc file should contain the following and be on your PATH:
 
 ```file
 [distutils]
@@ -147,31 +158,36 @@ pipx install pynamer
 
 ### Basic Usage
 
+#### A package name that is not available
+
 ```commandline
 ~ $ pynamer flake8
-
-flake8 EXISTS
-Author: Tarek Ziade
-Author Email: tarek@ziade.org
-Summary: the modular source code checker: pep8 pyflakes and co
-Latest Version: 6.0.0
 ```
+
+![](assets/usage_pynball.png)
+
+#### A package name that is available
+
+Holy smoke batman! You've managed to identify a unique name.
+
+Yes, even though the odds were against you (given there are over 450,000+ registered projects), you did it!
+Even though the name has nothing in common with your project, or may not even be a real word... you did it!
 
 ```commandline
-~ $ pynamer zeedonk
-
-zeedonk DOES NOT EXIST
+~ $ pynamer allitnil
 ```
+
+![](assets/usage_available.png)
 
 # Usage
 
 ---
 
-Display the options ...
+Display the help menu ...
 
 ```commandline
 pynamer --help
-usage: pynamer [-h] [-r] [-d] [-f FILE] [-o OUTPUT] [-a] [projects ...]
+usage: pynamer [-h] [-r] [-f FILE] [-o OUTPUT] [-v] [-g] [projects ...]
 
 Determine if project name is available on pypi with the option to 'register' it for future use if available
 
@@ -181,13 +197,121 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -r, --register        Register the name on PyPi if the name is available
-  -d, --dryrun          Perform all tests but without uploading a dist to PyPI
   -f FILE, --file FILE  File containing a list of projects to analyze
   -o OUTPUT, --output OUTPUT
                         File to output the results to
-  -a, --alltests        Perform all tests
+  -v, --verbose         output additional information
   -g, --generate        Generate a new PyPI simple index
 ```
+
+## Specifying multiple names
+
+You can specify as many names as you like from the command line e.g.
+
+```commandline
+~ $ pynamer ganymede europa callisto
+```
+
+## Using an input file
+
+You can use the -f argument to specify a file containing the a names of projects to analyze.
+You specify a space separated sequence of as many names as you like on as many lines as you like. e.g.
+
+'projects' file
+
+```file
+ganymede europa
+IO callisto
+```
+
+Then specify the -f argument
+
+```commandline
+~ $ pynamer -f projects
+```
+
+You can use the input file with names from the command line. The names will be aggregated. e.g.
+
+```commandline
+~ $ pynamer ersa pandia leda metis -f projects
+```
+
+## Saving the results to a file (coming soon)
+
+You can specify a file to write the result to by using the -o argument. e.g.
+
+```commandline
+~ $ pynamer ersa pandia leda -o results
+```
+
+This will write a file e.g.
+
+results
+
+```file
+Result from pynamer PyPI utility 2023-05-02
+-------------------------------------------
+test 1 - Basic url lookup on PyPI
+test 2 - Search of PyPIs simple index
+test 3 - Search using an request to PyPIs search 'API'.
+
+Project name    Test1      Test2        Test 3          Conclusion
+-------------------------------------------------------------------
+ersa            Found       Found       Found           Not Available
+pandia          Not Found   Not Found   Found           Not Available
+leda            Not Found   Not Found   Not Found       Available
+```
+
+Again you can use a combination of names from the command line and input file.
+
+## Register the name with PyPI
+
+You can optionally 'register' the name on PyPI by using the -r argument.
+If the project name is found to be available and you have a valid 'pypirc' file is found, a minimalistic project will be built and uploaded to
+to PyPI.
+
+![](assets/usage_register.png)
+
+## Verbose output
+
+You can display the first page of all other project matched by PyPIs search API - ordered by relevance.
+The algorithm that PyPI uses to select these in unknown but seems to be a mixture of names and other
+projects written by the same author.
+
+![](assets/usage_verbose.png)
+
+## Regenerate the PyPI simple Repository Index
+
+As one of its tests Pynamer makes use of a list of package names scraped from its simple index site.
+
+The PyPI Simple Index is a plain text file that lists the names of all the packages available on PyPI.
+
+It is a simplified version of the PyPI index that makes it easier for users to browse and download packages.
+
+The PyPI Simple Index is used by a variety of tools and libraries to download and install packages from PyPI. For example, the pip package manager, which is used to install and manage Python packages, uses the PyPI Simple Index to find packages.
+
+The PyPI Simple Index is updated every few hours
+
+Using the -r argument can be used to regenerate the local file contents.
+
+![](assets/usage_generate.png)
+
+See planned future improvements
+
+## The Oddities
+
+The reason I wrote this application in the first place.
+
+![](assets/usage_zaphod.png)
+
+Even worse
+
+![](assets/usage_zem.png)
+
+## Planned Future improvements
+
+-   Improve performance of the regeneration of the PyPI simple Repository Index, so this can be run in the background automatically.
+-   Filter out invalid PyPI package names at the start
 
 ## Documentation
 

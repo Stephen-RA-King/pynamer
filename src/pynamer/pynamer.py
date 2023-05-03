@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 
-# TODO: finish readme.
 # TODO: write tests.
 # TODO: add 'fix' function to check package structure and fix if necessary.
 # TODO: add random standoff timer to prevent dossing PyPI.
-# TODO: split and rename files into logical components.
 # TODO: refactor / fix output file to include all tests and json info.
 # TODO: look at methods to improve performance of generate_pypi_index() function.
 
@@ -25,7 +23,6 @@ from pathlib import Path
 from typing import Any, Optional, Union
 
 # Third party modules
-import build
 import requests
 from bs4 import BeautifulSoup
 from colorama import Back, Fore, Style
@@ -33,6 +30,9 @@ from jinja2 import Template
 from rich.console import Console
 from rich.table import Table
 from tqdm import tqdm
+
+# First party modules
+import build
 
 # Local modules
 from . import project_count, project_path, setup_text
@@ -87,7 +87,7 @@ def _find_pypirc_file(filename: str = ".pypirc") -> None:
     """Function to iterate over paths in the PATH environment variable to find a file.
 
      Designed to find a .pypirc file starting with the current working directory.
-     If identified will update the config.pypirc variable so it can be used elsewhere.
+     If identified will update the config.pypirc variable, so it can be used elsewhere.
 
     Args:
         filename:       filename to find.
@@ -199,7 +199,7 @@ def _run_command(
             logger.error("Error running command: %s", arguments)
             logger.error("stderr: %s", stderr)
             if project is not None:
-                cleanup(project)
+                _cleanup(project)
             return
         logger.debug("%s", stdout)
         return
@@ -207,16 +207,15 @@ def _run_command(
         logger.error("Exception running command: %s", arguments)
         logger.error(e)
         if project is not None:
-            cleanup(project)
+            _cleanup(project)
         return
 
 
-def _ping_project(project_name: str, output_file: Union[None, str] = None) -> bool:
+def _ping_project(project_name: str) -> bool:
     """Determines if the URL to the project exists on PyPI.
 
     Args:
         project_name:   the name of the project to test.
-        output_file:    optionally write the results to this filename (simple string).
 
     Returns:
         True:           If the URLs response code is 200
@@ -234,15 +233,9 @@ def _ping_project(project_name: str, output_file: Union[None, str] = None) -> bo
         raise SystemExit(f"An error occurred with an HTTP request")
     if project_ping.status_code == 200:
         logger.debug("%s FOUND in the project area of PyPI", project_name)
-        if output_file is not None:
-            message = f"{project_name:20} is already registered"
-            write_output_file(output_file, message)
         return True
     else:
         logger.debug("%s NOT FOUND in the project area of PyPI", project_name)
-        if output_file is not None:
-            message = f"{project_name:20} is available"
-            write_output_file(output_file, message)
         return False
 
 
@@ -281,7 +274,7 @@ def _ping_json(project_name: str) -> str:
         return ""
 
 
-def build_dist() -> None:
+def _build_dist() -> None:
     """Builds the sdist and wheel of the minimalist project to upload to PyPI."""
     logger.debug("Building the distribution... ")
     builder = build.ProjectBuilder(project_path)
@@ -313,7 +306,7 @@ def _upload_dist(project_name: str) -> None:
     )
 
 
-def cleanup(project_name: str) -> None:
+def _cleanup(project_name: str) -> None:
     """Builds a manifest of artifacts to delete into a list of Path objects.
 
     Args:
@@ -342,7 +335,7 @@ def generate_pypi_index() -> None:
         SystemExit:     If any requests.RequestException occurs.
 
     Notes:
-        A potentially expensive operation as there are almost 500,000 projects to process..
+        A potentially expensive operation as there are almost 500,000 projects to process.
         Can take 2-3 seconds. Look to improve performance at a later date:
         look at asyncio, asyncio.http etc.
         Would be an improvement to automatically periodically run this in the background.
@@ -445,7 +438,6 @@ def pypi_search(
     total_raw = re.search(pattern, str(total_div_raw))
     if total_raw is not None:
         total_string = total_raw.group(1)
-        # total_raw = re.search(pattern, str(total_div_raw)).group(1)
         total = int(total_string.translate(str.maketrans("", "", string.punctuation)))
         others_total = (
             "".join([str(total), "+"])
@@ -479,11 +471,48 @@ def process_input_file(file: str) -> list[Union[str, Any]]:
         return list(set(projects))
 
 
-def write_output_file(file: str, message: str) -> None:
-    """TBC"""
-    file_path = Path(file)
+def _write_output_file(file_name: str, results: dict) -> None:
+    """Write the results to a file
+
+    Args:
+        file_name:      Name of file to save as a simple string.
+        results:        Dictionary containing the test results e.g.
+                        {"pynball": [1, 1, 1]}
+    """
+    header_width = 83
+    truncation_width = 25
+    now = datetime.now()
+    file_path = Path(file_name)
+    title = f"Results from pynamer PyPI utility: {now}\n"
+    title = "".join([title, "=" * header_width, "\n\n"])
+    title = "".join(
+        [
+            title,
+            "Test 1 - Basic url lookup on PyPI\n",
+            "Test 2 - Search of PyPIs simple index\n",
+            "Test 3 - Search using an request to PyPIs search 'API'\n\n",
+        ]
+    )
+    header = f"{'Project':30}{'Test1':12}{'Test2':12}{'Test3':12}{'Conclusion'}\n"
+    header = "".join([header, "=" * header_width, "\n"])
+    projects_results: str = ""
+    for project in results:
+        project_name = (
+            project
+            if len(project) <= truncation_width
+            else project[: truncation_width - 3] + "..."
+        )
+        projects_results = "".join([projects_results, f"{project_name:30}"])
+        for no, test in enumerate(results[project]):
+            test = "Found" if test == 1 else "Not Found"
+            projects_results = "".join([projects_results, f"{test:12}"])
+        conclusion = "Not Available" if sum(results[project]) > 0 else "Available"
+        projects_results = "".join([projects_results, f"{conclusion}"])
+        projects_results = "".join([projects_results, "\n", "-" * header_width, "\n"])
     with file_path.open(mode="w") as f:
-        f.write(message)
+        f.write(title)
+        f.write(header)
+        f.write(projects_results)
 
 
 def final_analysis(pattern: list[int]) -> None:
@@ -590,19 +619,21 @@ def main():
 
     project_list = []
     test_results = []
+    aggregated_result = {}
     _find_pypirc_file()
     if args.nocleanup is True:
         config.no_cleanup = True
 
+    # Gather the projects into one list
     if args.projects != "None":
         logger.debug("adding project names from command line %s", args.projects)
         project_list.extend(list(set(args.projects)))
         logger.debug("project_list = %s", project_list)
-
     if args.file != "None":
         logger.debug("adding project names from file %s", args.file)
         project_list.extend(process_input_file(args.file))
         logger.debug("project_list = %s", project_list)
+    project_list.sort()
 
     # Main loop
     for new_project in project_list:
@@ -627,6 +658,7 @@ def main():
         others_table.add_column("Description", style="bold cyan")
 
         # perform the tests
+        # Test 1
         if _ping_project(new_project):
             test_results.append(1)
             json_data = _ping_json(new_project)
@@ -639,6 +671,7 @@ def main():
                 "1", "Basic http get to project URL", "[green]NOT FOUND[/green]", ""
             )
 
+        # Test 2
         if pypi_search_index(new_project):
             test_results.append(1)
             test_table.add_row(
@@ -655,8 +688,9 @@ def main():
                 "[green]NOT FOUND[/green]",
                 f"Searched {project_count} projects",
             )
-        match, others, others_total = pypi_search(new_project)
 
+        # Test 3
+        match, others, others_total = pypi_search(new_project)
         if match:
             test_results.append(1)
             test_table.add_row(
@@ -675,18 +709,19 @@ def main():
                 "[green]NOT FOUND[/green]",
                 f"Exact match found: 0, Others found: {others_total}",
             )
+
+        # Create Verbose Table
         if others:
             for items in others:
                 others_table.add_row(items[0], items[1], items[2], items[3])
 
+        # Display the Tables
         console = Console()
         console.print(test_table)
         if match:
             console.print(match_table)
-
         if args.verbose and others:
             console.print(others_table)
-
         final_analysis(test_results)
 
         # build and upload
@@ -700,12 +735,12 @@ def main():
                 project_path.joinpath(new_project),
             )
             _create_setup(new_project)
-            build_dist()
+            _build_dist()
             if args.dryrun is False:
                 _upload_dist(new_project)
             else:
                 _feedback("Dryrun .... bypassing upload to PyPI..", "warning")
-            cleanup(new_project)
+            _cleanup(new_project)
         elif config.pypirc is None:
             _feedback(
                 ".pypirc file cannot be located ... wont attempt to 'register'",
@@ -713,6 +748,12 @@ def main():
             )
         elif sum(test_results) > 0 and args.register is True:
             _feedback("Project already exists ... wont attempt to 'register'", "error")
+
+        aggregated_result[new_project] = test_results.copy()
+        test_results.clear()
+
+    if args.output is not None:
+        _write_output_file(args.output, aggregated_result)
 
 
 if __name__ == "__main__":

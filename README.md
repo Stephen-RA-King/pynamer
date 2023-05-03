@@ -35,16 +35,16 @@ As a pseudo replacement for pip search, pynamer will quickly ascertain if a proj
 -   [Quick Start](#Quick-Start)
     -   [Prerequisites](#Prerequisites)
     -   [Installation](#Installation)
-    -   [Basic Usage](#Basic-Usage-example)
+    -   [Basic Usage](#Basic-Usage)
 -   [Usage](#Usage)
-    -   [Specifying multiple names](#Specifying-multiple names)
+    -   [Specifying multiple names](#Specifying-multiple-names)
     -   [Using an input file](#Using-an-input-file)
-    -   [Saving the results to a file](#Saving-the-results-to-a-file "coming soon")
+    -   [Saving the results to a file](#Saving-the-results-to-a-file)
     -   [Register the name with PyPI](#Register-the-name-with-PyPI)
     -   [Verbose output](#Verbose-output)
     -   [Regenerate the PyPI simple Repository Index](#Regenerate-the-PyPI-simple-Repository-Index)
 -   [The oddities](#The-Oddities)
--   [Planned Future improvements](Planned-Future-improvements)
+-   [Planned Future improvements](#Planned-Future-improvements)
 -   [Documentation](#Documentation)
     -   [Read the Docs](https://pynamer.readthedocs.io/en/latest/)
     -   [Wiki](https://github.com/Stephen-RA-King/pynamer/wiki)
@@ -236,7 +236,7 @@ You can use the input file with names from the command line. The names will be a
 ~ $ pynamer ersa pandia leda metis -f projects
 ```
 
-## Saving the results to a file (coming soon)
+## Saving the results to a file
 
 You can specify a file to write the result to by using the -o argument. e.g.
 
@@ -270,13 +270,21 @@ You can optionally 'register' the name on PyPI by using the -r argument.
 If the project name is found to be available and you have a valid 'pypirc' file is found, a minimalistic project will be built and uploaded to
 to PyPI.
 
+```commandline
+~ $ pynamer agrajag
+```
+
 ![](assets/usage_register.png)
 
 ## Verbose output
 
-You can display the first page of all other project matched by PyPIs search API - ordered by relevance.
+ith the -v argument you can display the first page of all other project matched by PyPIs search API - ordered by relevance.
 The algorithm that PyPI uses to select these in unknown but seems to be a mixture of names and other
 projects written by the same author.
+
+```commandline
+~ $ pynamer pynamer -v
+```
 
 ![](assets/usage_verbose.png)
 
@@ -294,6 +302,10 @@ The PyPI Simple Index is updated every few hours
 
 Using the -r argument can be used to regenerate the local file contents.
 
+```commandline
+~ $ pynamer -g
+```
+
 ![](assets/usage_generate.png)
 
 See planned future improvements
@@ -302,9 +314,17 @@ See planned future improvements
 
 The reason I wrote this application in the first place.
 
+```commandline
+~ $ pynamer zaphod
+```
+
 ![](assets/usage_zaphod.png)
 
-Even worse
+Even worse ...
+
+```commandline
+~ $ pynamer zem
+```
 
 ![](assets/usage_zem.png)
 

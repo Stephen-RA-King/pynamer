@@ -3,7 +3,6 @@
 # TODO: write tests.
 # TODO: add 'fix' function to check package structure and fix if necessary.
 # TODO: add random standoff timer to prevent dossing PyPI.
-# TODO: refactor / fix output file to include all tests and json info.
 # TODO: look at methods to improve performance of generate_pypi_index() function.
 
 
@@ -23,6 +22,7 @@ from pathlib import Path
 from typing import Any, Optional, Union
 
 # Third party modules
+import build
 import requests
 from bs4 import BeautifulSoup
 from colorama import Back, Fore, Style
@@ -30,9 +30,6 @@ from jinja2 import Template
 from rich.console import Console
 from rich.table import Table
 from tqdm import tqdm
-
-# First party modules
-import build
 
 # Local modules
 from . import project_count, project_path, setup_text
@@ -328,7 +325,7 @@ def _cleanup(project_name: str) -> None:
     _delete_director(build_artifacts)
 
 
-def generate_pypi_index() -> None:
+def _generate_pypi_index() -> None:
     """Generates a list of all projects in PyPI's simple index and writes results to a file.
 
     Raises:
@@ -366,7 +363,7 @@ def generate_pypi_index() -> None:
         pickle.dump(new_count, f)
 
 
-def pypi_search_index(project_name: str) -> bool:
+def _pypi_search_index(project_name: str) -> bool:
     """Open the generated index file and search for the project name.
 
     Args:
@@ -378,7 +375,7 @@ def pypi_search_index(project_name: str) -> bool:
     """
     pypi_index = project_path / "pypi_index.txt"
     if not pypi_index.exists():
-        generate_pypi_index()
+        _generate_pypi_index()
     with pypi_index.open(mode="r") as file:
         projects = file.read()
         if project_name in projects:
@@ -389,7 +386,7 @@ def pypi_search_index(project_name: str) -> bool:
             return False
 
 
-def pypi_search(
+def _pypi_search(
     search_project: str,
 ) -> tuple[list[list[Union[str, Any]]], list[list[Union[str, Any]]], str]:
     """Performs a get request to PyPI's search API for the project name.
@@ -449,7 +446,7 @@ def pypi_search(
     return match, others, others_total
 
 
-def process_input_file(file: str) -> list[Union[str, Any]]:
+def _process_input_file(file: str) -> list[Union[str, Any]]:
     """Processes the contents of the file to a list of strings.
 
     Args:
@@ -515,7 +512,7 @@ def _write_output_file(file_name: str, results: dict) -> None:
         f.write(projects_results)
 
 
-def final_analysis(pattern: list[int]) -> None:
+def _final_analysis(pattern: list[int]) -> None:
     """Displays a rich console table displaying the conclusion of the test results
 
     Args:
@@ -611,7 +608,7 @@ def main():
     logger.debug(" args: %s", args)
 
     if args.generate is True:
-        generate_pypi_index()
+        _generate_pypi_index()
 
     if args.projects == "None" and args.file == "None":
         parser.print_help()
@@ -631,7 +628,7 @@ def main():
         logger.debug("project_list = %s", project_list)
     if args.file != "None":
         logger.debug("adding project names from file %s", args.file)
-        project_list.extend(process_input_file(args.file))
+        project_list.extend(_process_input_file(args.file))
         logger.debug("project_list = %s", project_list)
     project_list.sort()
 
@@ -672,7 +669,7 @@ def main():
             )
 
         # Test 2
-        if pypi_search_index(new_project):
+        if _pypi_search_index(new_project):
             test_results.append(1)
             test_table.add_row(
                 "2",
@@ -690,7 +687,7 @@ def main():
             )
 
         # Test 3
-        match, others, others_total = pypi_search(new_project)
+        match, others, others_total = _pypi_search(new_project)
         if match:
             test_results.append(1)
             test_table.add_row(
@@ -722,7 +719,7 @@ def main():
             console.print(match_table)
         if args.verbose and others:
             console.print(others_table)
-        final_analysis(test_results)
+        _final_analysis(test_results)
 
         # build and upload
         if (
@@ -752,7 +749,7 @@ def main():
         aggregated_result[new_project] = test_results.copy()
         test_results.clear()
 
-    if args.output is not None:
+    if args.output != "None":
         _write_output_file(args.output, aggregated_result)
 
 

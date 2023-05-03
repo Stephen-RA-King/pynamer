@@ -3,6 +3,7 @@
 
 # Third party modules
 import pytest
+from colorama import Back, Fore, Style
 
 # First party modules
 from pynamer import pynamer
@@ -11,13 +12,23 @@ from pynamer import pynamer
 @pytest.mark.parametrize(
     "message, message_type, result",
     [
-        ("this is a null message", "null", "None"),
-        ("this is a nominal message", "nominal", "None"),
-        ("this is a warning message", "warning", "None"),
-        ("this is an error message", "error", "None"),
-        ("this is an error message", "wrong", "None"),
+        ("null", "null", f"{Fore.WHITE}{Style.BRIGHT}null{Style.RESET_ALL}\n"),
+        ("nominal", "nominal", f"{Fore.GREEN}{Style.BRIGHT}nominal{Style.RESET_ALL}\n"),
+        (
+            "warning",
+            "warning",
+            f"{Fore.YELLOW}{Back.BLACK}{Style.BRIGHT}warning{Style.RESET_ALL}\n",
+        ),
+        (
+            "error",
+            "error",
+            f"{Fore.RED}{Back.BLACK}{Style.BRIGHT}error{Style.RESET_ALL}\n",
+        ),
+        ("error", "critical", ""),
     ],
 )
-def test_feedback(message, message_type, result):
+def test_feedback(message, message_type, result, capfd):
     """Pytest test to assert mark parametrize pytest feature."""
-    assert result == str(pynamer._feedback(message, message_type))
+    pynamer._feedback(message, message_type)
+    captured = capfd.readouterr()
+    assert captured.out == result

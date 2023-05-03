@@ -105,7 +105,7 @@ What just happened?
 Yes unbelievably the project already exists and yes unbelievably PyPI's own search
 did not find the project.
 
-Enter Pynamer that does not rely on a single method of finding a PyPI package:
+Enter Pynamer. Pynamer does not rely on a single method of finding a PyPI package:
 
 #### TLDR
 
@@ -113,7 +113,7 @@ Pynamer uses the following methods to ascertain whether a package already exists
 
 -   A simple request to the project url on PyPI.
 -   Uses the PyPI "simple" repository - a text-based listing of all the packages available on PyPI.
--   Uses PyPI's own search engine and scrapes the results.
+-   Uses PyPI's own search 'API' and scrapes the results.
 
 Pynamer provides a way to optionally 'register' a name on PyPI by building a minimalistic package and uploading
 
@@ -153,7 +153,7 @@ password = your_API_token_here
 ### Installation
 
 ```sh
-pipx install pynamer
+~ $ pipx install pynamer
 ```
 
 ### Basic Usage
@@ -161,17 +161,12 @@ pipx install pynamer
 #### A package name that is not available
 
 ```commandline
-~ $ pynamer flake8
+~ $ pynamer pynball
 ```
 
 ![](assets/usage_pynball.png)
 
 #### A package name that is available
-
-Holy smoke batman! You've managed to identify a unique name.
-
-Yes, even though the odds were against you (given there are over 450,000+ registered projects), you did it!
-Even though the name has nothing in common with your project, or may not even be a real word... you did it!
 
 ```commandline
 ~ $ pynamer allitnil
@@ -179,14 +174,25 @@ Even though the name has nothing in common with your project, or may not even be
 
 ![](assets/usage_available.png)
 
+Holy smoke batman! You've managed to identify a unique name.
+
+Yes, even though the odds were against you (given there are over 450,000+ registered projects), you did it!
+
+Even though the name has nothing in common with your project, or may not even be a real word... you did it!
+
+Congratulations!
+
 # Usage
 
 ---
 
-Display the help menu ...
+Display the help menu with the -h argument
 
 ```commandline
-pynamer --help
+~ $ pynamer -h
+```
+
+```commandline
 usage: pynamer [-h] [-r] [-f FILE] [-o OUTPUT] [-v] [-g] [projects ...]
 
 Determine if project name is available on pypi with the option to 'register' it for future use if available
@@ -271,7 +277,7 @@ If the project name is found to be available and you have a valid 'pypirc' file 
 to PyPI.
 
 ```commandline
-~ $ pynamer agrajag
+~ $ pynamer agrajag -r
 ```
 
 ![](assets/usage_register.png)
@@ -369,7 +375,8 @@ Created with Cookiecutter template: [**pydough**][pydough-url] version 1.2.2
 [black-image]: https://img.shields.io/badge/code%20style-black-000000.svg
 [black-url]: https://github.com/psf/black
 [pydough-url]: https://github.com/Stephen-RA-King/pydough
-[codeclimate-image]: https://api.codeclimate.com/v1/badges/7fc352185512a1dab75d/maintainability
+[codeclimate-image]: https://api.codeclimate.com/v1/badges/b95fb617fbcd469ccfc3/maintainability
+[codeclimate-url]: https://codeclimate.com/github/Stephen-RA-King/pynamer/maintainability
 [codeclimate-url]: https://codeclimate.com/github/Stephen-RA-King/pynamer/maintainability
 [codecov-image]: https://codecov.io/gh/Stephen-RA-King/pynamer/branch/main/graph/badge.svg
 [codecov-url]: https://app.codecov.io/gh/Stephen-RA-King/pynamer

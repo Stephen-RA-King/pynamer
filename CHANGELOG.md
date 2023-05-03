@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.4 (2023-05-03)
+### Fix
+* _write_output_file function ([`2b1b730`](https://github.com/Stephen-RA-King/pynamer/commit/2b1b730b56cb43d6629673744c349b2e3106e4ba))
+
+### Documentation
+* Fix hyperlinks ([`ac1be78`](https://github.com/Stephen-RA-King/pynamer/commit/ac1be781c6fcb292ef77aba580ed2faecb08498b))
+* Update README ([`74d3a3e`](https://github.com/Stephen-RA-King/pynamer/commit/74d3a3edfead24b1499422fb0ac3bd3b088f4fde))
+
 ## v0.5.3 (2023-05-02)
 ### Fix
 * Some type hints and add docstrings ([`d5b212d`](https://github.com/Stephen-RA-King/pynamer/commit/d5b212daf2d8e4d96f0fd16435c0d58b240701d0))

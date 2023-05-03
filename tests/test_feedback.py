@@ -32,3 +32,12 @@ def test_feedback(message, message_type, result, capfd):
     pynamer._feedback(message, message_type)
     captured = capfd.readouterr()
     assert captured.out == result
+
+
+def test_idlemode(capfd):
+    assert pynamer.config.idlemode == 0
+    pynamer.config.idlemode = 1
+    pynamer._feedback("warning", "warning")
+    captured = capfd.readouterr()
+    assert captured.out == "warning\n"
+    pynamer.config.idlemode = 0

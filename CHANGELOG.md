@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.5 (2023-05-03)
+### Fix
+* Creation of 'None' file ([`6cb2252`](https://github.com/Stephen-RA-King/pynamer/commit/6cb2252afb65680c128d96b3b0c2b5bbba05caaa))
+
+### Documentation
+* Minor updates to README ([`4056294`](https://github.com/Stephen-RA-King/pynamer/commit/4056294771190b2618d117ff93766137c7c497a0))
+* Cleanup the png files ([`7ade6d1`](https://github.com/Stephen-RA-King/pynamer/commit/7ade6d143e53c54b39d5243e7609c754cfd8a5f4))
+
 ## v0.5.4 (2023-05-03)
 ### Fix
 * _write_output_file function ([`2b1b730`](https://github.com/Stephen-RA-King/pynamer/commit/2b1b730b56cb43d6629673744c349b2e3106e4ba))

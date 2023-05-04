@@ -25,7 +25,7 @@ from typing import Any, Optional, Union
 import build
 import requests
 from bs4 import BeautifulSoup
-from colorama import Back, Fore, Style
+from colorama import Back, Fore, Style, init
 from jinja2 import Template
 from rich.console import Console
 from rich.table import Table
@@ -40,6 +40,8 @@ for handler in logger.handlers:
 
 
 class Config:
+    """Configuration class"""
+
     pypirc: Optional[Path] = None
     original_project_name = "project_name"
     no_cleanup: bool = False
@@ -91,8 +93,7 @@ def _find_pypirc_file(filename: str = ".pypirc") -> None:
     """
     system_path = os.getenv("PATH")
     if system_path is not None:
-        path_directories = list()
-        path_directories.append(os.getcwd())
+        path_directories = [os.getcwd()]
         path_directories.extend(system_path.split(os.pathsep))
         for directory in path_directories:
             file_path = Path(directory) / filename
@@ -227,13 +228,12 @@ def _ping_project(project_name: str) -> bool:
         project_ping = requests.get(url_project, timeout=10)
     except requests.RequestException as e:
         logger.error("An error occurred: %s", e)
-        raise SystemExit(f"An error occurred with an HTTP request")
+        raise SystemExit("An error occurred with an HTTP request")
     if project_ping.status_code == 200:
         logger.debug("%s FOUND in the project area of PyPI", project_name)
         return True
-    else:
-        logger.debug("%s NOT FOUND in the project area of PyPI", project_name)
-        return False
+    logger.debug("%s NOT FOUND in the project area of PyPI", project_name)
+    return False
 
 
 def _ping_json(project_name: str) -> str:
@@ -251,7 +251,7 @@ def _ping_json(project_name: str) -> str:
         project_json_raw = requests.get(url_json, timeout=10)
     except requests.RequestException as e:
         logger.error("An error occurred: %s", e)
-        raise SystemExit(f"An error occurred with an HTTP request")
+        raise SystemExit("An error occurred with an HTTP request")
     if project_json_raw.status_code == 200:
         project_json = json.loads(project_json_raw.content)
         result = "".join(
@@ -266,9 +266,8 @@ def _ping_json(project_name: str) -> str:
             ]
         )
         return result
-    else:
-        logger.debug("No response from JSON URL")
-        return ""
+    logger.debug("No response from JSON URL")
+    return ""
 
 
 def _build_dist() -> None:
@@ -348,7 +347,7 @@ def _generate_pypi_index() -> None:
         index_object_raw = requests.get(config.pypi_simple_index_url, timeout=10)
     except requests.RequestException as e:
         logger.error("An error occurred: %s", e)
-        raise SystemExit(f"An error occurred with an HTTP request")
+        raise SystemExit("An error occurred with an HTTP request")
     with pypi_index.open(mode="a") as file:
         for line in index_object_raw.iter_lines():
             line = str(line)
@@ -381,9 +380,8 @@ def _pypi_search_index(project_name: str) -> bool:
         if project_name in projects:
             logger.debug("%s FOUND in the PyPI simple index", project_name)
             return True
-        else:
-            logger.debug("%s NOT FOUND in the PyPI simple index", project_name)
-            return False
+        logger.debug("%s NOT FOUND in the PyPI simple index", project_name)
+        return False
 
 
 def _pypi_search(
@@ -500,7 +498,7 @@ def _write_output_file(file_name: str, results: dict) -> None:
             else project[: truncation_width - 3] + "..."
         )
         projects_results = "".join([projects_results, f"{project_name:30}"])
-        for no, test in enumerate(results[project]):
+        for test in results[project]:
             test = "Found" if test == 1 else "Not Found"
             projects_results = "".join([projects_results, f"{test:12}"])
         conclusion = "Not Available" if sum(results[project]) > 0 else "Available"
@@ -634,7 +632,7 @@ def main():
 
     # Main loop
     for new_project in project_list:
-        test_table = Table(title=f"Test Results for {new_project}")
+        test_table = Table(title=f"Test Results for {new_project}", show_lines=True)
         test_table.add_column("No.", style="bold yellow")
         test_table.add_column("Test", style="bold cyan")
         test_table.add_column("Result")

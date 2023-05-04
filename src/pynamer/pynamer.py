@@ -25,7 +25,7 @@ from typing import Any, Optional, Union
 import build
 import requests
 from bs4 import BeautifulSoup
-from colorama import Back, Fore, Style, init
+from colorama import Back, Fore, Style
 from jinja2 import Template
 from rich.console import Console
 from rich.table import Table

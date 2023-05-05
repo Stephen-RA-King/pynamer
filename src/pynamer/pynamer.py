@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
 
-# TODO: write tests.
-# TODO: add 'fix' function to check package structure and fix if necessary.
-# TODO: add random standoff timer to prevent dossing PyPI.
-# TODO: look at methods to improve performance of generate_pypi_index() function.
-
-
 # Core Library modules
 import argparse
 import json
@@ -523,15 +517,18 @@ def _final_analysis(pattern: list[int]) -> None:
     if pattern == [0, 1, 0]:
         table.add_row("[red]NOT AVAILABLE![/red]\n")
         table.add_row(
-            "A Gotcha!, whereby the package is not found even with PyPI's own search facility.\n"
+            "A Gotcha!, whereby the package is not found even with PyPI's own search"
+            " facility.\n"
             "It can only be found by searching the simple index which is not available "
             "through the interface"
         )
     elif pattern == [1, 1, 0]:
         table.add_row("[red]NOT AVAILABLE![/red]\n")
         table.add_row(
-            "A Gotcha!, whereby the package is not found even with PyPI's own search facility.\n"
-            "However if appears in the simple index and can be displayed by simply browsing "
+            "A Gotcha!, whereby the package is not found even with PyPI's own search"
+            " facility.\n"
+            "However if appears in the simple index and can be displayed by simply"
+            " browsing "
             "to the projects URL"
         )
     elif sum(pattern) > 1:

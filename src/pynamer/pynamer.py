@@ -97,8 +97,7 @@ def _find_pypirc_file(filename: str = ".pypirc") -> None:
                 )
                 config.pypirc = file_path
                 break
-        else:
-            logger.debug("%s is not present in the system's PATH.", filename)
+    logger.debug("%s is not present in the system's PATH.", filename)
 
 
 def _rename_project_dir(old_name: str, new_name: str) -> None:
@@ -121,6 +120,7 @@ def _rename_project_dir(old_name: str, new_name: str) -> None:
         old_directory_path.rename(new_directory_path)
     except FileNotFoundError:
         logger.error("directory %s cannot be found:", old_directory_path)
+        raise FileNotFoundError
 
 
 def _create_setup(new_project_name: str) -> None:
@@ -164,6 +164,8 @@ def _delete_director(items_to_delete: list[Path]) -> None:
 def _run_command(
     *arguments: str,
     shell: bool = True,
+    capture_output: bool = False,
+    text: bool = True,
     working_dir: Union[Path, str, None] = None,
     project: Union[None, str] = None,
 ) -> None:
@@ -172,7 +174,8 @@ def _run_command(
     Args:
         arguments:  Comma separated strings- "utility", "arg1", "arg2", etc.
         shell:      command executed by the shell or directly by the operating system.
-        cwd:        specifies the current working directory to use when starting the subprocess.
+        cwd:        specifies the current working directory to use when starting
+                    the subprocess.
                     e.g. "/home/user/mydir"
         project:    the name of the project currently being tested
     """
@@ -194,7 +197,7 @@ def _run_command(
                 _cleanup(project)
             return
         logger.debug("%s", stdout)
-        return
+        return stdout
     except Exception as e:
         logger.error("Exception running command: %s", arguments)
         logger.error(e)
@@ -319,16 +322,16 @@ def _cleanup(project_name: str) -> None:
 
 
 def _generate_pypi_index() -> None:
-    """Generates a list of all projects in PyPI's simple index and writes results to a file.
+    """Generates a list of projects in PyPI's simple index - writes results to a file.
 
     Raises:
         SystemExit:     If any requests.RequestException occurs.
 
     Notes:
-        A potentially expensive operation as there are almost 500,000 projects to process.
-        Can take 2-3 seconds. Look to improve performance at a later date:
+        A potentially expensive operation as there are almost 500,000 projects to
+        process. Can take 2-3 seconds. Look to improve performance at a later date:
         look at asyncio, asyncio.http etc.
-        Would be an improvement to automatically periodically run this in the background.
+        An improvement is to automatically periodically run this in the background.
     """
     new_count = 0
     pattern = re.compile(r">([\w\W]*?)<")
@@ -389,9 +392,9 @@ def _pypi_search(
     Returns:
         match:          A list of projects matching name comprising:
                             [project_name, version, released, description]
-        others:         A list of projects not matching but PyPI thinks are relevant comprising:
+        others:         A list of projects not matching but PyPI thinks are relevant.
                             [project_name, version, released, description]
-        others_total:   A str representation of total projects found (minus matches)
+        others_total:   A str representation of total projects found (minus matches).
     """
     pattern = re.compile(r">([\d,+]*?)<")
     s = requests.Session()

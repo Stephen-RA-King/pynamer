@@ -54,9 +54,7 @@ setup_file_path = project_path.joinpath("setup.txt")
 with as_file(setup_file_path) as _setup_file:
     if _setup_file.exists():
         setup_text = _setup_file.read_text()
-    else:
-        pass
-        # fix method
+
 
 pickle_file_path = project_path.joinpath("project_count.pickle")
 with as_file(pickle_file_path) as _pickle_file:

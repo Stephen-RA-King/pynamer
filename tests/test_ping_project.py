@@ -14,8 +14,7 @@ BASE_DIR = Path(__file__).parents[0]
 
 
 def my_custom_get(url, **kwargs):
-    # Implement your custom logic here
-    _pickle_file = BASE_DIR / "requests" / "ping_pynball.pickle"
+    _pickle_file = BASE_DIR / "resources" / "ping_pynball.pickle"
     _pickle_bytes = _pickle_file.read_bytes()
     pickle_content = pickle.loads(_pickle_bytes)
     return pickle_content

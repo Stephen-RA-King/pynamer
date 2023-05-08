@@ -473,9 +473,8 @@ def _write_output_file(file_name: str, results: dict) -> None:
     """
     header_width = 83
     truncation_width = 25
-    now = datetime.now()
     file_path = Path(file_name)
-    title = f"Results from pynamer PyPI utility: {now}\n"
+    title = f"Results from pynamer PyPI utility\n"
     title = "".join([title, "=" * header_width, "\n\n"])
     title = "".join(
         [

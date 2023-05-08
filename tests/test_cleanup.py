@@ -29,10 +29,11 @@ def pre_build_cleanup(monkeypatch):
 
     yield
 
-    shutil.rmtree("project_name")
+    if (BASE_DIR / "project_name").exists():
+        shutil.rmtree(BASE_DIR / "project_name")
 
 
-def test_build_dist(pre_build_cleanup, project_path_mock):
+def test_cleanup(pre_build_cleanup, project_path_mock):
     pynamer._cleanup("pynamer")
     assert not (BASE_DIR / "build").exists()
     assert not (BASE_DIR / "dist").exists()

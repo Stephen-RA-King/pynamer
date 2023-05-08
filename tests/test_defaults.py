@@ -14,18 +14,6 @@ operating_system = platform.system()
 BASE_DIR = Path(__file__).parents[0]
 
 
-@pytest.fixture()
-def create_pkl_object(monkeypatch):
-    pypi_count = BASE_DIR / "project_count.pickle"
-    with open(pypi_count, "wb") as f:
-        pickle.dump(449692, f)
-    # monkeypatch.setattr('pynamer.pickle_file_path', BASE_DIR / "project_count.pickle")
-    # monkeypatch.setattr('pynamer.Path', lambda path: pypi_count)
-    monkeypatch.setattr(pynamer, "pickle_file_path", BASE_DIR / "project_count.pickle")
-    yield
-    pypi_count.unlink()
-
-
 def test_project_path():
     if operating_system == "Windows":
         assert str(pynamer.project_path).endswith("pynamer\\src\\pynamer")

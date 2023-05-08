@@ -24,26 +24,6 @@ repos:
       - id: commitizen
         stages: [commit-msg]
 
-  - repo: https://github.com/jazzband/pip-tools
-    rev: 6.13.0
-    hooks:
-      - id: pip-compile
-        name: pip-compile base.in
-        files: ^requirements/base\.(in|txt)$
-        args: ["--resolver=backtracking", "-U", "requirements/base.in"]
-      - id: pip-compile
-        name: pip-compile development.in
-        files: ^requirements/development\.(in|txt)$
-        args: ["--resolver=backtracking", "-U", "requirements/development.in"]
-      - id: pip-compile
-        name: pip-compile production.in
-        files: ^requirements/production\.(in|txt)$
-        args: ["--resolver=backtracking", "-U", "requirements/production.in"]
-      - id: pip-compile
-        name: pip-compile test.in
-        files: ^requirements/test\.(in|txt)$
-        args: ["--resolver=backtracking", "-U", "requirements/test.in"]
-
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0
     hooks:

@@ -24,7 +24,7 @@ def my_custom_get(url, **kwargs):
 def test_ping_json(monkeypatch, project_path_mock):
     monkeypatch.setattr(requests, "get", my_custom_get)
     pynamer._generate_pypi_index()
-    assert (BASE_DIR / "pypi_index.txt").exists()
+    assert (BASE_DIR / "pypi_index").exists()
     assert (BASE_DIR / "project_count.pickle").exists()
-    (BASE_DIR / "pypi_index.txt").unlink()
+    (BASE_DIR / "pypi_index").unlink()
     (BASE_DIR / "project_count.pickle").unlink()

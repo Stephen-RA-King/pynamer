@@ -17,6 +17,7 @@ def test_find_pypirc(create_env, path_mock):
     assert os.environ["PATH"] == str(BASE_DIR)
     pynamer._find_pypirc_file()
     assert pynamer.config.pypirc == BASE_DIR / ".pypirc"
+    pynamer.config.pypirc = None
 
 
 def test_find_pypirc_missing_file(create_env, path_mock):

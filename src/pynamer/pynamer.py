@@ -336,7 +336,7 @@ def _generate_pypi_index() -> None:
     new_count = 0
     pattern = re.compile(r">([\w\W]*?)<")
     progress_bar = tqdm(total=config.project_count)
-    pypi_index = project_path / "pypi_index.txt"
+    pypi_index = project_path / "pypi_index"
     pypi_count = project_path / "project_count.pickle"
     if pypi_index.exists():
         Path.unlink(pypi_index, missing_ok=True)
@@ -369,7 +369,7 @@ def _pypi_search_index(project_name: str) -> bool:
         True:           A match was found.
         False:          A match was not found.
     """
-    pypi_index = project_path / "pypi_index.txt"
+    pypi_index = project_path / "pypi_index"
     if not pypi_index.exists():
         _generate_pypi_index()
     with pypi_index.open(mode="r") as file:

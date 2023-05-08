@@ -141,5 +141,4 @@ post_installation.py
 pypi_index.txt
 project_count.pickle
 pickle_save_utility.py
-simple_index.pickle
-pypi_index
+src/pynamer/pypi_index

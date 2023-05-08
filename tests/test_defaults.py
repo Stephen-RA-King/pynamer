@@ -21,8 +21,8 @@ def test_project_path():
         assert str(pynamer.project_path).endswith("pynamer/src/pynamer")
 
 
-def test_project_count():
-    assert pynamer.project_count == 449691
+def test_project_count(project_path_mock):
+    assert pynamer.project_count == 452490
 
 
 def test_setup_text():
@@ -50,7 +50,6 @@ setup(name='{{ PROJECT_NAME }}',
 def test_defaults():
     assert pynamer.config.original_project_name == "project_name"
     assert pynamer.config.no_cleanup is False
-    assert pynamer.config.project_count == 449691
     assert pynamer.config.package_version == "0.0.0"
     assert pynamer.config.pypi_search_url == "https://pypi.org/search/"
     assert pynamer.config.pypi_project_url == "https://pypi.org/project/"

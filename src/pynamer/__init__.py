@@ -62,4 +62,4 @@ with as_file(pickle_file_path) as _pickle_file:
         _pickle_bytes = _pickle_file.read_bytes()
         project_count = pickle.loads(_pickle_bytes)
     else:
-        project_count = 449691
+        project_count = 452490

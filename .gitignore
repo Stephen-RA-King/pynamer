@@ -141,4 +141,5 @@ post_installation.py
 pypi_index.txt
 project_count.pickle
 pickle_save_utility.py
-tests/requests/simple_index.pickle
+simple_index.pickle
+pypi_index

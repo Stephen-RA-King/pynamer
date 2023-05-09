@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.6 (2023-05-09)
+### Fix
+* Logic error in fanal analysis function ([`46dbee0`](https://github.com/Stephen-RA-King/pynamer/commit/46dbee0983cb7c97d2f11931222fbdf3f64cf7c6))
+* Broken tests ([`5b92893`](https://github.com/Stephen-RA-King/pynamer/commit/5b9289364ab9ad770c744c70e181812f77b9627b))
+
+### Documentation
+* Remove useless doctring ([`9b7f342`](https://github.com/Stephen-RA-King/pynamer/commit/9b7f3426cb982ce6244214b10db17fbc527833bb))
+* Update some docstrings ([`39ae8f5`](https://github.com/Stephen-RA-King/pynamer/commit/39ae8f5cafeb222ef2d120bf4023b22953e869aa))
+* Add cheeseshop png ([`b445a68`](https://github.com/Stephen-RA-King/pynamer/commit/b445a6803b7017e3aed06b714f3dcf5918f74579))
+
 ## v0.5.5 (2023-05-03)
 ### Fix
 * Creation of 'None' file ([`6cb2252`](https://github.com/Stephen-RA-King/pynamer/commit/6cb2252afb65680c128d96b3b0c2b5bbba05caaa))

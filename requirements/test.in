@@ -1,13 +1,9 @@
 -r production.txt
 
 pytest
-pytest-clarity
 pytest-cov
 pytest-html
 pytest-mock
 pytest-randomly
 pytest-repeat
-pytest-sugar
 pytest-timeout
-pytest-tldr
-pytest-xdist

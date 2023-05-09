@@ -45,7 +45,7 @@ jobs:
       # Step 7. Run the tests
       - name: Test with pytest
         run: |
-          pytest tests/ --cov=pynamer --cov-report=xml
+          pytest tests/ --cov=pynamer --cov-report=xml --cov-config=setup.cfg
       # Step 8. Use Codecov to track coverage
       - uses: codecov/codecov-action@v3
         with:

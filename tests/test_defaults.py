@@ -48,6 +48,7 @@ setup(name='{{ PROJECT_NAME }}',
 
 
 def test_defaults():
+    assert pynamer.config.pypirc is None
     assert pynamer.config.original_project_name == "project_name"
     assert pynamer.config.no_cleanup is False
     assert pynamer.config.package_version == "0.0.0"

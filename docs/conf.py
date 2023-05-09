@@ -7,7 +7,7 @@
 # -- Project information -----------------------------------------------------
 
 project = "pynamer"
-version = "0.5.5"
+version = "0.5.7"
 copyright = "2023, Stephen R A King"
 author = "Stephen R A King"
 

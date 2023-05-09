@@ -66,3 +66,19 @@ def path_mock(mocker):
 @pytest.fixture()
 def project_path_mock(monkeypatch):
     monkeypatch.setattr(pynamer, "project_path", BASE_DIR)
+
+
+@pytest.fixture
+def mock_ping_project(monkeypatch):
+    def mocked_ping_project(*args, **kwargs):
+        return "_ping_project function was called"
+
+    monkeypatch.setattr(pynamer, "_ping_project", mocked_ping_project)
+
+
+@pytest.fixture
+def mock_cleanup(monkeypatch):
+    def mocked_cleanup(*args, **kwargs):
+        return "_cleanup function was called"
+
+    monkeypatch.setattr(pynamer, "_cleanup", mocked_cleanup)

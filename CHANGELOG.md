@@ -2,6 +2,9 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.7 (2023-05-09)
+
+
 ## v0.5.6 (2023-05-09)
 ### Fix
 * Logic error in fanal analysis function ([`46dbee0`](https://github.com/Stephen-RA-King/pynamer/commit/46dbee0983cb7c97d2f11931222fbdf3f64cf7c6))

@@ -533,7 +533,7 @@ def _final_analysis(pattern: list[int]) -> None:
             " browsing "
             "to the projects URL"
         )
-    elif sum(pattern) > 1:
+    elif sum(pattern) >= 1:
         table.add_row("[red]NOT AVAILABLE![/red]\n")
         table.add_row("The package name was found in at least one place")
     elif sum(pattern) == 0:

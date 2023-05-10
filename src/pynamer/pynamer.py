@@ -603,7 +603,7 @@ def _parse_args(args):
     return parser.parse_args(args)
 
 
-def main():
+def main():  # pragma: no cover
     args = _parse_args(sys.argv[1:])
     logger.debug(" args: %s", args)
 

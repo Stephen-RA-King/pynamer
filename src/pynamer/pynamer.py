@@ -544,7 +544,7 @@ def _final_analysis(pattern: list[int]) -> None:
     console.print(table)
 
 
-def main():
+def _parse_args(args):
     parser = argparse.ArgumentParser(
         prog="pynamer",
         description="Determine if project name is available on pypi with the "
@@ -600,16 +600,18 @@ def main():
         action="store_true",
         help="Generate a new PyPI simple index",
     )
+    return parser.parse_args(args)
 
-    args = parser.parse_args()
+
+def main():
+    args = _parse_args(sys.argv[1:])
     logger.debug(" args: %s", args)
 
     if args.generate is True:
         _generate_pypi_index()
 
     if args.projects == "None" and args.file == "None":
-        parser.print_help()
-        raise SystemExit("No projects to analyse")
+        raise SystemExit("No projects to analyse. Use '--help' to display help")
 
     project_list = []
     test_results = []

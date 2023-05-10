@@ -400,7 +400,7 @@ Created with Cookiecutter template: [**pydough**][pydough-url] version 1.2.2
 [lgtm-quality-image]: https://img.shields.io/lgtm/grade/python/g/Stephen-RA-King/pynamer.svg?logo=lgtm&logoWidth=18
 [lgtm-quality-url]: https://lgtm.com/projects/g/Stephen-RA-King/pynamer/context:python
 [license-image]: https://img.shields.io/pypi/l/pynamer
-[license-url]: https://github.com/Stephen-RA-King/pynamer/blob/main/license
+[license-url]: https://github.com/Stephen-RA-King/pynamer/blob/main/LICENSE
 [mypy-image]: http://www.mypy-lang.org/static/mypy_badge.svg
 [mypy-url]: http://mypy-lang.org/
 [pre-commit-image]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white

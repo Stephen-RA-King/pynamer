@@ -66,6 +66,7 @@ def pre_build_dist(monkeypatch):
                 item.unlink()
 
 
+@pytest.mark.slow
 def test_build_dist(pre_build_dist, project_path_mock):
     pynamer._build_dist()
     assert (BASE_DIR / "build").exists()

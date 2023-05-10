@@ -142,3 +142,6 @@ pypi_index.txt
 project_count.pickle
 pickle_save_utility.py
 src/pynamer/pypi_index
+tests/test_main TBC.py
+tests/test_run_command TBD.py
+tests/test_upload_dist TBD.py

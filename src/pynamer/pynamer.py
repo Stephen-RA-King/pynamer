@@ -197,7 +197,7 @@ def _run_command(
                 _cleanup(project)
             return
         logger.debug("%s", stdout)
-        return stdout
+        return
     except Exception as e:
         logger.error("Exception running command: %s", arguments)
         logger.error(e)
@@ -544,7 +544,13 @@ def _final_analysis(pattern: list[int]) -> None:
     console.print(table)
 
 
-def _parse_args(args):
+def _parse_args(args: list) -> argparse.Namespace:
+    """Function to return the ArgumentParser object created from all the args.
+
+    Args:
+        args:   A list of arguments from the commandline
+                e.g. ['pynball', '-v', '-g']
+    """
     parser = argparse.ArgumentParser(
         prog="pynamer",
         description="Determine if project name is available on pypi with the "

@@ -152,6 +152,8 @@ def _clean_test():
         ".tox",
         "coverage.xml",
         "pytest-report.html",
+        "pytest_results.html",
+        "coverage.html",
     ]
     excludes = []
     for pattern in patterns:

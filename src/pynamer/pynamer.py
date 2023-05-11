@@ -168,7 +168,7 @@ def _run_command(
     text: bool = True,
     working_dir: Union[Path, str, None] = None,
     project: Union[None, str] = None,
-) -> None:
+) -> None:  # pragma: no cover
     """Utility designed to execute a command line utility.
 
     Args:

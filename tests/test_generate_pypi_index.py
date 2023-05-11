@@ -7,6 +7,7 @@ from pathlib import Path
 # Third party modules
 import pytest
 import requests
+from requests.exceptions import ConnectTimeout
 
 # First party modules
 from pynamer import pynamer
@@ -28,3 +29,14 @@ def test_ping_json(monkeypatch, project_path_mock):
     assert (BASE_DIR / "project_count.pickle").exists()
     (BASE_DIR / "pypi_index").unlink()
     (BASE_DIR / "project_count.pickle").unlink()
+
+
+def test_ping_project_error(monkeypatch):
+    def mock_requests_error(*args, **kwargs):
+        raise ConnectTimeout("Connection timed out")
+
+    monkeypatch.setattr(requests, "get", mock_requests_error)
+
+    with pytest.raises(SystemExit) as excinfo:
+        pynamer._generate_pypi_index()
+    assert str(excinfo.value) == "An error occurred with an HTTP request"

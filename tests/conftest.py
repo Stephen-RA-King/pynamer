@@ -6,6 +6,7 @@ from pathlib import Path
 
 # Third party modules
 import pytest
+from requests.exceptions import ConnectTimeout
 
 # First party modules
 from pynamer import project_path, pynamer

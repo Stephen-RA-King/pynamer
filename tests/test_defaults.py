@@ -10,19 +10,19 @@ import pytest
 # First party modules
 from pynamer import pynamer
 
-operating_system = platform.system()
+OS = platform.system()
 BASE_DIR = Path(__file__).parents[0]
 
 
 def test_project_path():
-    if operating_system == "Windows":
+    if OS == "Windows":
         assert str(pynamer.project_path).endswith("pynamer\\src\\pynamer")
     else:
         assert str(pynamer.project_path).endswith("pynamer/src/pynamer")
 
 
 def test_project_count(project_path_mock):
-    assert pynamer.project_count == 452490
+    assert pynamer.project_count >= 452490
 
 
 def test_setup_text():

@@ -151,7 +151,7 @@ def _clean_test():
         ".coverage",
         ".tox",
         "coverage.xml",
-        "report_coverage",
+        "report_coverage.html",
         "report_pytest.html",
         "coverage.html",
     ]

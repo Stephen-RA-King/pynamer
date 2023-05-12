@@ -2,6 +2,18 @@
 
 <!--next-version-placeholder-->
 
+## v1.0.0 (2023-05-12)
+### Feature
+* Add name validity check function + others ([`b520245`](https://github.com/Stephen-RA-King/pynamer/commit/b5202458752ea1298ab450269a1b3cd341907f1e))
+
+### Fix
+* Update and fix failing tests ([`2e67751`](https://github.com/Stephen-RA-King/pynamer/commit/2e677512a7c58a1c8115d7f6567bfc050391f086))
+* Some broken tests ([`33227e8`](https://github.com/Stephen-RA-King/pynamer/commit/33227e804ef08ff74f69cfb3530084bd3043e18b))
+
+### Documentation
+* Add limitations section ([`741154d`](https://github.com/Stephen-RA-King/pynamer/commit/741154ddf0dc1cdaf6353b635acda33afa383254))
+* Update pngs ([`8eec345`](https://github.com/Stephen-RA-King/pynamer/commit/8eec345e0e5a268f770c93ccab330dd978c8baeb))
+
 ## v0.5.7 (2023-05-09)
 
 

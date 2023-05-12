@@ -29,23 +29,21 @@ from tqdm import tqdm
 from . import project_count, project_path, setup_text
 
 logger = logging.getLogger()
-for handler in logger.handlers:
-    logger.removeHandler(handler)
 
 
 class Config:
     """Configuration class"""
 
     pypirc: Optional[Path] = None
-    original_project_name = "project_name"
+    original_project_name: str = "project_name"
     no_cleanup: bool = False
-    project_count = 0
-    package_version = "0.0.0"
+    project_count: int = 0
+    package_version: str = "0.0.0"
     pypi_search_url: str = "https://pypi.org/search/"
     pypi_project_url: str = "https://pypi.org/project/"
     pypi_json_url: str = "https://pypi.org/pypi/"
     pypi_simple_index_url: str = "https://pypi.org/simple/"
-    idlemode = 1 if "idlelib.run" in sys.modules else 0
+    idlemode: int = 1 if "idlelib.run" in sys.modules else 0
 
 
 config = Config()
@@ -164,8 +162,6 @@ def _delete_director(items_to_delete: list[Path]) -> None:
 def _run_command(
     *arguments: str,
     shell: bool = True,
-    capture_output: bool = False,
-    text: bool = True,
     working_dir: Union[Path, str, None] = None,
     project: Union[None, str] = None,
 ) -> None:  # pragma: no cover
@@ -206,8 +202,27 @@ def _run_command(
         return
 
 
+def _is_valid_package_name(project_name: str) -> bool:
+    """Function does a basic check of project name validity.
+
+    Args:
+        project_name:   the name of the project to test.
+
+    Returns:
+        True:           If the name passes the basic check
+        False:          If the name fails the basic check
+
+
+    """
+    pattern = r"^[a-z][_a-z0-9]*$"
+    if re.match(pattern, project_name) is not None:
+        return True
+    else:
+        return False
+
+
 def _ping_project(project_name: str) -> bool:
-    """Determines if the URL to the project exists on PyPI.
+    """Determines if the URL to the project exists in PyPIs project area.
 
     Args:
         project_name:   the name of the project to test.
@@ -387,7 +402,7 @@ def _pypi_search(
     """Performs a get request to PyPI's search API for the project name.
 
     Args:
-        search_project:   the name of the project currently under test.
+        search_project:   The name of the project currently under test.
 
     Returns:
         match:          A list of projects matching name comprising:
@@ -455,12 +470,23 @@ def _process_input_file(file: str) -> list[Union[str, Any]]:
         number of lines.
     """
     file_path = Path(file)
-    if not file_path.exists():
-        raise SystemExit(f"The file {file} does not exist")
-    with file_path.open(mode="r") as f:
-        file_contents = f.read()
-        projects = file_contents.split()
-        return list(set(projects))
+    try:
+        with file_path.open(mode="r") as f:
+            file_contents = f.read()
+            projects = file_contents.split()
+            return list(set(projects))
+    except FileNotFoundError:
+        raise SystemExit(f"The file {file} does not exist")  # pragma: no cover
+    except PermissionError:
+        raise SystemExit(f"Permission denied to file: {file}")  # pragma: no cover
+    except IsADirectoryError:
+        raise SystemExit(f"{file} is a directory not a file")  # pragma: no cover
+    except OSError:
+        raise SystemExit(
+            f"A general IO error has occurred opening file: {file}"
+        )  # pragma: no cover
+    except Exception as e:
+        raise SystemExit("An error occurred:", str(e))  # pragma: no cover
 
 
 def _write_output_file(file_name: str, results: dict) -> None:
@@ -500,10 +526,26 @@ def _write_output_file(file_name: str, results: dict) -> None:
         conclusion = "Not Available" if sum(results[project]) > 0 else "Available"
         projects_results = "".join([projects_results, f"{conclusion}"])
         projects_results = "".join([projects_results, "\n", "-" * header_width, "\n"])
-    with file_path.open(mode="w") as f:
-        f.write(title)
-        f.write(header)
-        f.write(projects_results)
+
+    final_output_text = "".join([title, header, projects_results])
+
+    try:  # pragma: no cover
+        with file_path.open(mode="w") as f:
+            f.write(final_output_text)
+    except PermissionError:
+        raise SystemExit(
+            f"Permission denied to file: {file_path.open}"
+        )  # pragma: no cover
+    except FileExistsError:
+        raise SystemExit(f"File {file_path.open} already exists")  # pragma: no cover
+    except IsADirectoryError:
+        raise SystemExit(
+            f"{file_path.open} is a directory not a file"
+        )  # pragma: no cover
+    except OSError:
+        raise SystemExit("General IO error has occurred")  # pragma: no cover
+    except Exception as e:
+        raise SystemExit("An error occurred:", str(e))  # pragma: no cover
 
 
 def _final_analysis(pattern: list[int]) -> None:
@@ -639,6 +681,10 @@ def main():  # pragma: no cover
 
     # Main loop
     for new_project in project_list:
+        if not _is_valid_package_name(new_project):
+            _feedback(f"{new_project} is not a valid package name", "error")
+            continue
+
         test_table = Table(title=f"Test Results for {new_project}", show_lines=True)
         test_table.add_column("No.", style="bold yellow")
         test_table.add_column("Test", style="bold cyan")

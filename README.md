@@ -1,5 +1,3 @@
-# pynamer
-
 _**Utility to find an available package name on the PyPI repository and optionally 'register' it.**_
 
 [![PyPI][pypi-image]][pypi-url]
@@ -64,7 +62,7 @@ pip leaps to the rescue with its search utility... or does it?
 pip search zaphod
 ```
 
-```commandline
+```bash
 ERROR: XMLRPC request failed [code: -32500]
 RuntimeError: PyPI no longer supports 'pip search' (or XML-RPC search).
 Please use https://pypi.org/search (via a browser) instead.
@@ -88,8 +86,8 @@ Finally the project is good enough to release and publish as an installable pack
 
 Here goes....
 
-```commandline
-python -m twine upload --config-file .pypirc dist/*
+```bash
+~ $ python -m twine upload --config-file .pypirc dist/*
 Uploading distributions to https://upload.pypi.org/legacy/
 Uploading zaphod-0.0.0-py3-none-any.whl
 100% ---------------------------------------- 3.8/3.8 kB • 00:00 • ?
@@ -152,7 +150,7 @@ password = your_API_token_here
 
 ### Installation
 
-```sh
+```bash
 ~ $ pipx install pynamer
 ```
 
@@ -160,7 +158,7 @@ password = your_API_token_here
 
 #### A package name that is not available
 
-```commandline
+```bash
 ~ $ pynamer pynball
 ```
 
@@ -168,7 +166,7 @@ password = your_API_token_here
 
 #### A package name that is available
 
-```commandline
+```bash
 ~ $ pynamer allitnil
 ```
 
@@ -188,11 +186,11 @@ Congratulations!
 
 Display the help menu with the -h argument
 
-```commandline
+```bash
 ~ $ pynamer -h
 ```
 
-```commandline
+```bash
 usage: pynamer [-h] [-r] [-f FILE] [-o OUTPUT] [-v] [-g] [projects ...]
 
 Determine if project name is available on pypi with the option to 'register' it for future use if available
@@ -214,7 +212,7 @@ optional arguments:
 
 You can specify as many names as you like from the command line e.g.
 
-```commandline
+```bash
 ~ $ pynamer ganymede europa callisto
 ```
 
@@ -232,13 +230,13 @@ IO callisto
 
 Then specify the -f argument
 
-```commandline
+```bash
 ~ $ pynamer -f projects
 ```
 
 You can use the input file with names from the command line. The names will be aggregated. e.g.
 
-```commandline
+```bash
 ~ $ pynamer ersa pandia leda metis -f projects
 ```
 
@@ -246,7 +244,7 @@ You can use the input file with names from the command line. The names will be a
 
 You can specify a file to write the result to by using the -o argument. e.g.
 
-```commandline
+```bash
 ~ $ pynamer ersa pandia leda -o results
 ```
 
@@ -276,7 +274,7 @@ You can optionally 'register' the name on PyPI by using the -r argument.
 If the project name is found to be available and you have a valid 'pypirc' file is found, a minimalistic project will be built and uploaded to
 to PyPI.
 
-```commandline
+```bash
 ~ $ pynamer agrajag -r
 ```
 
@@ -288,7 +286,7 @@ ith the -v argument you can display the first page of all other project matched 
 The algorithm that PyPI uses to select these in unknown but seems to be a mixture of names and other
 projects written by the same author.
 
-```commandline
+```bash
 ~ $ pynamer pynamer -v
 ```
 
@@ -308,7 +306,7 @@ The PyPI Simple Index is updated every few hours
 
 Using the -r argument can be used to regenerate the local file contents.
 
-```commandline
+```bash
 ~ $ pynamer -g
 ```
 
@@ -320,7 +318,7 @@ See planned future improvements
 
 The reason I wrote this application in the first place.
 
-```commandline
+```bash
 ~ $ pynamer zaphod
 ```
 
@@ -328,16 +326,31 @@ The reason I wrote this application in the first place.
 
 Even worse ...
 
-```commandline
+```bash
 ~ $ pynamer zem
 ```
 
 ![](assets/usage_zem.png)
 
-## Planned Future improvements
+## Limitations
 
--   Improve performance of the regeneration of the PyPI simple Repository Index, so this can be run in the background automatically.
--   Filter out invalid PyPI package names at the start
+There will be occasions where all the tests pass, the name appears to be available but the upload to PyPI still fails.
+This can be several reasons for this:
+
+-   You are trying to use an internally "reserved" keyword for PyPI.
+-   The name you are using is too similar to an existing project name and you get the following error message:
+
+```bash
+...
+Error during upload. Retry with the --verbose option for more details.
+HTTPError: 400 Bad Request from https://test.pypi.org/legacy/
+The name 'yourpackage' is too similar to an existing project. See https://test.pypi.org/help/#project-name for more information-
+```
+
+Using a name similar to to an existing package name is a security issue.
+
+Malicious players will try to create project names that are frequently mistyped for large popular projects, thereby facilitating installation of a malicious project.
+e.g. replacing "L" / "l" with the number 1 or "o" / "O" with 0. The Software utilized by PyPI can be found at GitHub: [warehouse](https://github.com/pypi/warehouse).
 
 ## Documentation
 
@@ -351,6 +364,11 @@ Even worse ...
 -   [**API Reference**](https://pynamer.readthedocs.io/en/latest/autoapi/index.html)
 
 [**Wiki**](https://github.com/Stephen-RA-King/pynamer/wiki)
+
+## Planned Future improvements
+
+-   Improve performance of the regeneration of the PyPI simple Repository Index, so this can be run in the background automatically.
+-   Filter out invalid PyPI package names at the start
 
 ## Meta
 

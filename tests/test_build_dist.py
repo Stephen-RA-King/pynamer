@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 # Core Library modules
-import pickle
 import shutil
 from pathlib import Path
 
 # Third party modules
 import pytest
-import requests
 
 # First party modules
 from pynamer import pynamer

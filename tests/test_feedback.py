@@ -34,7 +34,7 @@ def test_feedback(message, message_type, result, capfd):
     assert captured.out == result
 
 
-def test_idlemode(capfd):
+def test_feedback_idlemode(capfd):
     assert pynamer.config.idlemode == 0
     pynamer.config.idlemode = 1
     pynamer._feedback("warning", "warning")

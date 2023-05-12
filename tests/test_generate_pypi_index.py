@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # Core Library modules
 import pickle
-import shutil
 from pathlib import Path
 
 # Third party modules
@@ -31,7 +30,7 @@ def test_ping_json(monkeypatch, project_path_mock):
     (BASE_DIR / "project_count.pickle").unlink()
 
 
-def test_ping_project_error(monkeypatch):
+def test_ping_project_error(monkeypatch, project_path_mock):
     def mock_requests_error(*args, **kwargs):
         raise ConnectTimeout("Connection timed out")
 

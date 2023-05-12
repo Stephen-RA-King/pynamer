@@ -2,7 +2,7 @@
 # Core Library modules
 
 # Core Library modules
-import platform
+
 
 # First party modules
 from pynamer import pynamer

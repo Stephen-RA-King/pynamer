@@ -19,7 +19,7 @@ expected_result = [
 ]
 
 
-def test_pypi_search_index(monkeypatch):
-    file = BASE_DIR / "resources" / "input_file"
+def test_process_input_file(monkeypatch):
+    file = str(BASE_DIR / "resources" / "input_file")
     result = pynamer._process_input_file(file)
     assert sorted(result) == expected_result

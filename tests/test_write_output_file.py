@@ -8,7 +8,7 @@ from pynamer import pynamer
 BASE_DIR = Path(__file__).parents[0]
 
 
-def test_pypi_search_index(monkeypatch):
+def test_write_output_file(monkeypatch):
     expected_results_file = BASE_DIR / "resources" / "output_file"
     output_file = BASE_DIR / "output_file"
     result_dict = {"pyball": [1, 1, 1]}

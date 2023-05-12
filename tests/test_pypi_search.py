@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 # Core Library modules
 import pickle
-import shutil
 from pathlib import Path
 
 # Third party modules
-import pytest
 import requests
 
 # First party modules
@@ -40,7 +38,7 @@ def my_custom_get(url, *args, **kwargs):
     return pickle_content
 
 
-def test_pypi_search_index(monkeypatch):
+def test_pypi_search(monkeypatch):
     monkeypatch.setattr(requests.Session, "get", my_custom_get)
     match, others, others_total = pynamer._pypi_search("pynball")
     assert match == match_expected

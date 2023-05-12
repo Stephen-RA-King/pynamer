@@ -4,9 +4,6 @@ import os
 import sys
 from pathlib import Path
 
-# Third party modules
-import pytest
-
 # First party modules
 from pynamer import pynamer
 

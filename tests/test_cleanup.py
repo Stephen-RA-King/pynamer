@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 # Core Library modules
-import pickle
 import shutil
 from pathlib import Path
 
 # Third party modules
 import pytest
-import requests
 
 # First party modules
 from pynamer import pynamer
@@ -15,7 +13,7 @@ BASE_DIR = Path(__file__).parents[0]
 
 
 @pytest.fixture()
-def pre_build_cleanup(monkeypatch):
+def pre_cleanup(monkeypatch):
     project_dir = BASE_DIR / "pynamer"
     project_dir.mkdir()
     build_dir = BASE_DIR / "build"
@@ -33,7 +31,7 @@ def pre_build_cleanup(monkeypatch):
         shutil.rmtree(BASE_DIR / "project_name")
 
 
-def test_cleanup(pre_build_cleanup, project_path_mock):
+def test_cleanup(pre_cleanup, project_path_mock):
     pynamer._cleanup("pynamer")
     assert not (BASE_DIR / "build").exists()
     assert not (BASE_DIR / "dist").exists()

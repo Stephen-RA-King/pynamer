@@ -56,10 +56,19 @@ with as_file(setup_file_path) as _setup_file:
         setup_text = _setup_file.read_text()
 
 
-pickle_file_path = project_path.joinpath("project_count.pickle")
-with as_file(pickle_file_path) as _pickle_file:
-    if _pickle_file.exists():
-        _pickle_bytes = _pickle_file.read_bytes()
-        project_count = pickle.loads(_pickle_bytes)
+project_count_file_path = project_path.joinpath("project_count.pickle")
+with as_file(project_count_file_path) as _project_count_file:
+    if _project_count_file.exists():
+        _project_count_bytes = _project_count_file.read_bytes()
+        project_count = pickle.loads(_project_count_bytes)
     else:
         project_count = 452490
+
+
+meta_file_path = project_path.joinpath("meta.pickle")
+with as_file(meta_file_path) as _meta_file:
+    if _meta_file.exists():
+        _meta_bytes = _meta_file.read_bytes()
+        meta = pickle.loads(_meta_bytes)
+    else:
+        meta = {}

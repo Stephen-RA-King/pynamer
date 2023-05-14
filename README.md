@@ -42,10 +42,12 @@ As a pseudo replacement for pip search, pynamer will quickly ascertain if a proj
     -   [Verbose output](#Verbose-output)
     -   [Regenerate the PyPI simple Repository Index](#Regenerate-the-PyPI-simple-Repository-Index)
 -   [The oddities](#The-Oddities)
--   [Planned Future improvements](#Planned-Future-improvements)
+-   [Limitations](#Limitations)
 -   [Documentation](#Documentation)
     -   [Read the Docs](https://pynamer.readthedocs.io/en/latest/)
+    -   [API](https://pynamer.readthedocs.io/en/latest/autoapi/pynamer/pynamer/index.html)
     -   [Wiki](https://github.com/Stephen-RA-King/pynamer/wiki)
+-   [Planned Future improvements](#Planned-Future-improvements)
 
 ## Introduction
 

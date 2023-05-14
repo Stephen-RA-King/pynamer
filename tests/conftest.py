@@ -15,6 +15,7 @@ BASE_DIR = Path(__file__).parents[0]
 
 setup_text = """#!/usr/bin/env python3
 
+
 # Third party modules
 from setuptools import setup
 
@@ -22,8 +23,8 @@ setup(name='{{ PROJECT_NAME }}',
       version='{{ PACKAGE_VERSION }}',
       description='place holder',
       url='http://github.com/SK/{{ PROJECT_NAME }}',
-      author='sking',
-      author_email='flyingcircus@example.com',
+      author='{{ AUTHOR }}',
+      author_email='{{ EMAIL }}',
       license='MIT',
       packages=['{{ PROJECT_NAME }}'],
       zip_safe=False)"""
@@ -38,18 +39,17 @@ def create_env(monkeypatch):
     setup_file = BASE_DIR / "setup.txt"
     setup_file.touch()
     setup_file.write_text(setup_text)
+    setup_base_file = BASE_DIR / "setup_base.txt"
+    setup_base_file.touch()
+    setup_base_file.write_text(setup_text)
     pypirc_file = BASE_DIR / ".pypirc"
     pypirc_file.touch()
     setup_py = BASE_DIR / "setup.py"
+    meta = BASE_DIR / "meta.pickle"
 
     yield
 
-    manifest = [
-        project_dir,
-        setup_file,
-        pypirc_file,
-        setup_py,
-    ]
+    manifest = [project_dir, setup_file, setup_base_file, pypirc_file, setup_py, meta]
     for item in manifest:
         if item.exists():
             if item.is_dir():

@@ -26,7 +26,7 @@ from rich.table import Table
 from tqdm import tqdm
 
 # Local modules
-from . import project_count, project_path, setup_text
+from . import meta, project_count, project_path, setup_text
 
 logger = logging.getLogger()
 
@@ -121,7 +121,7 @@ def _rename_project_dir(old_name: str, new_name: str) -> None:
         raise FileNotFoundError
 
 
-def _create_setup(new_project_name: str) -> None:
+def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
     """Utility script to create a setup.py file.
 
     The object being to create a setup.py file from a 'template' file for the purpose of
@@ -130,13 +130,65 @@ def _create_setup(new_project_name: str) -> None:
     Args:
         new_project_name:       name used to render the template.
     """
-    template = Template(setup_text)
-    content = template.render(
-        PROJECT_NAME=new_project_name,
-        PACKAGE_VERSION=config.package_version,
+    meta_file = project_path / "meta.pickle"
+    setup_file = project_path / "setup.txt"
+    setup_base_file = project_path / "setup_base.txt"
+    setup_file_py = project_path / "setup.py"
+
+    author = meta["author"] if meta else ""
+    email = meta["email"] if meta else ""
+
+    _email_pattern = (
+        r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:"
+        r"[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
     )
-    setup_file = project_path.joinpath("setup.py")
-    with open(setup_file, mode="w", encoding="utf-8") as message:
+
+    if "AUTHOR" in setup_text or "EMAIL" in setup_text or not meta or new_meta:
+        try:
+            while True:
+                author = input(f"Please enter your author name ({author}): ") or author
+                if author != "":
+                    break
+        except KeyboardInterrupt:
+            SystemExit("Bye!")
+
+        try:
+            while True:
+                email = input(f"Please enter your email address  ({email}): ") or email
+                if re.search(_email_pattern, email):
+                    break
+                else:
+                    print("does not appear to be a valid email address")
+        except KeyboardInterrupt:
+            SystemExit("Bye!")
+
+        setup_file.unlink()
+
+        with open(setup_base_file, encoding="utf-8") as f:
+            setup_text_base = f.read()
+
+        template = Template(setup_text_base)
+        content = template.render(
+            PROJECT_NAME="{{ PROJECT_NAME }}",
+            PACKAGE_VERSION="{{ PACKAGE_VERSION }}",
+            AUTHOR=author,
+            EMAIL=email,
+        )
+        with open(setup_file, mode="w", encoding="utf-8") as f:
+            f.write(content)
+
+    meta_save = {"author": author, "email": email}
+    with open(meta_file, "wb") as f:
+        pickle.dump(meta_save, f)
+
+    with open(setup_file) as f:
+        setup_text_file = f.read()
+        template = Template(setup_text_file)
+        content = template.render(
+            PROJECT_NAME=new_project_name,
+            PACKAGE_VERSION=config.package_version,
+        )
+    with open(setup_file_py, mode="w", encoding="utf-8") as message:
         logger.debug("creating new setup.py with the following: \n %s", content)
         message.write(content)
 
@@ -648,6 +700,13 @@ def _parse_args(args: list) -> argparse.Namespace:
         action="store_true",
         help="Generate a new PyPI simple index",
     )
+    parser.add_argument(
+        "-m",
+        "--meta",
+        action="store_true",
+        help="Input new meta data when registering (Author and email address)",
+    )
+
     return parser.parse_args(args)
 
 
@@ -782,7 +841,7 @@ def main():  # pragma: no cover
                 project_path.joinpath(config.original_project_name),
                 project_path.joinpath(new_project),
             )
-            _create_setup(new_project)
+            _create_setup(new_project, new_meta=args.meta)
             _build_dist()
             if args.dryrun is False:
                 _upload_dist(new_project)

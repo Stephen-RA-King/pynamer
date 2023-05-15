@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.0 (2023-05-15)
+### Feature
+* Add ability to change version & description ([`d4fd512`](https://github.com/Stephen-RA-King/pynamer/commit/d4fd512dbea2adec32ff7271f88053cb0d0bb3a8))
+
+### Documentation
+* Update help text ([`91a392e`](https://github.com/Stephen-RA-King/pynamer/commit/91a392e58a886d18c0537a8657bfc099d3b06351))
+
 ## v1.1.0 (2023-05-15)
 ### Feature
 * Move config into its own module ([`f4a3839`](https://github.com/Stephen-RA-King/pynamer/commit/f4a3839d402177e4e1bdc98f5714e0cf4cf30a9d))

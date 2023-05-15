@@ -6,7 +6,7 @@ from setuptools import setup
 
 setup(name='{{ PROJECT_NAME }}',
       version='{{ PACKAGE_VERSION }}',
-      description='place holder',
+      description='{{ DESCRIPTION }}',
       url='http://github.com/SK/{{ PROJECT_NAME }}',
       author='{{ AUTHOR }}',
       author_email='{{ EMAIL }}',

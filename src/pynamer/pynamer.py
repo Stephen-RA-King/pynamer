@@ -127,6 +127,8 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
 
     author = meta["author"] if meta else ""
     email = meta["email"] if meta else ""
+    description = meta["description"] if meta else config.description
+    version = meta["version"] if meta else config.package_version
 
     _email_pattern = (
         r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:"
@@ -152,6 +154,22 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
         except KeyboardInterrupt:
             raise SystemExit(_feedback("...bye!", "warning"))
 
+        try:
+            while True:
+                version = input(f"version number: ({version}): ") or version
+                if version != "":
+                    break
+        except KeyboardInterrupt:
+            raise SystemExit("Bye!")
+
+        try:
+            while True:
+                description = input(f"description: ({description}): ") or description
+                if description != "":
+                    break
+        except KeyboardInterrupt:
+            raise SystemExit("Bye!")
+
         setup_file.unlink()
 
         with open(setup_base_file, encoding="utf-8") as f:
@@ -160,14 +178,20 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
         template = Template(setup_text_base)
         content = template.render(
             PROJECT_NAME="{{ PROJECT_NAME }}",
-            PACKAGE_VERSION="{{ PACKAGE_VERSION }}",
+            PACKAGE_VERSION=version,
+            DESCRIPTION=description,
             AUTHOR=author,
             EMAIL=email,
         )
         with open(setup_file, mode="w", encoding="utf-8") as f:
             f.write(content)
 
-    meta_save = {"author": author, "email": email}
+    meta_save = {
+        "author": author,
+        "email": email,
+        "description": description,
+        "version": version,
+    }
     with open(meta_file, "wb") as f:
         pickle.dump(meta_save, f)
 
@@ -176,7 +200,6 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
         template = Template(setup_text_file)
         content = template.render(
             PROJECT_NAME=new_project_name,
-            PACKAGE_VERSION=config.package_version,
         )
     with open(setup_file_py, mode="w", encoding="utf-8") as message:
         logger.debug("creating new setup.py with the following: \n %s", content)

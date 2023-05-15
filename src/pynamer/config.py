@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Optional
 
 # Local modules
-from . import project_count, project_path
+from . import project_count
 
 
 class Config:
@@ -17,6 +17,7 @@ class Config:
     no_cleanup: bool = False
     project_count: int = project_count
     package_version: str = "0.0.0"
+    description: str = "placeholder"
     pypi_search_url: str = "https://pypi.org/search/"
     pypi_project_url: str = "https://pypi.org/project/"
     pypi_json_url: str = "https://pypi.org/pypi/"

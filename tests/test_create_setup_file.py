@@ -16,8 +16,8 @@ expected_content = """#!/usr/bin/env python3
 from setuptools import setup
 
 setup(name='pynball',
-      version='0.0.0',
-      description='place holder',
+      version='0.0.1',
+      description='a new project',
       url='http://github.com/SK/pynball',
       author='sking',
       author_email='sking@gmail.com',
@@ -27,7 +27,7 @@ setup(name='pynball',
 
 
 def test_create_setup(create_env, project_path_mock, monkeypatch):
-    inputs = iter(["sking", "sking@gmail.com"])
+    inputs = iter(["sking", "sking@gmail.com", "0.0.1", "a new project"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
     pynamer._create_setup("pynball")
     setup_file = BASE_DIR / "setup.py"

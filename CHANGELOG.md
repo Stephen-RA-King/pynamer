@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.0 (2023-05-15)
+### Feature
+* Move config into its own module ([`f4a3839`](https://github.com/Stephen-RA-King/pynamer/commit/f4a3839d402177e4e1bdc98f5714e0cf4cf30a9d))
+* Add support to change meta data ([`05ac6a5`](https://github.com/Stephen-RA-King/pynamer/commit/05ac6a50be538191bfcddb68e49e5ceff5673803))
+* Add new support files ([`81d9b16`](https://github.com/Stephen-RA-King/pynamer/commit/81d9b1675dbd0f94ec5eaba77f27aeec5f7778d8))
+* Add input of meta data ([`0aefe49`](https://github.com/Stephen-RA-King/pynamer/commit/0aefe49bbda9035c5d80f24ea78f27c3536e7944))
+
+### Documentation
+* Update help message in readme ([`ac55f7d`](https://github.com/Stephen-RA-King/pynamer/commit/ac55f7d61a58df35c7f65c0e235a32973a1368eb))
+* Minor updates ([`c87f126`](https://github.com/Stephen-RA-King/pynamer/commit/c87f1268f18920f3f45764d21a9e20e9bcf72331))
+
 ## v1.0.0 (2023-05-12)
 ### Feature
 * Add name validity check function + others ([`b520245`](https://github.com/Stephen-RA-King/pynamer/commit/b5202458752ea1298ab450269a1b3cd341907f1e))

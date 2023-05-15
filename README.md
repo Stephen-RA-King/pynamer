@@ -193,7 +193,7 @@ Display the help menu with the -h argument
 ```
 
 ```bash
-usage: pynamer [-h] [-r] usage: pynamer [-h] [-r] [-v] [-g] [-m] [--version] [-f FILE] [-o OUTPUT] [projects ...]
+usage: pynamer [-h] [-r] [-v] [-g] [-m] [-w] [--version] [-f FILE] [-o OUTPUT] [projects ...]
 
 Determine if project name is available on pypi with the option to 'register' it for future use if available
 
@@ -206,6 +206,7 @@ optional arguments:
   -v, --verbose         display information about similar projects
   -g, --generate        generate a new PyPI simple index
   -m, --meta            input new meta data when registering (Author and email address)
+  -w, --webbrowser      open the project on PyPI in a webbrowser
   --version             display version number
   -f FILE, --file FILE  file containing a list of projects to analyze
   -o OUTPUT, --output OUTPUT

@@ -14,7 +14,7 @@ import sys
 import webbrowser
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any, Union
 
 # Third party modules
 import build
@@ -552,7 +552,7 @@ def _write_output_file(file_name: str, results: dict) -> None:
     header_width = 83
     truncation_width = 25
     file_path = Path(file_name)
-    title = f"Results from pynamer PyPI utility\n"
+    title = "Results from pynamer PyPI utility\n"
     title = "".join([title, "=" * header_width, "\n\n"])
     title = "".join(
         [

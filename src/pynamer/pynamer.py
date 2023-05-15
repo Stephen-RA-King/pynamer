@@ -11,6 +11,7 @@ import shutil
 import string
 import subprocess
 import sys
+import webbrowser
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional, Union
@@ -27,27 +28,10 @@ from tqdm import tqdm
 
 # Local modules
 from . import meta, project_count, project_path, setup_text
+from .config import config
+from .utils import _check_version
 
 logger = logging.getLogger()
-
-
-class Config:
-    """Configuration class"""
-
-    pypirc: Optional[Path] = None
-    original_project_name: str = "project_name"
-    no_cleanup: bool = False
-    project_count: int = 0
-    package_version: str = "0.0.0"
-    pypi_search_url: str = "https://pypi.org/search/"
-    pypi_project_url: str = "https://pypi.org/project/"
-    pypi_json_url: str = "https://pypi.org/pypi/"
-    pypi_simple_index_url: str = "https://pypi.org/simple/"
-    idlemode: int = 1 if "idlelib.run" in sys.modules else 0
-
-
-config = Config()
-config.project_count = project_count
 
 
 def _feedback(message: str, feedback_type: str) -> None:
@@ -71,7 +55,13 @@ def _feedback(message: str, feedback_type: str) -> None:
                 Fore.YELLOW + Back.BLACK + Style.BRIGHT + f"{message}" + Style.RESET_ALL
             )
         elif feedback_type == "error":
-            print(Fore.RED + Back.BLACK + Style.BRIGHT + f"{message}" + Style.RESET_ALL)
+            print(
+                Fore.RED
+                + Back.BLACK
+                + Style.BRIGHT
+                + f"ERROR: {message}"
+                + Style.RESET_ALL
+            )
 
 
 def _find_pypirc_file(filename: str = ".pypirc") -> None:
@@ -150,7 +140,7 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
                 if author != "":
                     break
         except KeyboardInterrupt:
-            SystemExit("Bye!")
+            raise SystemExit(_feedback("...bye!", "warning"))
 
         try:
             while True:
@@ -160,7 +150,7 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
                 else:
                     print("does not appear to be a valid email address")
         except KeyboardInterrupt:
-            SystemExit("Bye!")
+            raise SystemExit(_feedback("...bye!", "warning"))
 
         setup_file.unlink()
 
@@ -528,17 +518,27 @@ def _process_input_file(file: str) -> list[Union[str, Any]]:
             projects = file_contents.split()
             return list(set(projects))
     except FileNotFoundError:
-        raise SystemExit(f"The file {file} does not exist")  # pragma: no cover
+        raise SystemExit(
+            _feedback(f"The file {file} does not exist", "warning")
+        )  # pragma: no cover
     except PermissionError:
-        raise SystemExit(f"Permission denied to file: {file}")  # pragma: no cover
+        raise SystemExit(
+            _feedback(f"Permission denied to file: {file}", "warning")
+        )  # pragma: no cover
     except IsADirectoryError:
-        raise SystemExit(f"{file} is a directory not a file")  # pragma: no cover
+        raise SystemExit(
+            _feedback(f"{file} is a directory not a file", "warning")
+        )  # pragma: no cover
     except OSError:
         raise SystemExit(
-            f"A general IO error has occurred opening file: {file}"
+            _feedback(
+                f"A general IO error has occurred opening file: {file}", "warning"
+            )
         )  # pragma: no cover
     except Exception as e:
-        raise SystemExit("An error occurred:", str(e))  # pragma: no cover
+        raise SystemExit(
+            _feedback(f"An error occurred:, {str(e)}", "warning")
+        )  # pragma: no cover
 
 
 def _write_output_file(file_name: str, results: dict) -> None:
@@ -586,18 +586,24 @@ def _write_output_file(file_name: str, results: dict) -> None:
             f.write(final_output_text)
     except PermissionError:
         raise SystemExit(
-            f"Permission denied to file: {file_path.open}"
+            _feedback(f"Permission denied to file: {file_path.open}", "warning")
         )  # pragma: no cover
     except FileExistsError:
-        raise SystemExit(f"File {file_path.open} already exists")  # pragma: no cover
+        raise SystemExit(
+            _feedback(f"File {file_path.open} already exists", "warning")
+        )  # pragma: no cover
     except IsADirectoryError:
         raise SystemExit(
-            f"{file_path.open} is a directory not a file"
+            _feedback(f"{file_path.open} is a directory not a file", "warning")
         )  # pragma: no cover
     except OSError:
-        raise SystemExit("General IO error has occurred")  # pragma: no cover
+        raise SystemExit(
+            _feedback("General IO error has occurred", "warning")
+        )  # pragma: no cover
     except Exception as e:
-        raise SystemExit("An error occurred:", str(e))  # pragma: no cover
+        raise SystemExit(
+            _feedback(f"An error occurred:, {str(e)}", "warning")
+        )  # pragma: no cover
 
 
 def _final_analysis(pattern: list[int]) -> None:
@@ -638,7 +644,7 @@ def _final_analysis(pattern: list[int]) -> None:
     console.print(table)
 
 
-def _parse_args(args: list) -> argparse.Namespace:
+def _parse_args(args: list) -> tuple[argparse.Namespace, argparse.ArgumentParser]:
     """Function to return the ArgumentParser object created from all the args.
 
     Args:
@@ -660,7 +666,7 @@ def _parse_args(args: list) -> argparse.Namespace:
         "-r",
         "--register",
         action="store_true",
-        help="Register the name on PyPi if the name is available",
+        help="register the name on PyPi if the name is available",
     )
     parser.add_argument(
         "-d",
@@ -668,20 +674,7 @@ def _parse_args(args: list) -> argparse.Namespace:
         action="store_true",
         help=argparse.SUPPRESS,
     )
-    parser.add_argument(
-        "-f",
-        "--file",
-        default="None",
-        type=str,
-        help="File containing a list of projects to analyze",
-    )
-    parser.add_argument(
-        "-o",
-        "--output",
-        default="None",
-        type=str,
-        help="File to output the results to",
-    )
+
     parser.add_argument(
         "-n",
         "--nocleanup",
@@ -692,33 +685,82 @@ def _parse_args(args: list) -> argparse.Namespace:
         "-v",
         "--verbose",
         action="store_true",
-        help="output additional information",
+        help="display information about similar projects",
     )
     parser.add_argument(
         "-g",
         "--generate",
         action="store_true",
-        help="Generate a new PyPI simple index",
+        help="generate a new PyPI simple index",
     )
     parser.add_argument(
         "-m",
         "--meta",
         action="store_true",
-        help="Input new meta data when registering (Author and email address)",
+        help="input new meta data when registering (Author and email address)",
     )
 
-    return parser.parse_args(args)
+    parser.add_argument(
+        "-w",
+        "--webbrowser",
+        action="store_true",
+        help="open the project on PyPI in a webbrowser",
+    )
+
+    parser.add_argument(
+        "--version",
+        action="store_true",
+        help="display version number",
+    )
+    parser.add_argument(
+        "-f",
+        "--file",
+        default="None",
+        type=str,
+        help="file containing a list of projects to analyze",
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        default="None",
+        type=str,
+        help="file to store the test results",
+    )
+    return parser.parse_args(args), parser
 
 
 def main():  # pragma: no cover
-    args = _parse_args(sys.argv[1:])
+    args, parser = _parse_args(sys.argv[1:])
     logger.debug(" args: %s", args)
 
-    if args.generate is True:
+    if args.generate:
         _generate_pypi_index()
 
-    if args.projects == "None" and args.file == "None":
-        raise SystemExit("No projects to analyse. Use '--help' to display help")
+    if args.version:
+        version, message, result = _check_version()
+        if result:
+            _feedback(f"{version} : {message}", "nominal")
+        else:
+            _feedback(f"{version} : {message}", "warning")
+
+    if args.projects == "None" and args.file == "None" and args.register:
+        _feedback("You need to specify a project name to register it", "error")
+        raise SystemExit()
+
+    if args.projects == "None" and args.file == "None" and args.meta:
+        _feedback(
+            "You can only update the meta data during the registration process", "error"
+        )
+        raise SystemExit()
+
+    if (
+        args.projects == "None"
+        and args.file == "None"
+        and args.version is False
+        and args.generate is False
+    ):
+        parser.print_help()
+        raise SystemExit()
 
     project_list = []
     test_results = []
@@ -836,12 +878,13 @@ def main():  # pragma: no cover
             test_results == [0, 0, 0]
             and args.register is True
             and config.pypirc is not None
+            and len(project_list) == 1
         ):
+            _create_setup(new_project, new_meta=args.meta)
             _rename_project_dir(
                 project_path.joinpath(config.original_project_name),
                 project_path.joinpath(new_project),
             )
-            _create_setup(new_project, new_meta=args.meta)
             _build_dist()
             if args.dryrun is False:
                 _upload_dist(new_project)
@@ -861,6 +904,24 @@ def main():  # pragma: no cover
 
     if args.output != "None":
         _write_output_file(args.output, aggregated_result)
+
+    if args.register and len(project_list) > 1:
+        _feedback(
+            f"You can only use 'register' for one project at a time. "
+            f"You have specified {len(project_list)} projects",
+            "warning",
+        )
+
+    if args.webbrowser:
+        if len(project_list) == 1:
+            url_project = "".join([config.pypi_project_url, project_list[0], "/"])
+            webbrowser.open(url_project)
+        else:
+            _feedback(
+                f"You must choose one project to open the webbrowser. "
+                f"You have chosen {len(project_list)} projects",
+                "warning",
+            )
 
 
 if __name__ == "__main__":

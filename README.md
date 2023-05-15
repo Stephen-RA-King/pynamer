@@ -56,7 +56,7 @@ As a pseudo replacement for pip search, pynamer will quickly ascertain if a proj
 Some of you may have reached the point where you want to publish a package on the PyPI python repository.
 The first step of which is to choose a unique name. Here lies the problem.
 
-A recent look at the PyPI repository revealed there were over 449,007 projects, so many names have already been taken.
+A recent look at the PyPI repository revealed there were over 453,769 projects, so many names have already been taken.
 
 pip leaps to the rescue with its search utility... or does it?
 
@@ -130,7 +130,7 @@ Pynamer provides a way to optionally 'register' a name on PyPI by building a min
 
 The following are optional but required for 'registering' a project name on PyPI
 
--   [x] An account on PyPI (generate an API token).
+-   [x] An account on PyPI (and generate a PyPI API token).
 -   [x] A [**.pypirc**](https://packaging.python.org/en/latest/specifications/pypirc/) file containing your PyPI API key
 
     or
@@ -193,7 +193,7 @@ Display the help menu with the -h argument
 ```
 
 ```bash
-usage: pynamer [-h] [-r] [-f FILE] [-o OUTPUT] [-v] [-g] [projects ...]
+usage: pynamer [-h] [-r] usage: pynamer [-h] [-r] [-v] [-g] [-m] [--version] [-f FILE] [-o OUTPUT] [projects ...]
 
 Determine if project name is available on pypi with the option to 'register' it for future use if available
 
@@ -202,12 +202,14 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -r, --register        Register the name on PyPi if the name is available
-  -f FILE, --file FILE  File containing a list of projects to analyze
+  -r, --register        register the name on PyPi if the name is available
+  -v, --verbose         display information about similar projects
+  -g, --generate        generate a new PyPI simple index
+  -m, --meta            input new meta data when registering (Author and email address)
+  --version             display version number
+  -f FILE, --file FILE  file containing a list of projects to analyze
   -o OUTPUT, --output OUTPUT
-                        File to output the results to
-  -v, --verbose         output additional information
-  -g, --generate        Generate a new PyPI simple index
+                        file to store the test results
 ```
 
 ## Specifying multiple names

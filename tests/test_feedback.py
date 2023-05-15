@@ -22,7 +22,7 @@ from pynamer import pynamer
         (
             "error",
             "error",
-            f"{Fore.RED}{Back.BLACK}{Style.BRIGHT}error{Style.RESET_ALL}\n",
+            f"{Fore.RED}{Back.BLACK}{Style.BRIGHT}ERROR: error{Style.RESET_ALL}\n",
         ),
         ("error", "critical", ""),
     ],

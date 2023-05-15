@@ -27,9 +27,8 @@ setup(name='pynball',
 
 
 def test_create_setup(create_env, project_path_mock, monkeypatch):
-    # inputs = iter(['sking', 'sking@gmail.com'])
-    # monkeypatch.setattr('builtins.input', lambda _: next(inputs))
-
+    inputs = iter(["sking", "sking@gmail.com"])
+    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
     pynamer._create_setup("pynball")
     setup_file = BASE_DIR / "setup.py"
     with open(setup_file, encoding="utf-8") as f:

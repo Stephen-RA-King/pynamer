@@ -12,6 +12,8 @@ from requests.exceptions import ConnectTimeout
 from pynamer import project_path, pynamer
 
 BASE_DIR = Path(__file__).parents[0]
+SRC_DIR = Path(__file__).parents[1] / "src" / "pynamer"
+
 
 setup_text = """#!/usr/bin/env python3
 
@@ -31,7 +33,20 @@ setup(name='{{ PROJECT_NAME }}',
 
 
 @pytest.fixture()
-def create_env(monkeypatch):
+def src_reset():
+    meta = SRC_DIR / "meta.pickle"
+    count = SRC_DIR / "project_count.pickle"
+    index = SRC_DIR / "pypi_index"
+    setup = SRC_DIR / "setup.txt"
+    base_setup = SRC_DIR / "setup_base.txt"
+    for file in (meta, count, index, setup):
+        if file.exists():
+            file.unlink()
+    shutil.copy(base_setup, setup)
+
+
+@pytest.fixture()
+def create_env(monkeypatch, src_reset):
     project_dir = BASE_DIR / "project_name"
     project_dir.mkdir()
     project_init_file = BASE_DIR / "project_name" / "__init__.py"

@@ -5,7 +5,7 @@ from pathlib import Path
 # Third party modules
 import requests
 
-BASE_DIR = Path(__file__).parents[0]
+BASE_DIR = Path(__file__).parents[1]
 
 pypi_search_url = "https://pypi.org/search/"
 pypi_project_url = "https://pypi.org/project/"
@@ -77,6 +77,3 @@ def manual_simple_index():
     response._content = small_content
     with open(index_file_name, "wb") as f:
         pickle.dump(response, f)
-
-
-json_project("zeedonk")

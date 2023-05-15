@@ -8,6 +8,9 @@ from pathlib import Path
 import requests
 from packaging import version
 
+# First party modules
+import pynamer
+
 # Local modules
 from . import __version__, project_path
 from .config import config
@@ -31,7 +34,7 @@ def _check_version() -> tuple[version, str, bool]:
                             False: if there is a newer version on PyPI.
     """
     url_json = "".join([config.pypi_json_url, "pynamer", "/json"])
-    current_version = version.parse(__version__)
+    current_version = version.parse(pynamer.__version__)
     try:
         project_json_raw = requests.get(url_json, timeout=10)
     except requests.RequestException as e:

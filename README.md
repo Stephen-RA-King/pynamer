@@ -7,7 +7,6 @@ _**Utility to find an available package name on the PyPI repository and optional
 [![Format][format-image]][pypi-url]
 [![tests][tests-image]][tests-url]
 [![Codecov][codecov-image]][codecov-url]
-[![pre-commit][pre-commit-image]][pre-commit-url]
 [![pre-commit.ci status][pre-commit.ci-image]][pre-commit.ci-url]
 [![CodeFactor][codefactor-image]][codefactor-url]
 [![Codeclimate][codeclimate-image]][codeclimate-url]
@@ -273,11 +272,21 @@ leda            Not Found   Not Found   Not Found       Available
 
 Again you can use a combination of names from the command line and input file.
 
-## Register the name with PyPI
+## Register the package name with PyPI
 
 You can optionally 'register' the name on PyPI by using the -r argument.
-If the project name is found to be available and you have a valid 'pypirc' file is found, a minimalistic project will be built and uploaded to
+If the project name is found to be available and you have a valid 'pypirc' file is found, a minimalistic project will be built and uploaded
 to PyPI.
+
+The first time you use the 'registration' procedure you will be prompted to enter your name and email address. These are required.
+You can also optionally choose to change the version and description.
+
+![](assets/usage_register_first.png)
+
+This information will be retained and you will not be prompted to enter this information again. However, you can regenerate
+this meta data by using the -m argument along with the -r argument. You can just enter on the options you dont want to change.
+
+![](assets/usage_register_meta.png)
 
 ```bash
 ~ $ pynamer agrajag -r
@@ -306,10 +315,9 @@ The PyPI Simple Index is a plain text file that lists the names of all the packa
 It is a simplified version of the PyPI index that makes it easier for users to browse and download packages.
 
 The PyPI Simple Index is used by a variety of tools and libraries to download and install packages from PyPI. For example, the pip package manager, which is used to install and manage Python packages, uses the PyPI Simple Index to find packages.
+The Index is updated every few hours.
 
-The PyPI Simple Index is updated every few hours
-
-Using the -r argument can be used to regenerate the local file contents.
+Using the -g argument can be used to regenerate the local file contents.
 
 ```bash
 ~ $ pynamer -g
@@ -321,7 +329,7 @@ See planned future improvements
 
 ## The Oddities
 
-The reason I wrote this application in the first place.
+The reason I wrote this application in the first place...
 
 ```bash
 ~ $ pynamer zaphod
@@ -373,7 +381,6 @@ e.g. replacing "L" / "l" with the number 1 or "o" / "O" with 0. The Software uti
 ## Planned Future improvements
 
 -   Improve performance of the regeneration of the PyPI simple Repository Index, so this can be run in the background automatically.
--   Filter out invalid PyPI package names at the start
 
 ## Meta
 

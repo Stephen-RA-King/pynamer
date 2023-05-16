@@ -78,6 +78,7 @@ repos:
           - types-html5lib
           - types-requests
           - types-urllib3
+          - types-PyYAML
 
   - repo: https://github.com/PyCQA/bandit
     rev: 1.7.5

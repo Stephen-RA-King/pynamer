@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v1.4.0 (2023-05-16)
+
+
+## v1.3.0 (2023-05-16)
+
+
 ## v1.2.1 (2023-05-16)
 ### Fix
 * Missing resource files ([`48219fb`](https://github.com/Stephen-RA-King/pynamer/commit/48219fbe615071f5c7dd1d7a4c2eca1a459d9ab9))

@@ -142,7 +142,8 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
                 if author != "":
                     break
         except KeyboardInterrupt:
-            raise SystemExit(_feedback("...bye!", "warning"))
+            _feedback("...bye!", "warning")
+            raise SystemExit()
 
         try:
             while True:
@@ -152,7 +153,8 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
                 else:
                     print("does not appear to be a valid email address")
         except KeyboardInterrupt:
-            raise SystemExit(_feedback("...bye!", "warning"))
+            _feedback("...bye!", "warning")
+            raise SystemExit()
 
         try:
             while True:
@@ -279,7 +281,7 @@ def _is_valid_package_name(project_name: str) -> bool:
 
 
     """
-    pattern = r"^[a-z][_a-z0-9]*$"
+    pattern = r"^[a-z][_\-a-z0-9]*$"
     if re.match(pattern, project_name) is not None:
         return True
     else:
@@ -366,7 +368,7 @@ def _upload_dist(project_name: str) -> None:
     """
     logger.debug("Uploading the distribution... ")
     dir_path = os.fspath(project_path / "dist" / "*")
-    pypirc_path = os.fspath(config.pypirc)  # type: ignore
+    pypirc_path = os.fspath(config.pypirc)
     _run_command(
         sys.executable,
         "-m",
@@ -478,7 +480,9 @@ def _pypi_search(
     """
     pattern = re.compile(r">([\d,+]*?)<")
     s = requests.Session()
-    projects_raw, match, others = [], [], []
+    projects_raw: list = []
+    match: list[list[str]] = []
+    others: list[list[str]] = []
     params = {"q": {search_project}, "page": 1}
     r = s.get(config.pypi_search_url, params=params)  # type: ignore
     soup = BeautifulSoup(r.text, "html.parser")
@@ -541,27 +545,20 @@ def _process_input_file(file: str) -> list[Union[str, Any]]:
             projects = file_contents.split()
             return list(set(projects))
     except FileNotFoundError:
-        raise SystemExit(
-            _feedback(f"The file {file} does not exist", "warning")
-        )  # pragma: no cover
+        _feedback(f"The file {file} does not exist", "warning")
+        raise SystemExit()  # pragma: no cover
     except PermissionError:
-        raise SystemExit(
-            _feedback(f"Permission denied to file: {file}", "warning")
-        )  # pragma: no cover
+        _feedback(f"Permission denied to file: {file}", "warning")
+        raise SystemExit()  # pragma: no cover
     except IsADirectoryError:
-        raise SystemExit(
-            _feedback(f"{file} is a directory not a file", "warning")
-        )  # pragma: no cover
+        _feedback(f"{file} is a directory not a file", "warning")
+        raise SystemExit()  # pragma: no cover
     except OSError:
-        raise SystemExit(
-            _feedback(
-                f"A general IO error has occurred opening file: {file}", "warning"
-            )
-        )  # pragma: no cover
+        _feedback(f"A general IO error has occurred opening file: {file}", "warning")
+        raise SystemExit()  # pragma: no cover
     except Exception as e:
-        raise SystemExit(
-            _feedback(f"An error occurred:, {str(e)}", "warning")
-        )  # pragma: no cover
+        _feedback(f"An error occurred:, {str(e)}", "warning")
+        raise SystemExit()  # pragma: no cover
 
 
 def _write_output_file(file_name: str, results: dict) -> None:
@@ -608,25 +605,20 @@ def _write_output_file(file_name: str, results: dict) -> None:
         with file_path.open(mode="w") as f:
             f.write(final_output_text)
     except PermissionError:
-        raise SystemExit(
-            _feedback(f"Permission denied to file: {file_path.open}", "warning")
-        )  # pragma: no cover
+        _feedback(f"Permission denied to file: {file_path.open}", "warning")
+        raise SystemExit()  # pragma: no cover
     except FileExistsError:
-        raise SystemExit(
-            _feedback(f"File {file_path.open} already exists", "warning")
-        )  # pragma: no cover
+        _feedback(f"File {file_path.open} already exists", "warning")
+        raise SystemExit()  # pragma: no cover
     except IsADirectoryError:
-        raise SystemExit(
-            _feedback(f"{file_path.open} is a directory not a file", "warning")
-        )  # pragma: no cover
+        _feedback(f"{file_path.open} is a directory not a file", "warning")
+        raise SystemExit()  # pragma: no cover
     except OSError:
-        raise SystemExit(
-            _feedback("General IO error has occurred", "warning")
-        )  # pragma: no cover
+        _feedback("General IO error has occurred", "warning")
+        raise SystemExit()  # pragma: no cover
     except Exception as e:
-        raise SystemExit(
-            _feedback(f"An error occurred:, {str(e)}", "warning")
-        )  # pragma: no cover
+        _feedback(f"An error occurred:, {str(e)}", "warning")
+        raise SystemExit()  # pragma: no cover
 
 
 def _final_analysis(pattern: list[int]) -> None:
@@ -752,7 +744,7 @@ def _parse_args(args: list) -> tuple[argparse.Namespace, argparse.ArgumentParser
     return parser.parse_args(args), parser
 
 
-def main():  # pragma: no cover
+def main() -> None:  # pragma: no cover, type: ignore
     args, parser = _parse_args(sys.argv[1:])
     logger.debug(" args: %s", args)
 
@@ -948,4 +940,4 @@ def main():  # pragma: no cover
 
 
 if __name__ == "__main__":
-    SystemExit(main())
+    SystemExit(main())  # type: ignore

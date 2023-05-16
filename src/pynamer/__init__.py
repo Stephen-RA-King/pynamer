@@ -6,13 +6,13 @@ import pickle
 from importlib.resources import as_file, files
 
 # Third party modules
-import yaml  # type: ignore
+import yaml
 
 __title__ = "pynamer"
-__version__ = "1.2.1"
+__version__ = "1.4.0"
 __author__ = "Stephen R A King"
 __description__ = (
-    "Utility to find an available package name on the PyPI repository and register it "
+    "Utility to find an available package name in the PyPI repository and register it "
 )
 __email__ = "sking.github@gmail.com"
 __license__ = "MIT"

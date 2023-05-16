@@ -2,7 +2,7 @@
 
 # Core Library modules
 import json
-from pathlib import Path
+from typing import Union
 
 # Third party modules
 import requests
@@ -12,19 +12,18 @@ from packaging import version
 import pynamer
 
 # Local modules
-from . import __version__, project_path
 from .config import config
 
 
-def _check_integrity():
+def _check_integrity() -> None:
     pass
 
 
-def _reset():
+def _reset() -> None:
     pass
 
 
-def _check_version() -> tuple[version, str, bool]:
+def _check_version() -> Union[tuple[version, str, bool], None]:
     """Utility function to compare package version against latest version on PyPI.
 
     Returns:
@@ -50,3 +49,4 @@ def _check_version() -> tuple[version, str, bool]:
             )
         elif pypi_version == current_version:
             return current_version, "(You have the most recent version)", True
+    return None

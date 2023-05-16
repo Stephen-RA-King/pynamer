@@ -143,7 +143,7 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
                         Fore.YELLOW
                         + Back.BLACK
                         + Style.BRIGHT
-                        + f"Please enter your author name ({author}): "
+                        + f"please enter your author name ({author}): "
                         + Style.RESET_ALL
                     )
                     or author
@@ -161,7 +161,7 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
                         Fore.YELLOW
                         + Back.BLACK
                         + Style.BRIGHT
-                        + f"Please enter your email address  ({email}): "
+                        + f"please enter your email address ({email}): "
                         + Style.RESET_ALL
                     )
                     or email

@@ -138,7 +138,16 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
     if "AUTHOR" in setup_text or "EMAIL" in setup_text or not meta or new_meta:
         try:
             while True:
-                author = input(f"Please enter your author name ({author}): ") or author
+                author = (
+                    input(
+                        Fore.YELLOW
+                        + Back.BLACK
+                        + Style.BRIGHT
+                        + f"Please enter your author name ({author}): "
+                        + Style.RESET_ALL
+                    )
+                    or author
+                )
                 if author != "":
                     break
         except KeyboardInterrupt:
@@ -147,18 +156,42 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
 
         try:
             while True:
-                email = input(f"Please enter your email address  ({email}): ") or email
+                email = (
+                    input(
+                        Fore.YELLOW
+                        + Back.BLACK
+                        + Style.BRIGHT
+                        + f"Please enter your email address  ({email}): "
+                        + Style.RESET_ALL
+                    )
+                    or email
+                )
                 if re.search(_email_pattern, email):
                     break
                 else:
-                    print("does not appear to be a valid email address")
+                    print(
+                        Fore.YELLOW
+                        + Back.BLACK
+                        + Style.BRIGHT
+                        + "does not appear to be a valid email address"
+                        + Style.RESET_ALL
+                    )
         except KeyboardInterrupt:
             _feedback("...bye!", "warning")
             raise SystemExit()
 
         try:
             while True:
-                version = input(f"version number: ({version}): ") or version
+                version = (
+                    input(
+                        Fore.YELLOW
+                        + Back.BLACK
+                        + Style.BRIGHT
+                        + f"version number: ({version}): "
+                        + Style.RESET_ALL
+                    )
+                    or version
+                )
                 if version != "":
                     break
         except KeyboardInterrupt:
@@ -166,7 +199,16 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
 
         try:
             while True:
-                description = input(f"description: ({description}): ") or description
+                description = (
+                    input(
+                        Fore.YELLOW
+                        + Back.BLACK
+                        + Style.BRIGHT
+                        + f"description: ({description}): "
+                        + Style.RESET_ALL
+                    )
+                    or description
+                )
                 if description != "":
                     break
         except KeyboardInterrupt:

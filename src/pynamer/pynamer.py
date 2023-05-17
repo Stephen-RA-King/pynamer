@@ -32,6 +32,7 @@ from .config import config
 from .utils import _check_version
 
 logger = logging.getLogger()
+project_path = Path(str(project_path))
 
 
 def _feedback(message: str, feedback_type: str) -> None:
@@ -120,10 +121,10 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
     Args:
         new_project_name:       name used to render the template.
     """
-    meta_file = project_path / "meta.pickle"
-    setup_file = project_path / "setup.txt"
-    setup_base_file = project_path / "setup_base.txt"
-    setup_file_py = project_path / "setup.py"
+    meta_file = Path(project_path / "meta.pickle")
+    setup_file = Path(project_path / "setup.txt")
+    setup_base_file = Path(project_path / "setup_base.txt")
+    setup_file_py = Path(project_path / "setup.py")
 
     author = meta["author"] if meta else ""
     email = meta["email"] if meta else ""

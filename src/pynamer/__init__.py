@@ -10,7 +10,7 @@ from pathlib import Path
 import yaml
 
 __title__ = "pynamer"
-__version__ = "1.4.0"
+__version__ = "1.3.1"
 __author__ = "Stephen R A King"
 __description__ = (
     "Utility to find an available package name in the PyPI repository and register it "

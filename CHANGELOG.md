@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v1.3.1 (2023-05-17)
+### Fix
+* Restore text in setup ([`087d094`](https://github.com/Stephen-RA-King/pynamer/commit/087d094a554a9c70738fefe57e4f469e08252b48))
+
+### Documentation
+* Update readme images ([`392ec09`](https://github.com/Stephen-RA-King/pynamer/commit/392ec09379268bca7f85b40d0319a4fec8a5a1c4))
+
 ## v1.4.0 (2023-05-16)
 
 

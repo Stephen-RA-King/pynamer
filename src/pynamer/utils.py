@@ -36,7 +36,7 @@ def _check_version() -> Union[tuple[version, str, bool], None]:
     current_version = version.parse(pynamer.__version__)
     try:
         project_json_raw = requests.get(url_json, timeout=10)
-    except requests.RequestException as e:
+    except requests.RequestException:
         raise SystemExit("An error occurred with an HTTP request")
     if project_json_raw.status_code == 200:
         project_json = json.loads(project_json_raw.content)

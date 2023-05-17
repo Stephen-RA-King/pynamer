@@ -3,8 +3,7 @@
 # Core Library modules
 import logging.config
 import pickle
-from importlib.resources import as_file, files, path
-from pathlib import Path
+from importlib.resources import as_file, files
 
 # Third party modules
 import yaml

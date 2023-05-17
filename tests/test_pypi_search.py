@@ -26,7 +26,8 @@ others_expected = [
         "pynamer",
         "0.5.5",
         "2023-05-03",
-        "Utility to find an available package name on the PyPI repository and register it",
+        "Utility to find an available package name on the PyPI repository "
+        "and register it",
     ],
 ]
 

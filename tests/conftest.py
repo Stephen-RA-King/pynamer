@@ -1,15 +1,13 @@
 # Core Library modules
 import os
-import pickle
 import shutil
 from pathlib import Path
 
 # Third party modules
 import pytest
-from requests.exceptions import ConnectTimeout
 
 # First party modules
-from pynamer import project_path, pynamer
+from pynamer import pynamer
 
 BASE_DIR = Path(__file__).parents[0]
 SRC_DIR = Path(__file__).parents[1] / "src" / "pynamer"

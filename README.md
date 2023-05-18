@@ -4,14 +4,13 @@ _**Utility to find an available package name on the PyPI repository and optional
 [![Downloads][downloads-image]][downloads-url]
 [![Status][status-image]][pypi-url]
 [![Python Version][python-version-image]][pypi-url]
-[![Format][format-image]][pypi-url]
 [![tests][tests-image]][tests-url]
 [![Codecov][codecov-image]][codecov-url]
+[![CodeQl][codeql-image]][codeql-url]
 [![pre-commit.ci status][pre-commit.ci-image]][pre-commit.ci-url]
+[![readthedocs][readthedocs-image]][readthedocs-url]
 [![CodeFactor][codefactor-image]][codefactor-url]
 [![Codeclimate][codeclimate-image]][codeclimate-url]
-[![CodeQl][codeql-image]][codeql-url]
-[![readthedocs][readthedocs-image]][readthedocs-url]
 [![Imports: isort][isort-image]][isort-url]
 [![Code style: black][black-image]][black-url]
 [![Checked with mypy][mypy-image]][mypy-url]
@@ -420,7 +419,7 @@ Created with Cookiecutter template: [**pydough**][pydough-url] version 1.2.2
 [conventional-commits-url]: https://conventionalcommits.org
 [deepsource-image]: https://static.deepsource.io/deepsource-badge-light-mini.svg
 [deepsource-url]: https://deepsource.io/gh/Stephen-RA-King/pynamer/?ref=repository-badge
-[downloads-image]: https://static.pepy.tech/personalized-badge/pynamer?period=total&units=international_system&left_color=black&right_color=orange&left_text=Downloads
+[downloads-image]: https://static.pepy.tech/personalized-badge/pynamer?period=total&units=international_system&left_color=black&right_color=blue&left_text=Downloads
 [downloads-url]: https://pepy.tech/project/pynamer
 [format-image]: https://img.shields.io/pypi/format/pynamer
 [isort-image]: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336

@@ -3,7 +3,7 @@
 # Core Library modules
 import logging.config
 import pickle
-from importlib.resources import as_file, files
+from importlib.resources import as_file, files, path
 
 # Third party modules
 import yaml
@@ -49,6 +49,9 @@ logging.config.dictConfig(yaml.safe_load(LOGGING_CONFIG))
 logger = logging.getLogger("init")
 
 project_path = files("pynamer")
+setup_path = path("pynamer", "setup.txt")
+setup_base_path = path("pynamer", "setup_base.txt")
+
 
 setup_file_path = project_path.joinpath("setup.txt")
 with as_file(setup_file_path) as _setup_file:

@@ -151,7 +151,7 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
                 )
                 if author != "":
                     break
-        except KeyboardInterrupt:
+        except KeyboardInterrupt:  # pragma: no cover
             _feedback("...bye!", "warning")
             raise SystemExit()
 
@@ -176,8 +176,8 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
                         + Style.BRIGHT
                         + "does not appear to be a valid email address"
                         + Style.RESET_ALL
-                    )
-        except KeyboardInterrupt:
+                    )  # pragma: no cover
+        except KeyboardInterrupt:  # pragma: no cover
             _feedback("...bye!", "warning")
             raise SystemExit()
 
@@ -195,7 +195,7 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
                 )
                 if version != "":
                     break
-        except KeyboardInterrupt:
+        except KeyboardInterrupt:  # pragma: no cover
             raise SystemExit("Bye!")
 
         try:
@@ -212,7 +212,7 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
                 )
                 if description != "":
                     break
-        except KeyboardInterrupt:
+        except KeyboardInterrupt:  # pragma: no cover
             raise SystemExit("Bye!")
 
         setup_file.unlink()
@@ -430,7 +430,7 @@ def _cleanup(project_name: str) -> None:
     Args:
         project_name:   the name of the project currently under test.
     """
-    if config.no_cleanup is True:
+    if config.no_cleanup is True:  # pragma: no cover
         return
     _rename_project_dir(
         project_path.joinpath(project_name),
@@ -463,7 +463,7 @@ def _generate_pypi_index() -> None:
     progress_bar = tqdm(total=config.project_count)
     pypi_index = project_path / "pypi_index"
     pypi_count = project_path / "project_count.pickle"
-    if pypi_index.exists():
+    if pypi_index.exists():  # pragma: no cover
         Path.unlink(pypi_index, missing_ok=True)
     try:
         index_object_raw = requests.get(config.pypi_simple_index_url, timeout=10)
@@ -482,6 +482,18 @@ def _generate_pypi_index() -> None:
     progress_bar.close()
     with open(pypi_count, "wb") as f:
         pickle.dump(new_count, f)
+    if config.project_count > 0:
+        diff = new_count - config.project_count
+        if diff > 0:  # pragma: no cover
+            _feedback(
+                f"Project count has increased by {diff} since last index generation",
+                "warning",
+            )
+        elif diff < 0:  # pragma: no cover
+            _feedback(
+                f"Project count has decreased by {diff} since last index generation",
+                "warning",
+            )
 
 
 def _pypi_search_index(project_name: str) -> bool:
@@ -587,21 +599,21 @@ def _process_input_file(file: str) -> list[Union[str, Any]]:
             file_contents = f.read()
             projects = file_contents.split()
             return list(set(projects))
-    except FileNotFoundError:
+    except FileNotFoundError:  # pragma: no cover
         _feedback(f"The file {file} does not exist", "warning")
-        raise SystemExit()  # pragma: no cover
-    except PermissionError:
+        raise SystemExit()
+    except PermissionError:  # pragma: no cover
         _feedback(f"Permission denied to file: {file}", "warning")
-        raise SystemExit()  # pragma: no cover
-    except IsADirectoryError:
+        raise SystemExit()
+    except IsADirectoryError:  # pragma: no cover
         _feedback(f"{file} is a directory not a file", "warning")
-        raise SystemExit()  # pragma: no cover
-    except OSError:
+        raise SystemExit()
+    except OSError:  # pragma: no cover
         _feedback(f"A general IO error has occurred opening file: {file}", "warning")
-        raise SystemExit()  # pragma: no cover
-    except Exception as e:
+        raise SystemExit()
+    except Exception as e:  # pragma: no cover
         _feedback(f"An error occurred:, {str(e)}", "warning")
-        raise SystemExit()  # pragma: no cover
+        raise SystemExit()
 
 
 def _write_output_file(file_name: str, results: dict) -> None:
@@ -647,21 +659,21 @@ def _write_output_file(file_name: str, results: dict) -> None:
     try:  # pragma: no cover
         with file_path.open(mode="w") as f:
             f.write(final_output_text)
-    except PermissionError:
+    except PermissionError:  # pragma: no cover
         _feedback(f"Permission denied to file: {file_path.open}", "warning")
-        raise SystemExit()  # pragma: no cover
-    except FileExistsError:
+        raise SystemExit()
+    except FileExistsError:  # pragma: no cover
         _feedback(f"File {file_path.open} already exists", "warning")
-        raise SystemExit()  # pragma: no cover
-    except IsADirectoryError:
+        raise SystemExit()
+    except IsADirectoryError:  # pragma: no cover
         _feedback(f"{file_path.open} is a directory not a file", "warning")
-        raise SystemExit()  # pragma: no cover
-    except OSError:
+        raise SystemExit()
+    except OSError:  # pragma: no cover
         _feedback("General IO error has occurred", "warning")
-        raise SystemExit()  # pragma: no cover
-    except Exception as e:
+        raise SystemExit()
+    except Exception as e:  # pragma: no cover
         _feedback(f"An error occurred:, {str(e)}", "warning")
-        raise SystemExit()  # pragma: no cover
+        raise SystemExit()
 
 
 def _final_analysis(pattern: list[int]) -> None:

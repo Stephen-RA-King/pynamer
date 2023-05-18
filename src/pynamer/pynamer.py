@@ -27,7 +27,14 @@ from rich.table import Table
 from tqdm import tqdm
 
 # Local modules
-from . import meta, project_count, project_path, setup_text
+from . import (
+    meta,
+    project_count,
+    project_path,
+    setup_base_path,
+    setup_path,
+    setup_text,
+)
 from .config import config
 from .utils import _check_version
 

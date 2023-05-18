@@ -66,6 +66,8 @@ repos:
         exclude: |
           (?x)^(
               docs/source/conf.py|
+              tests/|
+              tests/tools/|
               cleanup.py|
               tasks.py
           )$

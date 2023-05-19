@@ -149,8 +149,16 @@ password = your_API_token_here
 
 ### Installation
 
+Pynamer can be installed into any python environment using pip:
+
 ```bash
 ~ $ pip install pynamer
+```
+
+However, optimal installation can be archived using [**pipx**][pipx-url]:
+
+```bash
+~ $ pipx install pynamer
 ```
 
 ### Basic Usage
@@ -201,7 +209,7 @@ optional arguments:
   -h, --help            show this help message and exit
   -r, --register        register the name on PyPi if the name is available
   -v, --verbose         display information about similar projects
-  -g, --generate        generate a new PyPI simple index
+  -g, --generate        generate a new PyPI index file
   -m, --meta            input new meta data when registering (Author and email address)
   -w, --webbrowser      open the project on PyPI in a webbrowser
   --version             display version number
@@ -431,6 +439,7 @@ Created with Cookiecutter template: [**pydough**][pydough-url] version 1.2.2
 [license-url]: https://github.com/Stephen-RA-King/pynamer/blob/main/LICENSE
 [mypy-image]: http://www.mypy-lang.org/static/mypy_badge.svg
 [mypy-url]: http://mypy-lang.org/
+[pipx-url]: https://pypa.github.io/pipx/
 [pre-commit-image]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
 [pre-commit-url]: https://github.com/pre-commit/pre-commit
 [pre-commit.ci-image]: https://results.pre-commit.ci/badge/github/Stephen-RA-King/pynamer/main.svg

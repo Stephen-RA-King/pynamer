@@ -768,7 +768,7 @@ def _parse_args(args: list) -> tuple[argparse.Namespace, argparse.ArgumentParser
         "-g",
         "--generate",
         action="store_true",
-        help="generate a new PyPI simple index",
+        help="generate a new PyPI index file",
     )
     parser.add_argument(
         "-m",

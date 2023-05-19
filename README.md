@@ -124,7 +124,6 @@ Pynamer provides a way to optionally 'register' a name on PyPI by building a min
 ---
 
 -   [x] Python >= 3.9.
--   [x] [**pipx**](https://pypa.github.io/pipx/)
 
 The following are optional but required for 'registering' a project name on PyPI
 
@@ -151,7 +150,7 @@ password = your_API_token_here
 ### Installation
 
 ```bash
-~ $ pipx install pynamer
+~ $ pip install pynamer
 ```
 
 ### Basic Usage

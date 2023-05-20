@@ -416,7 +416,7 @@ def _upload_dist(project_name: str) -> None:
 
     project_build = str(project_path / "dist" / "*")
     dir_path = os.fspath(project_build)
-    pypirc_path = os.fspath(config.pypirc)
+    pypirc_path = os.fspath(str(config.pypirc))
     _run_command(
         sys.executable,
         "-m",

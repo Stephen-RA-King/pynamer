@@ -64,7 +64,12 @@ repos:
     hooks:
       - id: mypy
         alias: mypy
-        args: [--ignore-missing-imports, --disallow-untyped-defs]
+        args:
+          [
+            --ignore-missing-imports,
+            --disallow-untyped-defs,
+            --no-warn-unused-ignores,
+          ]
         exclude: |
           (?x)^(
               docs/source/conf.py|

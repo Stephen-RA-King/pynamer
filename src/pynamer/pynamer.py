@@ -813,7 +813,7 @@ def main() -> None:  # pragma: no cover, type: ignore
         _generate_pypi_index()
 
     if args.version:
-        version, message, result = _check_version()
+        version, message, result = _check_version()  # type: ignore
         if result:
             _feedback(f"{version} : {message}", "nominal")
         else:

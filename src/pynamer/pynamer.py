@@ -13,6 +13,7 @@ import subprocess
 import sys
 import webbrowser
 from datetime import datetime
+from importlib.resources import as_file, files
 from pathlib import Path
 from typing import Any, Union
 
@@ -29,17 +30,19 @@ from tqdm import tqdm
 # Local modules
 from . import (
     meta,
+    meta_file_trv,
     project_count,
+    project_count_file_trv,
     project_path,
-    setup_base_path,
-    setup_path,
+    pypi_index_file_trv,
+    setup_base_file_trv,
+    setup_file_trv,
     setup_text,
 )
 from .config import config
 from .utils import _check_version
 
 logger = logging.getLogger()
-project_path = Path(str(project_path))
 
 
 def _feedback(message: str, feedback_type: str) -> None:
@@ -128,10 +131,7 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
     Args:
         new_project_name:       name used to render the template.
     """
-    meta_file = Path(project_path / "meta.pickle")
-    setup_file = Path(project_path / "setup.txt")
-    setup_base_file = Path(project_path / "setup_base.txt")
-    setup_file_py = Path(project_path / "setup.py")
+    setup_file_py_trv = project_path / "setup.py"
 
     author = meta["author"] if meta else ""
     email = meta["email"] if meta else ""
@@ -222,11 +222,11 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
         except KeyboardInterrupt:  # pragma: no cover
             raise SystemExit("Bye!")
 
-        setup_file.unlink()
+        with as_file(setup_file_trv) as setup_file:
+            if setup_file.exists():
+                setup_file.unlink(missing_ok=True)
 
-        with open(setup_base_file, encoding="utf-8") as f:
-            setup_text_base = f.read()
-
+        setup_text_base = setup_base_file_trv.read_text(encoding="utf-8")
         template = Template(setup_text_base)
         content = template.render(
             PROJECT_NAME="{{ PROJECT_NAME }}",
@@ -235,7 +235,7 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
             AUTHOR=author,
             EMAIL=email,
         )
-        with open(setup_file, mode="w", encoding="utf-8") as f:
+        with setup_file_trv.open("w", encoding="utf-8") as f:
             f.write(content)
 
     meta_save = {
@@ -244,21 +244,19 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
         "description": description,
         "version": version,
     }
-    with open(meta_file, "wb") as f:
+    with meta_file_trv.open("wb") as f:
         pickle.dump(meta_save, f)
 
-    with open(setup_file) as f:
-        setup_text_file = f.read()
-        template = Template(setup_text_file)
-        content = template.render(
-            PROJECT_NAME=new_project_name,
-        )
-    with open(setup_file_py, mode="w", encoding="utf-8") as message:
+    setup_text_file = setup_file_trv.read_text(encoding="utf-8")
+    template = Template(setup_text_file)
+    content = template.render(PROJECT_NAME=new_project_name)
+
+    with setup_file_py_trv.open("w", encoding="utf-8") as message:
         logger.debug("creating new setup.py with the following: \n %s", content)
         message.write(content)
 
 
-def _delete_director(items_to_delete: list[Path]) -> None:
+def _delete_director(items_to_delete: Any) -> None:
     """Utility function to delete files and directories.
 
     Args:
@@ -328,8 +326,6 @@ def _is_valid_package_name(project_name: str) -> bool:
     Returns:
         True:           If the name passes the basic check
         False:          If the name fails the basic check
-
-
     """
     pattern = r"^[a-z][_\-a-z0-9]*$"
     if re.match(pattern, project_name) is not None:
@@ -417,7 +413,9 @@ def _upload_dist(project_name: str) -> None:
         twine expects a filesystem path not Path object so use os.fspath()
     """
     logger.debug("Uploading the distribution... ")
-    dir_path = os.fspath(project_path / "dist" / "*")
+
+    project_build = str(project_path / "dist" / "*")
+    dir_path = os.fspath(project_build)
     pypirc_path = os.fspath(config.pypirc)
     _run_command(
         sys.executable,
@@ -440,8 +438,8 @@ def _cleanup(project_name: str) -> None:
     if config.no_cleanup is True:  # pragma: no cover
         return
     _rename_project_dir(
-        project_path.joinpath(project_name),
-        project_path.joinpath(config.original_project_name),
+        str(project_path.joinpath(project_name)),
+        str(project_path.joinpath(config.original_project_name)),
     )
     build_artifacts = [
         project_path / "build",
@@ -467,17 +465,18 @@ def _generate_pypi_index() -> None:
     """
     new_count = 0
     pattern = re.compile(r">([\w\W]*?)<")
+    with as_file(pypi_index_file_trv) as pypi_index_file:
+        if pypi_index_file.exists():
+            pypi_index_file.unlink(missing_ok=True)
+
     progress_bar = tqdm(total=config.project_count)
-    pypi_index = project_path / "pypi_index"
-    pypi_count = project_path / "project_count.pickle"
-    if pypi_index.exists():  # pragma: no cover
-        Path.unlink(pypi_index, missing_ok=True)
+
     try:
         index_object_raw = requests.get(config.pypi_simple_index_url, timeout=10)
     except requests.RequestException as e:
         logger.error("An error occurred: %s", e)
         raise SystemExit("An error occurred with an HTTP request")
-    with pypi_index.open(mode="a") as file:
+    with pypi_index_file_trv.open("a") as file:
         for line in index_object_raw.iter_lines():
             line = str(line)
             project_text = re.search(pattern, line)
@@ -487,8 +486,9 @@ def _generate_pypi_index() -> None:
                 project = "".join([project_text.group(1), " \n"])
                 file.write(project)
     progress_bar.close()
-    with open(pypi_count, "wb") as f:
+    with project_count_file_trv.open("wb") as f:
         pickle.dump(new_count, f)
+
     if config.project_count > 0:
         diff = new_count - config.project_count
         if diff > 0:  # pragma: no cover
@@ -513,16 +513,15 @@ def _pypi_search_index(project_name: str) -> bool:
         True:           A match was found.
         False:          A match was not found.
     """
-    pypi_index = project_path / "pypi_index"
-    if not pypi_index.exists():
+    if not pypi_index_file_trv.is_file():
         _generate_pypi_index()
-    with pypi_index.open(mode="r") as file:
-        projects = file.read()
-        if project_name in projects:
-            logger.debug("%s FOUND in the PyPI simple index", project_name)
-            return True
-        logger.debug("%s NOT FOUND in the PyPI simple index", project_name)
-        return False
+
+    projects = pypi_index_file_trv.read_text(encoding="utf-8")
+    if project_name in projects:
+        logger.debug("%s FOUND in the PyPI simple index", project_name)
+        return True
+    logger.debug("%s NOT FOUND in the PyPI simple index", project_name)
+    return False
 
 
 def _pypi_search(
@@ -959,8 +958,8 @@ def main() -> None:  # pragma: no cover, type: ignore
         ):
             _create_setup(new_project, new_meta=args.meta)
             _rename_project_dir(
-                project_path.joinpath(config.original_project_name),
-                project_path.joinpath(new_project),
+                str(project_path.joinpath(config.original_project_name)),
+                str(project_path.joinpath(new_project)),
             )
             _build_dist()
             if args.dryrun is False:

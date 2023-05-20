@@ -3,7 +3,7 @@
 # Core Library modules
 import logging.config
 import pickle
-from importlib.resources import as_file, files, path
+from importlib.resources import as_file, files
 
 # Third party modules
 import yaml
@@ -49,29 +49,26 @@ logging.config.dictConfig(yaml.safe_load(LOGGING_CONFIG))
 logger = logging.getLogger("init")
 
 project_path = files("pynamer")
-setup_path = path("pynamer", "setup.txt")
-setup_base_path = path("pynamer", "setup_base.txt")
+setup_file_trv = project_path.joinpath("setup.txt")
+setup_base_file_trv = project_path.joinpath("setup_base.txt")
+project_count_file_trv = project_path.joinpath("project_count.pickle")
+pypi_index_file_trv = project_path.joinpath("pypi_index")
+meta_file_trv = project_path.joinpath("meta.pickle")
 
 
-setup_file_path = project_path.joinpath("setup.txt")
-with as_file(setup_file_path) as _setup_file:
-    if _setup_file.exists():
-        setup_text = _setup_file.read_text()
+if setup_file_trv.is_file():
+    setup_text = setup_file_trv.read_text(encoding="utf-8")
+else:
+    raise SystemExit("The package has a structural problem")
 
 
-project_count_file_path = project_path.joinpath("project_count.pickle")
-with as_file(project_count_file_path) as _project_count_file:
-    if _project_count_file.exists():
-        _project_count_bytes = _project_count_file.read_bytes()
-        project_count = pickle.loads(_project_count_bytes)
-    else:
-        project_count = 453968
+if project_count_file_trv.is_file():
+    project_count = pickle.loads(project_count_file_trv.read_bytes())
+else:
+    project_count = 455256
 
 
-meta_file_path = project_path.joinpath("meta.pickle")
-with as_file(meta_file_path) as _meta_file:
-    if _meta_file.exists():
-        _meta_bytes = _meta_file.read_bytes()
-        meta = pickle.loads(_meta_bytes)
-    else:
-        meta = {}
+if meta_file_trv.is_file():
+    meta = pickle.loads(meta_file_trv.read_bytes())
+else:
+    meta = {}

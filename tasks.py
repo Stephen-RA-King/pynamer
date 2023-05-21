@@ -151,8 +151,8 @@ def _clean_test():
         ".coverage",
         ".tox",
         "coverage.xml",
-        "report_coverage.html",
-        "report_pytest.html",
+        "coverage.html",
+        "pytest.html",
         "coverage.html",
     ]
     excludes = []

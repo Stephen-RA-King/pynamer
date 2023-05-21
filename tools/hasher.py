@@ -23,7 +23,7 @@ def check_integrity(filepath, expected_hash):
         )
 
 
-# Usage example
+# Usage examples
 file_path = "../AUTHORS.md"
 expected_md5_hash = "fd167cde9108ebf5436a7beed7d43012"
 

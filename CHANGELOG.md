@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v1.3.2 (2023-05-21)
+### Fix
+* Add .pre-commit-config.yaml to mypy config ([`514c74f`](https://github.com/Stephen-RA-King/pynamer/commit/514c74f06091f4e28d82f4bd937aa44f4c552753))
+* Remove function in minimalist __init__ ([`1d74fbb`](https://github.com/Stephen-RA-King/pynamer/commit/1d74fbb18265b13ee25d7c49a03705e6284985c2))
+* Type hint annotations for importlib traversible ([`a579dca`](https://github.com/Stephen-RA-King/pynamer/commit/a579dcab34862fc72e21726316ca9e685cd84938))
+
+### Documentation
+* Update help text ([`c763420`](https://github.com/Stephen-RA-King/pynamer/commit/c763420d2a24b5fb682a4d61288e873a8019d8c6))
+* Minor updates ([`145ddcd`](https://github.com/Stephen-RA-King/pynamer/commit/145ddcde8fd1e8680180689cff6c9f644a52204b))
+* Update badges ([`b6eec6c`](https://github.com/Stephen-RA-King/pynamer/commit/b6eec6c88896c50d1e81eb3c9e5bd24208cab1fc))
+
 ## v1.3.1 (2023-05-17)
 ### Fix
 * Restore text in setup ([`087d094`](https://github.com/Stephen-RA-King/pynamer/commit/087d094a554a9c70738fefe57e4f469e08252b48))

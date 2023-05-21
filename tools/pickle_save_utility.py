@@ -15,7 +15,7 @@ pypi_simple_index_url = "https://pypi.org/simple/"
 
 def ping_project(name):
     ping_file_name = (
-        BASE_DIR / "resources" / "".join(["requests_get_ping_", name, ".pickle"])
+        BASE_DIR / "tests" / "resources" / "".join(["requests_get_ping_", name, ".pkl"])
     )
     url = "".join([pypi_project_url, name, "/"])
     r = requests.get(url, timeout=5)
@@ -25,7 +25,10 @@ def ping_project(name):
 
 def json_project(name):
     json_file_name = (
-        BASE_DIR / "resources" / "".join(["requests_get_json_", name, ".pickle"])
+        BASE_DIR
+        / "tests"
+        / "resources"
+        / "".join(["requests_get_json_", name, ".pickle"])
     )
     url = "".join([pypi_json_url, name, "/json"])
     r = requests.get(url, timeout=5)
@@ -35,7 +38,10 @@ def json_project(name):
 
 def search(name):
     search_file_name = (
-        BASE_DIR / "resources" / "".join(["requests_get_search_", name, ".pickle"])
+        BASE_DIR
+        / "tests"
+        / "resources"
+        / "".join(["requests_get_search_", name, ".pickle"])
     )
     params = {"q": {name}, "page": 1}
     r = requests.get(pypi_search_url, params=params, timeout=5)
@@ -70,7 +76,7 @@ small_content = b"""
 
 
 def manual_simple_index():
-    index_file_name = BASE_DIR / "resources" / "simple_index.pickle"
+    index_file_name = BASE_DIR / "tests" / "resources" / "simple_index.pickle"
     response = requests.Response()
     response.status_code = 200
     response.headers = {"Content-Type": "application/json"}

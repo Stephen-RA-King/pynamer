@@ -17,12 +17,14 @@ def check_integrity(filepath, expected_hash):
         print("File integrity verified. The MD5 hash matches the expected hash.")
     else:
         print(
-            "File integrity compromised. The MD5 hash does not match the expected hash."
+            f"File integrity compromised. MD5 hash does not match the expected hash.\n"
+            f"Expected hash: {expected_hash}\n"
+            f"Actual Hash:   {calculated_hash}"
         )
 
 
 # Usage example
-file_path = "path/to/file.txt"
-expected_md5_hash = "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p"
+file_path = "../AUTHORS.md"
+expected_md5_hash = "fd167cde9108ebf5436a7beed7d43012"
 
 check_integrity(file_path, expected_md5_hash)

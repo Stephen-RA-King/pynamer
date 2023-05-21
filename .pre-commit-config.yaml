@@ -1,3 +1,7 @@
+exclude: |
+  (?x)^(
+      reports/[\w]*
+  )$
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
@@ -26,6 +30,7 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+        args: [--html=reports/pytest_report.html]
 
   - repo: https://github.com/commitizen-tools/commitizen
     rev: 3.2.2
@@ -78,6 +83,9 @@ repos:
             --ignore-missing-imports,
             --disallow-untyped-defs,
             --no-warn-unused-ignores,
+            --install-types,
+            --html-report,
+            "reports/mypy",
           ]
         exclude: |
           (?x)^(

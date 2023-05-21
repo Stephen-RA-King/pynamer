@@ -19,13 +19,6 @@ skip = [
     "setup.cfg"
 ]
 
-[tool.pytest.ini_options]
-# https://docs.pytest.org/en/6.2.x/reference.html?highlight=minversion#configuration-options
-minversion = "6.0"
-testpaths = [
-    "tests",
-]
-
 [tool.isort]
 import_heading_stdlib = "Core Library modules"
 import_heading_thirdparty = "Third party modules"

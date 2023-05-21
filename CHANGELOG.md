@@ -2,6 +2,9 @@
 
 <!--next-version-placeholder-->
 
+## v1.3.3 (2023-05-21)
+
+
 ## v1.3.2 (2023-05-21)
 ### Fix
 * Add .pre-commit-config.yaml to mypy config ([`514c74f`](https://github.com/Stephen-RA-King/pynamer/commit/514c74f06091f4e28d82f4bd937aa44f4c552753))

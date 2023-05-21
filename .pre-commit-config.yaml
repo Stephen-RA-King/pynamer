@@ -17,6 +17,15 @@ repos:
       - id: detect-private-key
       - id: end-of-file-fixer
       - id: trailing-whitespace
+        
+  - repo: local
+    hooks:
+      - id: pytest-check
+        name: pytest-check
+        entry: pytest
+        language: system
+        pass_filenames: false
+        always_run: true
 
   - repo: https://github.com/commitizen-tools/commitizen
     rev: 3.2.2
@@ -74,7 +83,7 @@ repos:
           (?x)^(
               docs/source/conf.py|
               tests/[\w]*.py|
-              tests/tools/[\w]*.py|
+              tools/[\w]*.py|
               tasks.py
           )$
         additional_dependencies:
@@ -98,7 +107,7 @@ repos:
           (?x)^(
               docs/source/conf.py|
               tests/[\w]*.py|
-              tests/tools/[\w]*.py|
+              tools/[\w]*.py|
               tasks.py
           )$
 

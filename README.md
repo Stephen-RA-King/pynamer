@@ -155,7 +155,7 @@ Pynamer can be installed into any python environment using pip:
 ~ $ pip install pynamer
 ```
 
-However, optimal installation can be archived using [**pipx**][pipx-url]:
+However, optimal installation can be achieved using [**pipx**][pipx-url]:
 
 ```bash
 ~ $ pipx install pynamer

@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v1.3.4 (2023-05-22)
+### Documentation
+* Fix type ([`a0cc3e1`](https://github.com/Stephen-RA-King/pynamer/commit/a0cc3e1b63cc3d147dea05085f7c9ecc80944815))
+* Add documentation assets ([`eb45590`](https://github.com/Stephen-RA-King/pynamer/commit/eb455904f0c2dc73410e318e3bbe50b7d03a7273))
+
 ## v1.3.3 (2023-05-21)
 
 

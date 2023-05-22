@@ -9,7 +9,7 @@ from importlib.resources import as_file, files
 import yaml
 
 __title__ = "pynamer"
-__version__ = "1.3.3"
+__version__ = "1.3.4"
 __author__ = "Stephen R A King"
 __description__ = (
     "Utility to find an available package name in the PyPI repository and register it "

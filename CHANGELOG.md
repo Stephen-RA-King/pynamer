@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.0.0 (2023-05-24)
+### Documentation
+* Update citation ([`6cd655b`](https://github.com/Stephen-RA-King/pynamer/commit/6cd655bc1c9672fd5f64cbf63a78fc739a141328))
+
 ## v1.3.4 (2023-05-22)
 ### Documentation
 * Fix type ([`a0cc3e1`](https://github.com/Stephen-RA-King/pynamer/commit/a0cc3e1b63cc3d147dea05085f7c9ecc80944815))

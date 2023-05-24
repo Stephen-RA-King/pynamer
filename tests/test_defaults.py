@@ -4,7 +4,7 @@ import platform
 from pathlib import Path
 
 # First party modules
-from pynamer import pynamer
+from pynamer import builder, pynamer
 
 OS = platform.system()
 BASE_DIR = Path(__file__).parents[0]
@@ -23,7 +23,7 @@ def test_project_count(project_path_mock):
 
 def test_setup_text():
     assert (
-        pynamer.setup_text
+        builder.setup_text
         == """#!/usr/bin/env python3
 
 

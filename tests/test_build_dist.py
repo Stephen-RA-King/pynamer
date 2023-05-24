@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 # First party modules
-from pynamer import pynamer
+from pynamer import builder, pynamer
 
 BASE_DIR = Path(__file__).parents[0]
 
@@ -65,8 +65,11 @@ def pre_build_dist(monkeypatch):
 
 
 @pytest.mark.slow
-def test_build_dist(pre_build_dist, project_path_mock):
+def test_build_dist(pre_build_dist, monkeypatch):
+    # monkeypatch.setattr(pynamer, "project_path", BASE_DIR)
+    monkeypatch.setattr(builder, "project_path", BASE_DIR)
     pynamer._build_dist()
+    # builder._build_dist()
     assert (BASE_DIR / "build").exists()
     assert (BASE_DIR / "dist").exists()
     assert (BASE_DIR / "dist" / "pynamer-0.0.0.tar.gz").exists()

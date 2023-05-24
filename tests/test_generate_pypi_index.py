@@ -9,7 +9,7 @@ import requests
 from requests.exceptions import ConnectTimeout
 
 # First party modules
-from pynamer import pynamer
+from pynamer import pynamer, utils
 
 BASE_DIR = Path(__file__).parents[0]
 
@@ -23,11 +23,12 @@ def my_custom_get(url, **kwargs):
 
 def test_generate_pypi_index(monkeypatch):
     monkeypatch.setattr(requests, "get", my_custom_get)
-    monkeypatch.setattr(pynamer, "pypi_index_file_trv", BASE_DIR / "pypi_index")
+    monkeypatch.setattr(utils, "pypi_index_file_trv", BASE_DIR / "pypi_index")
     monkeypatch.setattr(
-        pynamer, "project_count_file_trv", BASE_DIR / "project_count.pickle"
+        utils, "project_count_file_trv", BASE_DIR / "project_count.pickle"
     )
-    pynamer._generate_pypi_index()
+    utils._generate_pypi_index()
+
     assert (BASE_DIR / "pypi_index").exists()
     assert (BASE_DIR / "project_count.pickle").exists()
     (BASE_DIR / "pypi_index").unlink()

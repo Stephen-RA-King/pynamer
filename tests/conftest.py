@@ -44,7 +44,7 @@ def src_reset():
 
 
 @pytest.fixture()
-def create_env(monkeypatch, src_reset):
+def create_env():
     project_dir = BASE_DIR / "project_name"
     project_dir.mkdir()
     project_init_file = BASE_DIR / "project_name" / "__init__.py"

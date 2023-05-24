@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 # First party modules
-from pynamer import pynamer
+from pynamer import builder, pynamer
 
 BASE_DIR = Path(__file__).parents[0]
 
@@ -31,7 +31,8 @@ def pre_cleanup(monkeypatch):
         shutil.rmtree(BASE_DIR / "project_name")
 
 
-def test_cleanup(pre_cleanup, project_path_mock):
+def test_cleanup(pre_cleanup, monkeypatch):
+    monkeypatch.setattr(builder, "project_path", BASE_DIR)
     pynamer._cleanup("pynamer")
     assert not (BASE_DIR / "build").exists()
     assert not (BASE_DIR / "dist").exists()

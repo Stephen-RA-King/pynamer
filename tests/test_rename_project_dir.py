@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 # First party modules
-from pynamer import pynamer
+from pynamer import builder, pynamer
 
 BASE_DIR = Path(__file__).parents[0]
 

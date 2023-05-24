@@ -3,7 +3,7 @@
 # Core Library modules
 import logging.config
 import pickle
-from importlib.resources import as_file, files
+from importlib.resources import files
 
 # Third party modules
 import yaml
@@ -50,6 +50,7 @@ logger = logging.getLogger("init")
 
 project_path = files("pynamer")
 setup_file_trv = project_path.joinpath("setup.txt")
+setup_file_py_trv = project_path.joinpath("setup.py")
 setup_base_file_trv = project_path.joinpath("setup_base.txt")
 project_count_file_trv = project_path.joinpath("project_count.pickle")
 pypi_index_file_trv = project_path.joinpath("pypi_index")

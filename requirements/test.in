@@ -1,9 +1,22 @@
 -r production.txt
 
+black
+click
+flake8
+lxml
+mypy
 pytest
 pytest-cov
 pytest-html
+pytest-metadata
 pytest-mock
 pytest-randomly
 pytest-repeat
 pytest-timeout
+pyyaml
+types-PyYAML
+types-beautifulsoup4
+types-click
+types-html5lib
+types-requests
+types-urllib3

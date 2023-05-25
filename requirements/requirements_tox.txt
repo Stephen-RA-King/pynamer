@@ -1,8 +1,0 @@
-black
-click
-flake8
-lxml
-mypy
-pytest
-
-pyyaml

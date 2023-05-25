@@ -80,6 +80,8 @@ repos:
             --install-types,
             --html-report,
             "reports/mypy",
+            --cache-dir,
+            "cache/.mypy_cache",
           ]
         exclude: |
           (?x)^(

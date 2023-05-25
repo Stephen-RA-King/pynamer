@@ -146,6 +146,9 @@ def _clean_build():
 def _clean_test():
     """Clean up test artifacts."""
     patterns = [
+        "assets",
+        "coverage",
+        "mypy",
         ".pytest_cache",
         "htmlcov",
         ".coverage",
@@ -155,7 +158,7 @@ def _clean_test():
         "pytest.html",
         "coverage.html",
     ]
-    excludes = []
+    excludes = [ROOT_DIR / "assets", ROOT_DIR / "docs" / "assets"]
     for pattern in patterns:
         _finder(ROOT_DIR, pattern, excludes)
 

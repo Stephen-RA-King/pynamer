@@ -51,7 +51,7 @@ As a pseudo replacement for pip search, pynamer will quickly ascertain if a proj
 
 ### Project Rationale
 
-Some of you may have reached the point where you want to publish a package on the PyPI python repository.
+Some of you may have reached the point where you want to publish a package in the PyPI python repository.
 The first step of which is to choose a unique name. Here lies the problem.
 
 A recent look at the PyPI repository revealed there were over 453,769 projects, so many names have already been taken.
@@ -228,7 +228,7 @@ You can specify as many names as you like from the command line e.g.
 
 ## Using an input file
 
-You can use the -f argument to specify a file containing the a names of projects to analyze.
+You can use the `-f` argument to specify a file containing the a names of projects to analyze.
 You specify a space separated sequence of as many names as you like on as many lines as you like. e.g.
 
 'projects' file
@@ -238,7 +238,7 @@ ganymede europa
 IO callisto
 ```
 
-Then specify the -f argument
+Then specify the `-f` argument
 
 ```bash
 ~ $ pynamer -f projects
@@ -252,7 +252,7 @@ You can use the input file with names from the command line. The names will be a
 
 ## Saving the results to a file
 
-You can specify a file to write the result to by using the -o argument. e.g.
+You can specify a file to write the result to by using the `-o` argument. e.g.
 
 ```bash
 ~ $ pynamer ersa pandia leda -o results
@@ -280,7 +280,7 @@ Again you can use a combination of names from the command line and input file.
 
 ## Register the package name with PyPI
 
-You can optionally 'register' the name on PyPI by using the -r argument.
+You can optionally 'register' the name on PyPI by using the `-r` argument.
 If the project name is found to be available and you have a valid 'pypirc' file is found, a minimalistic project will be built and uploaded
 to PyPI.
 
@@ -290,7 +290,7 @@ You can also optionally choose to change the version and description.
 ![](assets/usage_register_first.png)
 
 This information will be retained and you will not be prompted to enter this information again. However, you can regenerate
-this meta data by using the -m argument along with the -r argument. You can just enter on the options you dont want to change.
+this meta data by using the `-m` argument along with the `-r` argument. You can just enter on the options you dont want to change.
 
 ![](assets/usage_register_meta.png)
 
@@ -302,7 +302,7 @@ this meta data by using the -m argument along with the -r argument. You can just
 
 ## Verbose output
 
-ith the -v argument you can display the first page of all other project matched by PyPIs search API - ordered by relevance.
+With the `-v` argument you can display the first page of all other project matched by PyPIs search API - ordered by relevance.
 The algorithm that PyPI uses to select these in unknown but seems to be a mixture of names and other
 projects written by the same author.
 
@@ -323,7 +323,7 @@ It is a simplified version of the PyPI index that makes it easier for users to b
 The PyPI Simple Index is used by a variety of tools and libraries to download and install packages from PyPI. For example, the pip package manager, which is used to install and manage Python packages, uses the PyPI Simple Index to find packages.
 The Index is updated every few hours.
 
-Using the -g argument can be used to regenerate the local file contents.
+Using the `-g` argument can be used to regenerate the local file contents.
 
 ```bash
 ~ $ pynamer -g
@@ -369,7 +369,7 @@ The name 'yourpackage' is too similar to an existing project. See https://test.p
 Using a name similar to to an existing package name is a security issue.
 
 Malicious players will try to create project names that are frequently mistyped for large popular projects, thereby facilitating installation of a malicious project.
-e.g. replacing "L" / "l" with the number 1 or "o" / "O" with 0. The Software utilized by PyPI can be found at GitHub: [warehouse](https://github.com/pypi/warehouse).
+e.g. replacing "L" / "l" with the number 1 or "o" / "O" with 0. The Software utilized by PyPI can be found on GitHub: [warehouse](https://github.com/pypi/warehouse).
 
 ## Documentation
 
@@ -403,6 +403,8 @@ Stephen R A King : [sking.github@gmail.com](sking.github@gmail.com)
 Distributed under the MIT license. See [![][license-image]][license-url] for more information.
 
 Created with Cookiecutter template: [**pydough**][pydough-url] version 1.2.2
+
+[![DOI](https://zenodo.org/badge/631029310.svg)](https://zenodo.org/badge/latestdoi/631029310)
 
 <!-- Markdown link & img dfn's -->
 

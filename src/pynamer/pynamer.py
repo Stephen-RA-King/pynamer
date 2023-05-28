@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 
 # Core Library modules
-import argparse
 import sys
 import webbrowser
-from pathlib import Path
-from typing import Any, Union
 
 # Third party modules
 from rich.console import Console
@@ -20,239 +17,24 @@ from .builder import (
     _rename_project_dir,
     _upload_dist,
 )
+from .cli import _parse_args
 from .config import config
 from .utils import (
     _check_version,
     _feedback,
     _find_pypirc_file,
     _generate_pypi_index,
+    _process_input_file,
+    _write_output_file,
 )
 from .validators import (
+    _final_analysis,
     _is_valid_package_name,
     _ping_json,
     _ping_project,
     _pypi_search,
     _pypi_search_index,
 )
-
-
-def _process_input_file(file: str) -> list[Union[str, Any]]:
-    """Processes the contents of the file to a list of strings.
-
-    Args:
-        file:           simple string for the file.
-
-    Raises:
-        SystemExit:     If the file is found to not exist.
-
-    Notes:
-        file contents should contain any number of space separated strings on any
-        number of lines.
-    """
-    file_path = Path(file)
-    try:
-        with file_path.open(mode="r") as f:
-            file_contents = f.read()
-            projects = file_contents.split()
-            return list(set(projects))
-    except FileNotFoundError:  # pragma: no cover
-        _feedback(f"The file {file} does not exist", "warning")
-        raise SystemExit()
-    except PermissionError:  # pragma: no cover
-        _feedback(f"Permission denied to file: {file}", "warning")
-        raise SystemExit()
-    except IsADirectoryError:  # pragma: no cover
-        _feedback(f"{file} is a directory not a file", "warning")
-        raise SystemExit()
-    except OSError:  # pragma: no cover
-        _feedback(f"A general IO error has occurred opening file: {file}", "warning")
-        raise SystemExit()
-    except Exception as e:  # pragma: no cover
-        _feedback(f"An error occurred:, {str(e)}", "warning")
-        raise SystemExit()
-
-
-def _write_output_file(file_name: str, results: dict) -> None:
-    """Write the results to a file
-
-    Args:
-        file_name:      Name of file to save as a simple string.
-        results:        Dictionary containing the test results e.g.
-                        {"pynball": [1, 1, 1]}
-    """
-    header_width = 83
-    truncation_width = 25
-    file_path = Path(file_name)
-    title = "Results from pynamer PyPI utility\n"
-    title = "".join([title, "=" * header_width, "\n\n"])
-    title = "".join(
-        [
-            title,
-            "Test 1 - Basic url lookup on PyPI\n",
-            "Test 2 - Search of PyPIs simple index\n",
-            "Test 3 - Search using an request to PyPIs search 'API'\n\n",
-        ]
-    )
-    header = f"{'Project':30}{'Test1':12}{'Test2':12}{'Test3':12}{'Conclusion'}\n"
-    header = "".join([header, "=" * header_width, "\n"])
-    projects_results: str = ""
-    for project in results:
-        project_name = (
-            project
-            if len(project) <= truncation_width
-            else project[: truncation_width - 3] + "..."
-        )
-        projects_results = "".join([projects_results, f"{project_name:30}"])
-        for test in results[project]:
-            test = "Found" if test == 1 else "Not Found"
-            projects_results = "".join([projects_results, f"{test:12}"])
-        conclusion = "Not Available" if sum(results[project]) > 0 else "Available"
-        projects_results = "".join([projects_results, f"{conclusion}"])
-        projects_results = "".join([projects_results, "\n", "-" * header_width, "\n"])
-
-    final_output_text = "".join([title, header, projects_results])
-
-    try:  # pragma: no cover
-        with file_path.open(mode="w") as f:
-            f.write(final_output_text)
-    except PermissionError:  # pragma: no cover
-        _feedback(f"Permission denied to file: {file_path.open}", "warning")
-        raise SystemExit()
-    except FileExistsError:  # pragma: no cover
-        _feedback(f"File {file_path.open} already exists", "warning")
-        raise SystemExit()
-    except IsADirectoryError:  # pragma: no cover
-        _feedback(f"{file_path.open} is a directory not a file", "warning")
-        raise SystemExit()
-    except OSError:  # pragma: no cover
-        _feedback("General IO error has occurred", "warning")
-        raise SystemExit()
-    except Exception as e:  # pragma: no cover
-        _feedback(f"An error occurred:, {str(e)}", "warning")
-        raise SystemExit()
-
-
-def _final_analysis(pattern: list[int]) -> None:
-    """Displays a rich console table displaying the conclusion of the test results
-
-    Args:
-        pattern:    A list of the test results:
-                    1 - A 'negative' result, indicating the project has been found.
-                    0 - A 'positive' result, indicating the project was not found.
-    """
-    table = Table(show_header=True)
-    table.add_column("FINAL ANALYSIS", style="bold cyan")
-    if pattern == [0, 1, 0]:
-        table.add_row("[red]NOT AVAILABLE![/red]\n")
-        table.add_row(
-            "A Gotcha!, whereby the package is not found even with PyPI's own search"
-            " facility.\n"
-            "It can only be found by searching the simple index which is not available "
-            "through the interface"
-        )
-    elif pattern == [1, 1, 0]:
-        table.add_row("[red]NOT AVAILABLE![/red]\n")
-        table.add_row(
-            "A Gotcha!, whereby the package is not found even with PyPI's own search"
-            " facility.\n"
-            "However if appears in the simple index and can be displayed by simply"
-            " browsing "
-            "to the projects URL"
-        )
-    elif sum(pattern) >= 1:
-        table.add_row("[red]NOT AVAILABLE![/red]\n")
-        table.add_row("The package name was found in at least one place")
-    elif sum(pattern) == 0:
-        table.add_row("[green]AVAILABLE![/green]\n")
-        table.add_row("The package name was not found in any part of PyPI")
-
-    console = Console()
-    console.print(table)
-
-
-def _parse_args(args: list) -> tuple[argparse.Namespace, argparse.ArgumentParser]:
-    """Function to return the ArgumentParser object created from all the args.
-
-    Args:
-        args:   A list of arguments from the commandline
-                e.g. ['pynball', '-v', '-g']
-    """
-    parser = argparse.ArgumentParser(
-        prog="pynamer",
-        description="Determine if project name is available on pypi with the "
-        "option to 'register' it for future use if available",
-    )
-    parser.add_argument(
-        "projects",
-        nargs="*",
-        default="None",
-        help="Optional - one or more project names",
-    )
-    parser.add_argument(
-        "-r",
-        "--register",
-        action="store_true",
-        help="register the name on PyPi if the name is available",
-    )
-    parser.add_argument(
-        "-d",
-        "--dryrun",
-        action="store_true",
-        help=argparse.SUPPRESS,
-    )
-
-    parser.add_argument(
-        "-n",
-        "--nocleanup",
-        action="store_true",
-        help=argparse.SUPPRESS,
-    )
-    parser.add_argument(
-        "-v",
-        "--verbose",
-        action="store_true",
-        help="display information about similar projects",
-    )
-    parser.add_argument(
-        "-g",
-        "--generate",
-        action="store_true",
-        help="generate a new PyPI index file",
-    )
-    parser.add_argument(
-        "-m",
-        "--meta",
-        action="store_true",
-        help="input new meta data when registering (Author and email address)",
-    )
-
-    parser.add_argument(
-        "-w",
-        "--webbrowser",
-        action="store_true",
-        help="open the project on PyPI in a webbrowser",
-    )
-
-    parser.add_argument(
-        "--version",
-        action="store_true",
-        help="display version number",
-    )
-    parser.add_argument(
-        "-f",
-        "--file",
-        default="None",
-        type=str,
-        help="file containing a list of projects to analyze",
-    )
-    parser.add_argument(
-        "-o",
-        "--output",
-        default="None",
-        type=str,
-        help="file to store the test results",
-    )
-    return parser.parse_args(args), parser
 
 
 def main() -> None:  # pragma: no cover, type: ignore

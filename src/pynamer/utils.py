@@ -7,7 +7,7 @@ import pickle
 import re
 from importlib.resources import as_file
 from pathlib import Path
-from typing import Union
+from typing import Any, Union
 
 # Third party modules
 import requests
@@ -106,7 +106,7 @@ def _generate_pypi_index() -> None:
     progress_bar = tqdm(total=config.project_count)
 
     try:
-        index_object_raw = requests.get(config.pypi_simple_index_url, timeout=10)
+        index_object_raw = requests.get(config.pypi_simple_index_url, timeout=5)
     except requests.RequestException as e:
         logger.error("An error occurred: %s", e)
         raise SystemExit("An error occurred with an HTTP request")
@@ -149,7 +149,7 @@ def _check_version() -> Union[tuple[version, str, bool], None]:
     url_json = "".join([config.pypi_json_url, "pynamer", "/json"])
     current_version = version.parse(pynamer.__version__)
     try:
-        project_json_raw = requests.get(url_json, timeout=10)
+        project_json_raw = requests.get(url_json, timeout=5)
     except requests.RequestException:
         raise SystemExit("An error occurred with an HTTP request")
     if project_json_raw.status_code == 200:
@@ -164,3 +164,99 @@ def _check_version() -> Union[tuple[version, str, bool], None]:
         elif pypi_version == current_version:
             return current_version, "(You have the most recent version)", True
     return None
+
+
+def _process_input_file(file: str) -> list[Union[str, Any]]:
+    """Processes the contents of the file to a list of strings.
+
+    Args:
+        file:           simple string for the file.
+
+    Raises:
+        SystemExit:     If the file is found to not exist.
+
+    Notes:
+        file contents should contain any number of space separated strings on any
+        number of lines.
+    """
+    file_path = Path(file)
+    try:
+        with file_path.open(mode="r") as f:
+            file_contents = f.read()
+            projects = file_contents.split()
+            return list(set(projects))
+    except FileNotFoundError:  # pragma: no cover
+        _feedback(f"The file {file} does not exist", "warning")
+        raise SystemExit()
+    except PermissionError:  # pragma: no cover
+        _feedback(f"Permission denied to file: {file}", "warning")
+        raise SystemExit()
+    except IsADirectoryError:  # pragma: no cover
+        _feedback(f"{file} is a directory not a file", "warning")
+        raise SystemExit()
+    except OSError:  # pragma: no cover
+        _feedback(f"A general IO error has occurred opening file: {file}", "warning")
+        raise SystemExit()
+    except Exception as e:  # pragma: no cover
+        _feedback(f"An error occurred:, {str(e)}", "warning")
+        raise SystemExit()
+
+
+def _write_output_file(file_name: str, results: dict) -> None:
+    """Write the results to a file
+
+    Args:
+        file_name:      Name of file to save as a simple string.
+        results:        Dictionary containing the test results e.g.
+                        {"pynball": [1, 1, 1]}
+    """
+    header_width = 83
+    truncation_width = 25
+    file_path = Path(file_name)
+    title = "Results from pynamer PyPI utility\n"
+    title = "".join([title, "=" * header_width, "\n\n"])
+    title = "".join(
+        [
+            title,
+            "Test 1 - Basic url lookup on PyPI\n",
+            "Test 2 - Search of PyPIs simple index\n",
+            "Test 3 - Search using an request to PyPIs search 'API'\n\n",
+        ]
+    )
+    header = f"{'Project':30}{'Test1':12}{'Test2':12}{'Test3':12}{'Conclusion'}\n"
+    header = "".join([header, "=" * header_width, "\n"])
+    projects_results: str = ""
+    for project in results:
+        project_name = (
+            project
+            if len(project) <= truncation_width
+            else project[: truncation_width - 3] + "..."
+        )
+        projects_results = "".join([projects_results, f"{project_name:30}"])
+        for test in results[project]:
+            test = "Found" if test == 1 else "Not Found"
+            projects_results = "".join([projects_results, f"{test:12}"])
+        conclusion = "Not Available" if sum(results[project]) > 0 else "Available"
+        projects_results = "".join([projects_results, f"{conclusion}"])
+        projects_results = "".join([projects_results, "\n", "-" * header_width, "\n"])
+
+    final_output_text = "".join([title, header, projects_results])
+
+    try:  # pragma: no cover
+        with file_path.open(mode="w") as f:
+            f.write(final_output_text)
+    except PermissionError:  # pragma: no cover
+        _feedback(f"Permission denied to file: {file_path.open}", "warning")
+        raise SystemExit()
+    except FileExistsError:  # pragma: no cover
+        _feedback(f"File {file_path.open} already exists", "warning")
+        raise SystemExit()
+    except IsADirectoryError:  # pragma: no cover
+        _feedback(f"{file_path.open} is a directory not a file", "warning")
+        raise SystemExit()
+    except OSError:  # pragma: no cover
+        _feedback("General IO error has occurred", "warning")
+        raise SystemExit()
+    except Exception as e:  # pragma: no cover
+        _feedback(f"An error occurred:, {str(e)}", "warning")
+        raise SystemExit()

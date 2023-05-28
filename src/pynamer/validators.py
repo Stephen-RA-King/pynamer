@@ -9,6 +9,8 @@ from typing import Any, Union
 # Third party modules
 import requests
 from bs4 import BeautifulSoup
+from rich.console import Console
+from rich.table import Table
 
 # Local modules
 from . import logger, pypi_index_file_trv
@@ -49,7 +51,7 @@ def _ping_project(project_name: str) -> bool:
     url_project = "".join([config.pypi_project_url, project_name, "/"])
     logger.debug("attempting to get url %s", url_project)
     try:
-        project_ping = requests.get(url_project, timeout=10)
+        project_ping = requests.get(url_project, timeout=5)
     except requests.RequestException as e:
         logger.error("An error occurred: %s", e)
         raise SystemExit("An error occurred with an HTTP request")
@@ -72,7 +74,7 @@ def _ping_json(project_name: str) -> str:
     url_json = "".join([config.pypi_json_url, project_name, "/json"])
     logger.debug("attempting to get url %s", url_json)
     try:
-        project_json_raw = requests.get(url_json, timeout=10)
+        project_json_raw = requests.get(url_json, timeout=5)
     except requests.RequestException as e:
         logger.error("An error occurred: %s", e)
         raise SystemExit("An error occurred with an HTTP request")
@@ -175,3 +177,41 @@ def _pypi_search(
     else:
         others_total = "0"
     return match, others, others_total
+
+
+def _final_analysis(pattern: list[int]) -> None:
+    """Displays a rich console table displaying the conclusion of the test results
+
+    Args:
+        pattern:    A list of the test results:
+                    1 - A 'negative' result, indicating the project has been found.
+                    0 - A 'positive' result, indicating the project was not found.
+    """
+    table = Table(show_header=True)
+    table.add_column("FINAL ANALYSIS", style="bold cyan")
+    if pattern == [0, 1, 0]:
+        table.add_row("[red]NOT AVAILABLE![/red]\n")
+        table.add_row(
+            "A Gotcha!, whereby the package is not found even with PyPI's own search"
+            " facility.\n"
+            "It can only be found by searching the simple index which is not available "
+            "through the interface"
+        )
+    elif pattern == [1, 1, 0]:
+        table.add_row("[red]NOT AVAILABLE![/red]\n")
+        table.add_row(
+            "A Gotcha!, whereby the package is not found even with PyPI's own search"
+            " facility.\n"
+            "However if appears in the simple index and can be displayed by simply"
+            " browsing "
+            "to the projects URL"
+        )
+    elif sum(pattern) >= 1:
+        table.add_row("[red]NOT AVAILABLE![/red]\n")
+        table.add_row("The package name was found in at least one place")
+    elif sum(pattern) == 0:
+        table.add_row("[green]AVAILABLE![/green]\n")
+        table.add_row("The package name was not found in any part of PyPI")
+
+    console = Console()
+    console.print(table)

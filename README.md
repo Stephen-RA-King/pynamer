@@ -191,7 +191,7 @@ Congratulations!
 
 ---
 
-Display the help menu with the -h argument
+Display the help menu with the `-h` argument
 
 ```bash
 ~ $ pynamer -h

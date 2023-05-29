@@ -5,6 +5,15 @@ BEFORE POSTING YOUR ISSUE:
 - Be specific: Add as much detail as possible.
 -->
 
+An ideal bug report includes:
+
+-   The Python version you are using
+-   The pynamer version you are using (you can find it with `pynamer --version`)
+-   Your operating system name and version (Linux, MacOS, Windows)
+-   Your development environment and local setup (IDE, Terminal, project context, any relevant information that could be useful)
+-   see [minimal reproducible example](https://stackoverflow.com/help/mcve)
+
+
 ### Issue Overview
 
 <!-- A brief overview of the issue --->

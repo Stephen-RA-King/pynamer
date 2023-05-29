@@ -10,6 +10,7 @@ body:
       Thank you for taking the time to file a bug report. Before creating a new
       issue, please make sure to take a few minutes to check the issue tracker
       for existing issues about the bug.
+      Please refer to [minimal reproducible example](https://stackoverflow.com/help/mcve).
 
 - type: textarea
   attributes:
@@ -21,12 +22,11 @@ body:
   attributes:
     label: "Reproduce the code example:"
     description: >
-      A short code example that reproduces the problem/missing feature. It
+      A short code or CLI example that reproduces the problem/missing feature. It
       should be self-contained, i.e., can be copy-pasted into the Python
       interpreter.
     placeholder: |
-      import pynamer
-      << your code here >>
+      << your code or command line here >>
     render: python
   validations:
     required: true

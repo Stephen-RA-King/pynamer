@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+"""Collection of package support utilities."""
 # Core Library modules
 import json
 import os

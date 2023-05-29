@@ -398,7 +398,7 @@ e.g. replacing "L" / "l" with the number 1 or "o" / "O" with 0. The Software uti
 [![](assets/www.png)](https://www.justpython.tech)
 [![](assets/email.png)](mailto:sking.github@gmail.com)
 
-Stephen R A King : [sking.github@gmail.com](sking.github@gmail.com)
+Stephen R A King : [sking.github@gmail.com](mailto:sking.github@gmail.com)
 
 Distributed under the MIT license. See [![][license-image]][license-url] for more information.
 

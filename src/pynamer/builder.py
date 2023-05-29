@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+"""Collection of functions to build a minimal package and upload to PyPI."""
 # Core Library modules
 import os
 import pickle

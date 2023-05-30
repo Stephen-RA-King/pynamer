@@ -1,13 +1,7 @@
 [report]
-# The test coverage you require. Keeping to 100% is not easily
-# possible for all projects but it's a good default for new projects.
 fail_under = 70
 
-# These functions are generally only needed for debugging and/or
-# extra safety so we want to ignore them in the coverage
-# requirements
 exclude_lines =
-    # Make it possible to ignore blocks of code
     pragma: no cover
 
     # Generally only debug code uses this
@@ -27,10 +21,7 @@ exclude_lines =
     @abc.abstractmethod
 
 [run]
-# Make sure we require that all branches of the code are covered.
-# So both the if and the else
 branch = True
-
-# No need to require coverage of testing code
+data_file = cache/.coverage
 omit =
     test_*.py

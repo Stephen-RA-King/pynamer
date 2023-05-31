@@ -45,11 +45,7 @@ def main() -> None:  # pragma: no cover, type: ignore
         _generate_pypi_index()
 
     if args.version:
-        version, message, result = _check_version()  # type: ignore
-        if result:
-            _feedback(f"{version} : {message}", "nominal")
-        else:
-            _feedback(f"{version} : {message}", "warning")
+        _check_version()  # type: ignore
 
     if args.projects == "None" and args.file == "None" and args.register:
         _feedback("You need to specify a project name to register it", "error")

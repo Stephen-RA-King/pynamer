@@ -81,17 +81,11 @@ def _ping_json(project_name: str) -> str:
         raise SystemExit("An error occurred with an HTTP request")
     if project_json_raw.status_code == 200:
         project_json = json.loads(project_json_raw.content)
-        result = "".join(
-            [
-                project_json["info"]["author"],
-                "\n",
-                project_json["info"]["author_email"],
-                "\n",
-                project_json["info"]["version"],
-                "\n",
-                project_json["info"]["summary"],
-            ]
-        )
+        author = project_json["info"]["author"] or ""
+        email = project_json["info"]["author_email"] or ""
+        version = project_json["info"]["version"] or ""
+        summary = project_json["info"]["summary"] or ""
+        result = "".join([author, "\n", email, "\n", version, "\n", summary])
         return result
     logger.debug("No response from JSON URL")
     return ""

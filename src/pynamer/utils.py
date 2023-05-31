@@ -137,7 +137,7 @@ def _generate_pypi_index() -> None:
             )
 
 
-def _check_version() -> Union[tuple[version, str, bool], None]:
+def _check_version() -> None:
     """Utility function to compare package version against latest version on PyPI.
 
     Returns:
@@ -156,14 +156,11 @@ def _check_version() -> Union[tuple[version, str, bool], None]:
         project_json = json.loads(project_json_raw.content)
         pypi_version = version.parse(project_json["info"]["version"])
         if pypi_version > current_version:
-            return (
-                current_version,
-                f"(There is a newer version available: {pypi_version})",
-                False,
-            )
+            message = f"(There is a newer version available: {pypi_version})"
+            _feedback(f"{current_version} : {message}", "warning")
         elif pypi_version == current_version:
-            return current_version, "(You have the most recent version)", True
-    return None
+            message = "(You have the most recent version)"
+            _feedback(f"{current_version} : {message}", "nominal")
 
 
 def _process_input_file(file: str) -> list[Union[str, Any]]:

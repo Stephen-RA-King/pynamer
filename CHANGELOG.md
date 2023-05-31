@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.0.2 (2023-05-31)
+### Fix
+* Account for nonetype returned in json data ([`39f245c`](https://github.com/Stephen-RA-King/pynamer/commit/39f245c41b17add26ed9399dbb3c376cd395d79b))
+
 ## v2.0.1 (2023-05-29)
 ### Documentation
 * Final updates ([`6c85802`](https://github.com/Stephen-RA-King/pynamer/commit/6c85802a132e91586d8d21c0ceb6dcf8f011264d))

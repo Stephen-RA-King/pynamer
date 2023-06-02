@@ -32,6 +32,7 @@ def json_project(name):
     )
     url = "".join([pypi_json_url, name, "/json"])
     r = requests.get(url, timeout=5)
+    j = r.json()
     with open(json_file_name, "wb") as f:
         pickle.dump(r, f)
 
@@ -83,3 +84,6 @@ def manual_simple_index():
     response._content = small_content
     with open(index_file_name, "wb") as f:
         pickle.dump(response, f)
+
+
+x = json_project("pynball")

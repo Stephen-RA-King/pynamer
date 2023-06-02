@@ -1,4 +1,4 @@
-_**Utility to find an available package name on the PyPI repository and optionally 'register' it.**_
+_**Utility to find an available package name in the PyPI repository and optionally 'register' it.**_
 
 [![PyPI][pypi-image]][pypi-url]
 [![Downloads][downloads-image]][downloads-url]
@@ -20,7 +20,7 @@ _**Utility to find an available package name on the PyPI repository and optional
 [![DeepSource][deepsource-image]][deepsource-url]
 [![license][license-image]][license-url]
 
-As a pseudo replacement for pip search, pynamer will quickly ascertain if a project name is 'available' on PyPI.
+As a pseudo replacement for pip search, pynamer will quickly ascertain if a project name is 'available' in PyPI.
 
 ![](assets/pynamer.png)
 
@@ -132,7 +132,7 @@ The following are optional but required for 'registering' a project name on PyPI
 
     or
 
--   [x] [Twine environment variables](https://twine.readthedocs.io/en/latest/#environment-variables)
+-   [x] Configure [Twine environment variables](https://twine.readthedocs.io/en/latest/#environment-variables)
 
 Your .pypirc file should contain the following and be on your PATH:
 

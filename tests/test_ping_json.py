@@ -13,10 +13,10 @@ from pynamer import pynamer
 
 BASE_DIR = Path(__file__).parents[0]
 
-expected_response_found = """Stephen R A King
-sking.github@gmail.com
-1.5.5
-Utility command line tool to manage python versions"""
+expected_response_found = """Summary: Utility command line tool to manage python versions
+Author:  Stephen R A King
+Email:   sking.github@gmail.com
+Version: 1.5.5"""
 
 
 def my_custom_get_found(url, **kwargs):

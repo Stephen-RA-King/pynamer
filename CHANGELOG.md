@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.0 (2023-06-06)
+### Feature
+* Option to display github statistics ([`4ce5654`](https://github.com/Stephen-RA-King/pynamer/commit/4ce5654dcc6447b0518de9fd64f4c15fc6258e0f))
+
 ## v2.0.3 (2023-06-02)
 ### Fix
 * Json formatting ([`892a454`](https://github.com/Stephen-RA-King/pynamer/commit/892a454d47c868973978e54be89f472ae351b455))

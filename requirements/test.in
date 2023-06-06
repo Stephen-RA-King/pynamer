@@ -18,5 +18,6 @@ types-PyYAML
 types-beautifulsoup4
 types-click
 types-html5lib
+types-python-dateutil
 types-requests
 types-urllib3

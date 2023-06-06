@@ -36,6 +36,7 @@ As a pseudo replacement for pip search, pynamer will quickly ascertain if a proj
     -   [Specifying multiple names](#Specifying-multiple-names)
     -   [Using an input file](#Using-an-input-file)
     -   [Saving the results to a file](#Saving-the-results-to-a-file)
+    -   [Display GitHub statistics](#Display-GitHub-statistics)
     -   [Register the name with PyPI](#Register-the-name-with-PyPI)
     -   [Verbose output](#Verbose-output)
     -   [Regenerate the PyPI simple Repository Index](#Regenerate-the-PyPI-simple-Repository-Index)
@@ -198,19 +199,20 @@ Display the help menu with the `-h` argument
 ```
 
 ```bash
-usage: pynamer [-h] [-r] [-v] [-g] [-m] [-w] [--version] [-f FILE] [-o OUTPUT] [projects ...]
+usage: pynamer [-h] [-r] [-v] [-g] [-m] [-s] [-w] [--version] [-f FILE] [-o OUTPUT] [projects ...]
 
 Determine if project name is available on pypi with the option to 'register' it for future use if available
 
 positional arguments:
   projects              Optional - one or more project names
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -r, --register        register the name on PyPi if the name is available
   -v, --verbose         display information about similar projects
   -g, --generate        generate a new PyPI index file
   -m, --meta            input new meta data when registering (Author and email address)
+  -s, --stats           display GitHub stats if available
   -w, --webbrowser      open the project on PyPI in a webbrowser
   --version             display version number
   -f FILE, --file FILE  file containing a list of projects to analyze
@@ -277,6 +279,17 @@ leda            Not Found   Not Found   Not Found       Available
 ```
 
 Again you can use a combination of names from the command line and input file.
+
+## Display GitHub statistics
+You can optionally display some of the most pertinent GitHub statistics if available by using the `-s` argument.
+The statistics will be displayed in the the details section of test 1. e.g.
+
+```bash
+~ $ pynamer black -s
+````
+
+![](assets/usage_stats.png)
+
 
 ## Register the package name with PyPI
 

@@ -10,13 +10,14 @@ from typing import Any, Union
 # Third party modules
 import requests
 from bs4 import BeautifulSoup
+from dateutil.parser import isoparse
 from rich.console import Console
 from rich.table import Table
 
 # Local modules
 from . import logger, pypi_index_file_trv
 from .config import config
-from .utils import _generate_pypi_index
+from .utils import _generate_pypi_index, _search_json
 
 
 def _is_valid_package_name(project_name: str) -> bool:
@@ -34,6 +35,63 @@ def _is_valid_package_name(project_name: str) -> bool:
         return True
     else:
         return False
+
+
+def _get_homepage(project_json: dict, project_name: str) -> tuple[str, str]:
+    home_url = project_json["info"]["home_page"]
+
+    if "github.com" in home_url and home_url.endswith(project_name):
+        return "".join(["Homepage: ", home_url]), home_url
+
+    if "github.io" in home_url:
+        for item in (".github.io", "https://"):
+            home_url = home_url.replace(item, "")
+        home_url = home_url.rstrip("/")
+        home_url = "".join([config.github_base_url, home_url])
+        return "".join(["Homepage: ", home_url]), home_url
+
+    homepages = _search_json(project_json, project_name)
+    for home_url in homepages:
+        if "github.com" in home_url and home_url.endswith(project_name):
+            return "".join(["Homepage: ", home_url]), home_url
+
+    if home_url != "":
+        return "".join(["Homepage: ", home_url]), home_url
+
+    return "Homepage: None", ""
+
+
+def _github_meta(url: str) -> str:
+    return_text = "\n\nGitHub Stats\n------------\n"
+    repo_api_url = "".join(
+        [config.github_api_url, url.replace(r"https://github.com/", "")]
+    )
+    try:
+        json_raw = requests.get(repo_api_url, timeout=5)
+    except requests.RequestException:
+        return "".join([return_text, "GitHub can not be contacted"])
+
+    if json_raw.status_code == 200:
+        repo_json = json_raw.json()
+        return "".join(
+            [
+                return_text,
+                f"stars:    {repo_json['stargazers_count']}",
+                "\n",
+                f"forks:    {repo_json['forks']}",
+                "\n",
+                f"license:  {repo_json['license']['name']}",
+                "\n",
+                f"watching: {repo_json['subscribers_count']}",
+                "\n",
+                f"created:  {isoparse(repo_json['created_at']).date()}",
+                "\n",
+                f"updated:  {isoparse(repo_json['updated_at']).date()}",
+            ]
+        )
+    if json_raw.status_code == 404:
+        return "".join([return_text, "repository does not exist"])
+    return ""
 
 
 def _ping_project(project_name: str) -> bool:
@@ -63,7 +121,7 @@ def _ping_project(project_name: str) -> bool:
     return False
 
 
-def _ping_json(project_name: str) -> str:
+def _ping_json(project_name: str, stats: bool = False) -> str:
     """Collects some details about the project if it exists.
 
     Args:
@@ -81,27 +139,35 @@ def _ping_json(project_name: str) -> str:
         raise SystemExit("An error occurred with an HTTP request")
     if project_json_raw.status_code == 200:
         project_json = json.loads(project_json_raw.content)
+
+        homepage_text, homepage_url = _get_homepage(project_json, project_name)
+
         author = (
-            "".join(["Author:  ", project_json["info"]["author"]])
+            "".join(["Author:   ", project_json["info"]["author"]])
             if project_json["info"]["author"]
-            else "Author:  None"
+            else "Author:   None"
         )
         version = (
-            "".join(["Version: ", project_json["info"]["version"]])
+            "".join(["Version:  ", project_json["info"]["version"]])
             if project_json["info"]["version"]
-            else "Version: None"
+            else "Version:  None"
         )
         email = (
-            "".join(["Email:   ", project_json["info"]["author_email"]])
+            "".join(["Email:    ", project_json["info"]["author_email"]])
             if project_json["info"]["author_email"]
-            else "Email:   None"
+            else "Email:    None"
         )
         summary = (
-            "".join(["Summary: ", project_json["info"]["summary"]])
+            "".join(["Summary:  ", project_json["info"]["summary"]])
             if project_json["info"]["summary"]
-            else "Summary: None"
+            else "Summary:  None"
         )
-        result = "".join([summary, "\n", author, "\n", email, "\n", version])
+        result = "".join(
+            [summary, "\n", author, "\n", email, "\n", version, "\n", homepage_text]
+        )
+
+        if "github" in homepage_url and stats is True:
+            result = "".join([result, _github_meta(homepage_url)])
         return result
     logger.debug("No response from JSON URL")
     return ""

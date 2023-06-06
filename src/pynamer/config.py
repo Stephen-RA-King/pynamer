@@ -22,6 +22,8 @@ class Config:
     pypi_project_url: str = "https://pypi.org/project/"
     pypi_json_url: str = "https://pypi.org/pypi/"
     pypi_simple_index_url: str = "https://pypi.org/simple/"
+    github_api_url = "https://api.github.com/repos/"
+    github_base_url = "https://github.com/"
     idlemode: int = 1 if "idlelib.run" in sys.modules else 0
 
 

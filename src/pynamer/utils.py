@@ -24,11 +24,11 @@ from .config import config
 
 
 def _check_integrity() -> None:
-    pass
+    pass  # pragma: no cover
 
 
 def _reset() -> None:
-    pass
+    pass  # pragma: no cover
 
 
 def _feedback(message: str, feedback_type: str) -> None:
@@ -59,6 +59,29 @@ def _feedback(message: str, feedback_type: str) -> None:
                 + f"ERROR: {message}"
                 + Style.RESET_ALL
             )
+
+
+def _search_json(json_data: dict, project_name: str) -> list:
+    github_links = []
+    pattern = re.compile(r"https?://github.com/[\w\-/]+")
+
+    def check_value(value: dict) -> None:
+        if isinstance(value, str):
+            match = pattern.search(value)
+            if match and value.endswith(project_name):
+                github_links.append(match.group(0))
+                return
+
+        elif isinstance(value, list):
+            for item in value:
+                check_value(item)
+
+        elif isinstance(value, dict):
+            for val in value.values():
+                check_value(val)
+
+    check_value(json_data)
+    return github_links
 
 
 def _find_pypirc_file(filename: str = ".pypirc") -> None:

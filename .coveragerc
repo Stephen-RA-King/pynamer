@@ -1,6 +1,10 @@
 [report]
 fail_under = 70
 
+omit =
+    docs/*
+    tests/*
+
 exclude_lines =
     pragma: no cover
 

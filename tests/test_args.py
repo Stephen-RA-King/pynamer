@@ -92,3 +92,21 @@ def test_args_generate():
         ]
     )
     assert args.generate is True
+
+
+def test_args_webbrowser():
+    args, parser = pynamer._parse_args(
+        [
+            "-w",
+        ]
+    )
+    assert args.webbrowser is True
+
+
+def test_args_stats():
+    args, parser = pynamer._parse_args(
+        [
+            "-s",
+        ]
+    )
+    assert args.stats is True

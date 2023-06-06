@@ -52,4 +52,5 @@ def test_defaults():
     assert pynamer.config.pypi_project_url == "https://pypi.org/project/"
     assert pynamer.config.pypi_json_url == "https://pypi.org/pypi/"
     assert pynamer.config.pypi_simple_index_url == "https://pypi.org/simple/"
+    assert pynamer.config.github_api_url == "https://api.github.com/repos/"
     assert pynamer.config.idlemode == 0

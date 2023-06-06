@@ -59,6 +59,13 @@ def _parse_args(args: list) -> tuple[argparse.Namespace, argparse.ArgumentParser
     )
 
     parser.add_argument(
+        "-s",
+        "--stats",
+        action="store_true",
+        help="display GitHub stats if available",
+    )
+
+    parser.add_argument(
         "-w",
         "--webbrowser",
         action="store_true",

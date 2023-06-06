@@ -9,7 +9,7 @@ from importlib.resources import files
 import yaml
 
 __title__ = "pynamer"
-__version__ = "2.0.2"
+__version__ = "2.0.3"
 __author__ = "Stephen R A King"
 __description__ = (
     "Utility to find an available package name in the PyPI repository and register it "
@@ -61,17 +61,17 @@ meta_file_trv = project_path.joinpath("meta.pickle")
 
 if setup_file_trv.is_file():
     setup_text = setup_file_trv.read_text(encoding="utf-8")
-else:
+else:  # pragma: no cover
     raise SystemExit("The package has a structural problem")
 
 
 if project_count_file_trv.is_file():
     project_count = pickle.loads(project_count_file_trv.read_bytes())
-else:
+else:  # pragma: no cover
     project_count = 455256
 
 
 if meta_file_trv.is_file():
     meta = pickle.loads(meta_file_trv.read_bytes())
-else:
+else:  # pragma: no cover
     meta = {}

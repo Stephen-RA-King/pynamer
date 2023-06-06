@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.0.3 (2023-06-02)
+### Fix
+* Json formatting ([`892a454`](https://github.com/Stephen-RA-King/pynamer/commit/892a454d47c868973978e54be89f472ae351b455))
+
 ## v2.0.2 (2023-05-31)
 ### Fix
 * Account for nonetype returned in json data ([`39f245c`](https://github.com/Stephen-RA-King/pynamer/commit/39f245c41b17add26ed9399dbb3c376cd395d79b))

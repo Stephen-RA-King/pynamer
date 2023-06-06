@@ -114,14 +114,17 @@ def main() -> None:  # pragma: no cover, type: ignore
         # Test 1
         if _ping_project(new_project):
             test_results.append(1)
-            json_data = _ping_json(new_project)
+            if args.stats is True:
+                json_data = _ping_json(new_project, stats=True)
+            else:
+                json_data = _ping_json(new_project)
             test_table.add_row(
-                "1", "Basic http get to project URL", "[red]FOUND[/red]", json_data
+                "1", "Check PyPI project URL", "[red]FOUND[/red]", json_data
             )
         else:
             test_results.append(0)
             test_table.add_row(
-                "1", "Basic http get to project URL", "[green]NOT FOUND[/green]", ""
+                "1", "Check PyPI project URL", "[green]NOT FOUND[/green]", ""
             )
 
         # Test 2
@@ -148,7 +151,7 @@ def main() -> None:  # pragma: no cover, type: ignore
             test_results.append(1)
             test_table.add_row(
                 "3",
-                "Check PyPI search",
+                "Check PyPI search API",
                 "[red]FOUND[/red]",
                 f"Exact match found: {len(match)}, Others found: {others_total}",
             )
@@ -158,7 +161,7 @@ def main() -> None:  # pragma: no cover, type: ignore
             test_results.append(0)
             test_table.add_row(
                 "3",
-                "Check PyPI search",
+                "Check PyPI search API",
                 "[green]NOT FOUND[/green]",
                 f"Exact match found: 0, Others found: {others_total}",
             )

@@ -94,6 +94,7 @@ repos:
           - types-PyYAML
           - types-requests
           - types-urllib3
+          - types-python-dateutil
 
   - repo: https://github.com/PyCQA/bandit
     rev: 1.7.5

@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.1 (2023-06-06)
+### Fix
+* Missing dependencies ([`cd5027f`](https://github.com/Stephen-RA-King/pynamer/commit/cd5027fe5bbd95694658448b25ce5702f1fca986))
+
 ## v2.1.0 (2023-06-06)
 ### Feature
 * Option to display github statistics ([`4ce5654`](https://github.com/Stephen-RA-King/pynamer/commit/4ce5654dcc6447b0518de9fd64f4c15fc6258e0f))

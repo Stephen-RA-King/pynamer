@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.3 (2023-06-07)
+### Fix
+* Regex for package names ([`756c6ff`](https://github.com/Stephen-RA-King/pynamer/commit/756c6ff297ca872ae3805df0ce25064cd4e518a2))
+
 ## v2.1.2 (2023-06-06)
 ### Documentation
 * Update documentation ([`cf7ea92`](https://github.com/Stephen-RA-King/pynamer/commit/cf7ea92cb25354a2e7378d5fe44e24293ecf43dd))

@@ -30,7 +30,7 @@ def _is_valid_package_name(project_name: str) -> bool:
         True:           If the name passes the basic check
         False:          If the name fails the basic check
     """
-    pattern = r"^[a-z][_\-a-z0-9]*$"
+    pattern = re.compile("^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$", re.I)
     if re.match(pattern, project_name) is not None:
         return True
     else:
@@ -272,7 +272,10 @@ def _final_analysis(pattern: list[int]) -> None:
             "A Gotcha!, whereby the package is not found even with PyPI's own search"
             " facility.\n"
             "It can only be found by searching the simple index which is not available "
-            "through the interface"
+            "through the web interface.\n\n"
+            "The most likely cause is an abandoned or deleted project by the owner.\n\n"
+            "Refer to PEP 541 – 'Package Index Name Retention' for details pertaining "
+            "to name transfer"
         )
     elif pattern == [1, 1, 0]:
         table.add_row("[red]NOT AVAILABLE![/red]\n")

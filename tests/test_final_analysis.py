@@ -20,7 +20,10 @@ def test_final_analysis_010(capsys):
         "A Gotcha!, whereby the package is not found even with PyPI's own search"
         " facility.\n"
         "It can only be found by searching the simple index which is not available "
-        "through the interface"
+        "through the web interface.\n\n"
+        "The most likely cause is an abandoned or deleted project by the owner.\n\n"
+        "Refer to PEP 541 – 'Package Index Name Retention' for details pertaining "
+        "to name transfer"
     )
     console = Console()
     console.print(table)

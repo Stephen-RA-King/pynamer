@@ -8,6 +8,9 @@
 from pynamer import pynamer
 
 
-def test_is_valid_package_name():
+def test_is_valid_package_name_true():
     assert pynamer._is_valid_package_name("pynball") is True
-    assert pynamer._is_valid_package_name("1pynball") is False
+
+
+def test_is_valid_package_name_false():
+    assert pynamer._is_valid_package_name("pynball!") is False

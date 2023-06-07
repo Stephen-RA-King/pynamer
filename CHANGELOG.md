@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.2 (2023-06-06)
+### Documentation
+* Update documentation ([`cf7ea92`](https://github.com/Stephen-RA-King/pynamer/commit/cf7ea92cb25354a2e7378d5fe44e24293ecf43dd))
+
 ## v2.1.1 (2023-06-06)
 ### Fix
 * Missing dependencies ([`cd5027f`](https://github.com/Stephen-RA-King/pynamer/commit/cd5027fe5bbd95694658448b25ce5702f1fca986))

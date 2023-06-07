@@ -88,6 +88,7 @@ def main() -> None:  # pragma: no cover, type: ignore
     for new_project in project_list:
         if not _is_valid_package_name(new_project):
             _feedback(f"{new_project} is not a valid package name", "error")
+            _feedback("refer to PEP508 & PEP423 for more details", "warning")
             continue
 
         test_table = Table(title=f"Test Results for {new_project}", show_lines=True)

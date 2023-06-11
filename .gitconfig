@@ -11,4 +11,4 @@
 	autocrlf = true
 	editor = 'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin
 [commit]
-	template = C:\\Program Files\\Git\\.gitmessage
+	template = .gitmessage

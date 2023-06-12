@@ -162,11 +162,13 @@ def save_github_meta(url, project_name):
             [github_api_url, url.replace(r"https://github.com/", "")]
         )
     request_response = requests.get(repo_api_url, timeout=5)
+    content = request_response.content
     with open(json_file_name, "wb") as f:
         pickle.dump(request_response, f)
 
 
 # json_save("requests")
-# print(github_meta("https://github.com/pycqa/isort"))
+# print(get_github_meta("https://github.com/vangheem/Bumblebee"))
+# print(get_github_meta("https://github.com/psf/black"))
 # json_open("pynamer")
 save_github_meta("https://github.com/psf/black", "black")

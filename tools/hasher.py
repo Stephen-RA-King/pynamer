@@ -24,7 +24,10 @@ def check_integrity(filepath, expected_hash):
 
 
 # Usage examples
-file_path = "../AUTHORS.md"
+file_path = "../src/pynamer/project_name"
+
+print(calculate_md5(file_path))
+
 expected_md5_hash = "fd167cde9108ebf5436a7beed7d43012"
 
-check_integrity(file_path, expected_md5_hash)
+# check_integrity(file_path, expected_md5_hash)

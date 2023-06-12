@@ -47,11 +47,11 @@ def main() -> None:  # pragma: no cover, type: ignore
     if args.version:
         _check_version()
 
-    if args.projects == "None" and args.file == "None" and args.register:
+    if args.projects == "None" and args.f == "None" and args.register:
         _feedback("You need to specify a project name to register it", "error")
         raise SystemExit()
 
-    if args.projects == "None" and args.file == "None" and args.meta:
+    if args.projects == "None" and args.f == "None" and args.meta:
         _feedback(
             "You can only update the meta data during the registration process", "error"
         )
@@ -59,7 +59,7 @@ def main() -> None:  # pragma: no cover, type: ignore
 
     if (
         args.projects == "None"
-        and args.file == "None"
+        and args.f == "None"
         and args.version is False
         and args.generate is False
     ):
@@ -78,9 +78,9 @@ def main() -> None:  # pragma: no cover, type: ignore
         logger.debug("adding project names from command line %s", args.projects)
         project_list.extend(list(set(args.projects)))
         logger.debug("project_list = %s", project_list)
-    if args.file != "None":
-        logger.debug("adding project names from file %s", args.file)
-        project_list.extend(_process_input_file(args.file))
+    if args.f != "None":
+        logger.debug("adding project names from file %s", args.f)
+        project_list.extend(_process_input_file(args.f))
         logger.debug("project_list = %s", project_list)
     project_list.sort()
 
@@ -210,8 +210,8 @@ def main() -> None:  # pragma: no cover, type: ignore
         aggregated_result[new_project] = test_results.copy()
         test_results.clear()
 
-    if args.output != "None":
-        _write_output_file(args.output, aggregated_result)
+    if args.o != "None":
+        _write_output_file(args.o, aggregated_result)
 
     if args.register and len(project_list) > 1:
         _feedback(

@@ -32,7 +32,6 @@ def _parse_args(args: list) -> tuple[argparse.Namespace, argparse.ArgumentParser
         action="store_true",
         help=argparse.SUPPRESS,
     )
-
     parser.add_argument(
         "-n",
         "--nocleanup",
@@ -57,38 +56,35 @@ def _parse_args(args: list) -> tuple[argparse.Namespace, argparse.ArgumentParser
         action="store_true",
         help="input new meta data when registering (Author and email address)",
     )
-
     parser.add_argument(
         "-s",
         "--stats",
         action="store_true",
         help="display GitHub stats if available",
     )
-
     parser.add_argument(
         "-w",
         "--webbrowser",
         action="store_true",
         help="open the project on PyPI in a webbrowser",
     )
-
+    parser.add_argument(
+        "-f",
+        metavar="FILENAME",
+        default="None",
+        type=str,
+        help="file containing a list of project names to analyze",
+    )
+    parser.add_argument(
+        "-o",
+        metavar="FILENAME",
+        default="None",
+        type=str,
+        help="file to save the test results",
+    )
     parser.add_argument(
         "--version",
         action="store_true",
         help="display version number",
-    )
-    parser.add_argument(
-        "-f",
-        "--file",
-        default="None",
-        type=str,
-        help="file containing a list of projects to analyze",
-    )
-    parser.add_argument(
-        "-o",
-        "--output",
-        default="None",
-        type=str,
-        help="file to store the test results",
     )
     return parser.parse_args(args), parser

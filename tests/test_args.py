@@ -13,8 +13,8 @@ def test_default_args():
     assert args.projects == "None"
     assert args.register is False
     assert args.dryrun is False
-    assert args.file == "None"
-    assert args.output == "None"
+    assert args.f == "None"
+    assert args.o == "None"
     assert args.nocleanup is False
     assert args.verbose is False
     assert args.generate is False
@@ -59,12 +59,12 @@ def test_args_dryrun():
 
 def test_args_file():
     args, parser = pynamer._parse_args(["-f", "input_file"])
-    assert args.file == "input_file"
+    assert args.f == "input_file"
 
 
 def test_args_output():
     args, parser = pynamer._parse_args(["-o", "output_file"])
-    assert args.output == "output_file"
+    assert args.o == "output_file"
 
 
 def test_args_nocleanup():

@@ -18,12 +18,13 @@ expected_response_found = """
 
 GitHub Stats
 ------------
-stars:    32544
-forks:    2095
+stars:    32616
+forks:    2102
+issues:   405
 license:  MIT License
 watching: 229
 created:  2018-03-14
-updated:  2023-06-06"""
+updated:  2023-06-12"""
 
 
 expected_response_http_error = """

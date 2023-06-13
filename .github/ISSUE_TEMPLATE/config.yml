@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-- name: documentation
-  url: https://pynamer.readthedocs.io/en/latest/
-  about: please check the docs first
+  - name: documentation
+    url: https://pynamer.readthedocs.io/en/latest/
+    about: please check the docs first

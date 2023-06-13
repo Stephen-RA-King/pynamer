@@ -21,38 +21,37 @@ An ideal bug report includes:
 
 If you want to enhance pynamer by implementing a changes, please [open a new issue](https://github.com/Stephen-RA-King/pynamer/issues/new) first.
 
-
 Then, implement the following workflow:
 
 1.  Fork the [pynamer](https://github.com/Stephen-RA-King/pynamer) project from GitHub.
 
-2. Create a virtual environment with your favourite tool (virtualenv with virtualenv wrapper, venv etc)
-using one of the supported versions of Python: ![](https://img.shields.io/pypi/pyversions/pynamer).
+2.  Create a virtual environment with your favourite tool (virtualenv with virtualenv wrapper, venv etc)
+    using one of the supported versions of Python: ![](https://img.shields.io/pypi/pyversions/pynamer).
 
-3. Activate your virtual environment.
+3.  Activate your virtual environment.
 
-4. Clone the repository locally:
+4.  Clone the repository locally:
 
         $ git clone git@github.com:your_name_here/pynamer.git
         $ cd pynamer
 
-5. Install pynamer in development mode:
+5.  Install pynamer in development mode:
 
         $ pip install -e .
 
-6. Install pre-commit hooks that will check your commits:
+6.  Install pre-commit hooks that will check your commits:
 
         $ pre-commit install --install-hooks
 
-7. Create a new branch from `main`:
+7.  Create a new branch from `main`:
 
         $ git checkout main
         $ git branch fix_bug
         $ git checkout fix_bug
 
-8. Implement the modifications. During the process of development, honor [PEP 8](https://www.python.org/dev/peps/pep-0008/) as much as possible.
+8.  Implement the modifications. During the process of development, honor [PEP 8](https://www.python.org/dev/peps/pep-0008/) as much as possible.
 
-9. Add unit tests and ensure all are passing:
+9.  Add unit tests and ensure all are passing:
 
         $ tox
 

@@ -281,15 +281,15 @@ leda            Not Found   Not Found   Not Found       Available
 Again you can use a combination of names from the command line and input file.
 
 ## Display GitHub statistics
+
 You can optionally display some of the most pertinent GitHub statistics if available by using the `-s` argument.
 The statistics will be displayed in the the details section of test 1. e.g.
 
 ```bash
 ~ $ pynamer black -s
-````
+```
 
 ![](assets/usage_stats.png)
-
 
 ## Register the package name with PyPI
 

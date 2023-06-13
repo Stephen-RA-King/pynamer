@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.5 (2023-06-13)
+### Fix
+* Typeerror for github license ([`bb7bd2a`](https://github.com/Stephen-RA-King/pynamer/commit/bb7bd2aafef6a78db971e6fda7c4e93978088c9e))
+
+### Documentation
+* Minor updates ([`e4e3721`](https://github.com/Stephen-RA-King/pynamer/commit/e4e3721ec3e8e541aa1fc5d746cf048e5c157f28))
+
 ## v2.1.4 (2023-06-08)
 
 

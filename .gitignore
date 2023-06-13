@@ -142,3 +142,4 @@ pypi_index
 project_count.pickle
 src/pynamer/pypi_index
 /reports
+/cache

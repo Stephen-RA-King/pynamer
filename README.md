@@ -129,11 +129,11 @@ Pynamer provides a way to optionally 'register' a name on PyPI by building a min
 The following are optional but required for 'registering' a project name on PyPI
 
 -   [x] An account on PyPI (and generate a PyPI API token).
--   [x] A [**.pypirc**](https://packaging.python.org/en/latest/specifications/pypirc/) file containing your PyPI API key
+-   [x] A [**.pypirc**](https://packaging.python.org/en/latest/specifications/pypirc/) file containing your PyPI API token.
 
     or
 
--   [x] Configure [Twine environment variables](https://twine.readthedocs.io/en/latest/#environment-variables)
+-   [x] Configure [Twine environment variables](https://twine.readthedocs.io/en/latest/#environment-variables).
 
 Your .pypirc file should contain the following and be on your PATH:
 
@@ -199,25 +199,24 @@ Display the help menu with the `-h` argument
 ```
 
 ```bash
-usage: pynamer [-h] [-r] [-v] [-g] [-m] [-s] [-w] [--version] [-f FILE] [-o OUTPUT] [projects ...]
+usage: pynamer [-h] [-r] [-v] [-g] [-m] [-s] [-w] [-f FILENAME] [-o FILENAME] [--version] [projects ...]
 
 Determine if project name is available on pypi with the option to 'register' it for future use if available
 
 positional arguments:
-  projects              Optional - one or more project names
+  projects          Optional - one or more project names
 
-options:
-  -h, --help            show this help message and exit
-  -r, --register        register the name on PyPi if the name is available
-  -v, --verbose         display information about similar projects
-  -g, --generate        generate a new PyPI index file
-  -m, --meta            input new meta data when registering (Author and email address)
-  -s, --stats           display GitHub stats if available
-  -w, --webbrowser      open the project on PyPI in a webbrowser
-  --version             display version number
-  -f FILE, --file FILE  file containing a list of projects to analyze
-  -o OUTPUT, --output OUTPUT
-                        file to store the test results
+optional arguments:
+  -h, --help        show this help message and exit
+  -r, --register    register the name on PyPi if the name is available
+  -v, --verbose     display information about similar projects
+  -g, --generate    generate a new PyPI index file
+  -m, --meta        input new meta data when registering (Author and email address)
+  -s, --stats       display GitHub stats if available
+  -w, --webbrowser  open the project on PyPI in a webbrowser
+  -f FILENAME       file containing a list of project names to analyze
+  -o FILENAME       file to save the test results
+  --version         display version number
 ```
 
 ## Specifying multiple names

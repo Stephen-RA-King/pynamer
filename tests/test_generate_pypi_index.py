@@ -40,7 +40,8 @@ def test_generate_pypi_index_error(monkeypatch, project_path_mock):
         raise ConnectTimeout("Connection timed out")
 
     monkeypatch.setattr(requests, "get", mock_requests_error)
+    monkeypatch.setattr(utils, "pypi_index_file_trv", BASE_DIR / "pypi_index")
 
     with pytest.raises(SystemExit) as excinfo:
-        pynamer._generate_pypi_index()
+        utils._generate_pypi_index()
     assert str(excinfo.value) == "An error occurred with an HTTP request"

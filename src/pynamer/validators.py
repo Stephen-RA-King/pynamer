@@ -38,6 +38,20 @@ def _is_valid_package_name(project_name: str) -> bool:
 
 
 def _get_homepage(project_json: dict, project_name: str) -> tuple[str, str]:
+    """Finds the GitHub homepage from the PyPI json data.
+
+    With this function we are trying to ultimately find the GitHub 'homepage':
+    https://github.com/{username}/{project_name}.
+    Unfortunately not everyone agrees what the homepage should be. Some people for
+    example use 'readthedocs' or 'github.io' etc.
+
+    Args:
+        project_json:       json data from PyPI json URL.
+        project_name:       package name under test.
+
+    Returns:
+        tuple[str, str]:    strings containing found homepage URL.
+    """
     home_url = project_json["info"]["home_page"]
 
     if "github.com" in home_url and home_url.endswith(project_name):
@@ -50,10 +64,9 @@ def _get_homepage(project_json: dict, project_name: str) -> tuple[str, str]:
         home_url = "".join([config.github_base_url, home_url])
         return "".join(["Homepage: ", home_url]), home_url
 
-    homepages = _search_json(project_json, project_name)
-    for home_url in homepages:
-        if "github.com" in home_url and home_url.endswith(project_name):
-            return "".join(["Homepage: ", home_url]), home_url
+    homepage = _search_json(project_json, project_name)
+    if homepage:
+        return "".join(["Homepage: ", homepage]), homepage
 
     if home_url != "":
         return "".join(["Homepage: ", home_url]), home_url
@@ -62,6 +75,14 @@ def _get_homepage(project_json: dict, project_name: str) -> tuple[str, str]:
 
 
 def _github_meta(url: str) -> str:
+    """Finds GitHub statistics given a GitHub Homepage URL.
+
+    Args:
+        url:    GitHub homepage URL.
+
+    Returns:
+        str:    a string containing all the pertinent statistics:
+    """
     return_text = "\n\nGitHub Stats\n------------\n"
     repo_api_url = "".join(
         [config.github_api_url, url.replace(r"https://github.com/", "")]
@@ -108,11 +129,11 @@ def _ping_project(project_name: str) -> bool:
         project_name:   the name of the project to test.
 
     Returns:
-        True:           If the URLs response code is 200
-        False:          If the URLs response code is not 200
+        True:           if the URLs response code is 200.
+        False:          if the URLs response code is not 200.
 
     Raises:
-        SystemExit:     If any requests.RequestException occurs.
+        SystemExit:     if any requests.RequestException occurs.
     """
     url_project = "".join([config.pypi_project_url, project_name, "/"])
     logger.debug("attempting to get url %s", url_project)
@@ -135,7 +156,7 @@ def _ping_json(project_name: str, stats: bool = False) -> str:
         project_name:   the name of the project to test.
 
     Raises:
-        SystemExit:     If any requests.RequestException occurs.
+        SystemExit:     if any requests.RequestException occurs.
     """
     url_json = "".join([config.pypi_json_url, project_name, "/json"])
     logger.debug("attempting to get url %s", url_json)
@@ -187,8 +208,8 @@ def _pypi_search_index(project_name: str) -> bool:
         project_name:   the name of the project currently under test.
 
     Returns:
-        True:           A match was found.
-        False:          A match was not found.
+        True:           a match was found.
+        False:          a match was not found.
     """
     if not pypi_index_file_trv.is_file():
         _generate_pypi_index()
@@ -207,14 +228,14 @@ def _pypi_search(
     """Performs a get request to PyPI's search API for the project name.
 
     Args:
-        search_project:   The name of the project currently under test.
+        search_project:   the name of the project currently under test.
 
     Returns:
-        match:          A list of projects matching name comprising:
+        match:          a list of projects matching name comprising:
                             [project_name, version, released, description]
-        others:         A list of projects not matching but PyPI thinks are relevant.
+        others:         a list of projects not matching but PyPI thinks are relevant.
                             [project_name, version, released, description]
-        others_total:   A str representation of total projects found (minus matches).
+        others_total:   a str representation of total projects found (minus matches).
     """
     pattern = re.compile(r">([\d,+]*?)<")
     s = requests.Session()
@@ -267,9 +288,9 @@ def _final_analysis(pattern: list[int]) -> None:
     """Displays a rich console table displaying the conclusion of the test results
 
     Args:
-        pattern:    A list of the test results:
-                    1 - A 'negative' result, indicating the project has been found.
-                    0 - A 'positive' result, indicating the project was not found.
+        pattern:    a list of the test results:
+                    1 - a 'negative' result, indicating the project has been found.
+                    0 - a 'positive' result, indicating the project was not found.
     """
     table = Table(show_header=True)
     table.add_column("FINAL ANALYSIS", style="bold cyan")

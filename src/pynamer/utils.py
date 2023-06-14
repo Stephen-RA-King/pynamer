@@ -35,7 +35,7 @@ def _feedback(message: str, feedback_type: str) -> None:
     """Generates a formatted messages appropriate to the message type.
 
     Args:
-        message:        Text to be echoed.
+        message:        text to be echoed.
         feedback_type:  identifies type of message to display.
     """
     if feedback_type not in ["null", "nominal", "warning", "error"]:
@@ -61,15 +61,29 @@ def _feedback(message: str, feedback_type: str) -> None:
             )
 
 
-def _search_json(json_data: dict, project_name: str) -> list:
-    github_links = []
+def _search_json(json_data: dict, project_name: str) -> str:
+    """Searches a json data structure for a GitHub project URL.
+
+    The json data is found from the PyPI json URL: "https://pypi.org/pypi/package_name".
+    The function searches for the GitHub homepage URL:
+     "https://github.com/{owner}/{package_name} and returns upon first match.
+
+     Args:
+         json_data:     json found from PyPI.
+         project_name:  the package name under test.
+
+    Returns:
+        str:           the GitHub homepage URL if found else an empty string.
+    """
+    homepage = ""
     pattern = re.compile(r"https?://github.com/[\w\-/]+")
 
     def check_value(value: dict) -> None:
         if isinstance(value, str):
             match = pattern.search(value)
             if match and value.endswith(project_name):
-                github_links.append(match.group(0))
+                nonlocal homepage
+                homepage = match.group(0)
                 return
 
         elif isinstance(value, list):
@@ -81,7 +95,7 @@ def _search_json(json_data: dict, project_name: str) -> list:
                 check_value(val)
 
     check_value(json_data)
-    return github_links
+    return homepage
 
 
 def _find_pypirc_file(filename: str = ".pypirc") -> None:
@@ -112,7 +126,7 @@ def _generate_pypi_index() -> None:
     """Generates a list of projects in PyPI's simple index - writes results to a file.
 
     Raises:
-        SystemExit:     If any requests.RequestException occurs.
+        SystemExit:     if any requests.RequestException occurs.
 
     Notes:
         A potentially expensive operation as there are almost 500,000 projects to
@@ -165,7 +179,7 @@ def _check_version() -> None:
 
     Returns:
         current_version:    version of the installed package.
-        str:                Message concerning the result of the comparison.
+        str:                message concerning the result of the comparison.
         bool:               True: if the installed package is up-to-date.
                             False: if there is a newer version on PyPI.
     """
@@ -193,10 +207,10 @@ def _process_input_file(file: str) -> list[Union[str, Any]]:
         file:           simple string for the file.
 
     Raises:
-        SystemExit:     If the file is found to not exist.
+        SystemExit:     if the file is found to not exist.
 
     Notes:
-        file contents should contain any number of space separated strings on any
+        File contents should contain any number of space separated strings on any
         number of lines.
     """
     file_path = Path(file)
@@ -223,11 +237,11 @@ def _process_input_file(file: str) -> list[Union[str, Any]]:
 
 
 def _write_output_file(file_name: str, results: dict) -> None:
-    """Write the results to a file
+    """Write the results to a file.
 
     Args:
-        file_name:      Name of file to save as a simple string.
-        results:        Dictionary containing the test results e.g.
+        file_name:      name of file to save as a simple string.
+        results:        dictionary containing the test results e.g.
                         {"pynball": [1, 1, 1]}
     """
     header_width = 83

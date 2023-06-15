@@ -18,9 +18,7 @@ argon2-cffi==21.3.0
 argon2-cffi-bindings==21.2.0
     # via argon2-cffi
 arrow==1.2.3
-    # via
-    #   isoduration
-    #   jinja2-time
+    # via isoduration
 astor==0.8.1
     # via flake8-simplify
 astroid==2.15.4
@@ -42,8 +40,6 @@ bandit==1.7.5
     #   flake8-bandit
 beautifulsoup4==4.12.2
     # via nbconvert
-binaryornot==0.4.4
-    # via cookiecutter
 black==23.3.0
     # via -r development.in
 bleach==6.0.0
@@ -63,9 +59,7 @@ cffi==1.15.1
 cfgv==3.3.1
     # via pre-commit
 chardet==5.1.0
-    # via
-    #   binaryornot
-    #   tox
+    # via tox
 charset-normalizer==3.1.0
     # via
     #   commitizen
@@ -74,11 +68,8 @@ click==8.1.3
     # via
     #   black
     #   click-log
-    #   cookiecutter
-    #   cruft
     #   jupyter-cache
     #   python-semantic-release
-    #   typer
 click-log==0.4.0
     # via python-semantic-release
 colorama==0.4.6
@@ -98,16 +89,12 @@ comm==0.1.3
     # via ipykernel
 commitizen==3.2.1
     # via -r development.in
-cookiecutter==2.1.1
-    # via cruft
 coverage[toml]==7.2.5
     # via
     #   -r development.in
     #   coverage-conditional-plugin
     #   pytest-cov
 coverage-conditional-plugin==0.8.0
-    # via -r development.in
-cruft==2.14.0
     # via -r development.in
 debugpy==1.6.7
     # via ipykernel
@@ -170,7 +157,6 @@ gitdb==4.0.10
 gitpython==3.1.31
     # via
     #   bandit
-    #   cruft
     #   python-semantic-release
 greenlet==2.0.2
     # via sqlalchemy
@@ -234,9 +220,7 @@ jedi==0.18.2
 jinja2==3.1.2
     # via
     #   commitizen
-    #   cookiecutter
     #   flake8-html
-    #   jinja2-time
     #   jupyter-server
     #   myst-parser
     #   nbclassic
@@ -244,8 +228,6 @@ jinja2==3.1.2
     #   notebook
     #   sphinx
     #   sphinx-autoapi
-jinja2-time==0.2.0
-    # via cookiecutter
 jsonpointer==2.3
     # via jsonschema
 jsonschema[format-nongpl]==4.17.3
@@ -485,8 +467,6 @@ python-json-logger==2.0.7
     # via jupyter-events
 python-semantic-release==7.33.3
     # via -r development.in
-python-slugify==8.0.1
-    # via cookiecutter
 pywin32==306
     # via jupyter-core
 pywin32-ctypes==0.2.0
@@ -501,7 +481,6 @@ pyyaml==6.0
     #   -r development.in
     #   bandit
     #   commitizen
-    #   cookiecutter
     #   jupyter-cache
     #   jupyter-events
     #   myst-nb
@@ -528,7 +507,6 @@ readme-renderer==37.3
 requests==2.30.0
     # via
     #   -r development.in
-    #   cookiecutter
     #   python-gitlab
     #   python-semantic-release
     #   requests-toolbelt
@@ -615,8 +593,6 @@ terminado==0.17.1
     #   jupyter-server-terminals
     #   nbclassic
     #   notebook
-text-unidecode==1.3
-    # via python-slugify
 tinycss2==1.2.1
     # via nbconvert
 tomli==2.0.1
@@ -667,8 +643,6 @@ twine==3.8.0
     # via
     #   -r development.in
     #   python-semantic-release
-typer==0.9.0
-    # via cruft
 types-beautifulsoup4==4.12.0.5
     # via -r development.in
 types-click==7.1.8
@@ -696,7 +670,6 @@ typing-extensions==4.5.0
     #   myst-nb
     #   myst-parser
     #   sqlalchemy
-    #   typer
 unidecode==1.3.6
     # via sphinx-autoapi
 uri-template==1.2.0

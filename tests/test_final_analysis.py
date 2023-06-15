@@ -23,7 +23,8 @@ def test_final_analysis_010(capsys):
         "through the web interface.\n\n"
         "The most likely cause is an abandoned or deleted project by the owner.\n\n"
         "Refer to PEP 541 – 'Package Index Name Retention' for details pertaining "
-        "to name transfer"
+        "to name transfer.\n"
+        "https://peps.python.org/pep-0541/#how-to-request-a-name-transfer"
     )
     console = Console()
     console.print(table)

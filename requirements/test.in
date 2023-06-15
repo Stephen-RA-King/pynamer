@@ -2,8 +2,9 @@
 
 bandit
 black
+commitizen
 coverage-conditional-plugin
-coverage[toml]
+coverage
 flake8
 flake8-bandit
 flake8-bugbear
@@ -12,9 +13,11 @@ flake8-docstrings
 flake8-html
 flake8-pytest-style
 flake8-simplify
+invoke
 isort
 lxml
 mypy
+pre-commit
 pytest
 pytest-cov
 pytest-html
@@ -23,6 +26,7 @@ pytest-mock
 pytest-randomly
 pytest-repeat
 pytest-timeout
+python-semantic-release
 pyyaml
 tox
 types-PyYAML
@@ -30,5 +34,6 @@ types-beautifulsoup4
 types-click
 types-html5lib
 types-python-dateutil
+types-requests
 types-requests
 types-urllib3

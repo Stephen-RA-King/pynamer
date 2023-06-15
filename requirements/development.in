@@ -6,8 +6,7 @@ build
 colorama
 commitizen
 coverage-conditional-plugin
-coverage[toml]
-cruft
+coverage
 flake8
 flake8-bandit
 flake8-bugbear

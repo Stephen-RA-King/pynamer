@@ -464,7 +464,9 @@ pytest-cov==4.0.0
 pytest-html==3.2.0
     # via -r development.in
 pytest-metadata==2.0.4
-    # via pytest-html
+    # via
+    #   -r development.in
+    #   pytest-html
 pytest-mock==3.10.0
     # via -r development.in
 pytest-randomly==3.12.0
@@ -667,10 +669,24 @@ twine==3.8.0
     #   python-semantic-release
 typer==0.9.0
     # via cruft
+types-beautifulsoup4==4.12.0.5
+    # via -r development.in
+types-click==7.1.8
+    # via -r development.in
+types-html5lib==1.1.11.14
+    # via
+    #   -r development.in
+    #   types-beautifulsoup4
+types-python-dateutil==2.8.19.13
+    # via -r development.in
+types-pyyaml==6.0.12.10
+    # via -r development.in
 types-requests==2.30.0.0
     # via -r development.in
 types-urllib3==1.26.25.12
-    # via types-requests
+    # via
+    #   -r development.in
+    #   types-requests
 typing-extensions==4.5.0
     # via
     #   astroid

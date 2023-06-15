@@ -1,8 +1,18 @@
 -r production.txt
 
+bandit
 black
-click
+coverage-conditional-plugin
+coverage[toml]
 flake8
+flake8-bandit
+flake8-bugbear
+flake8-comprehensions
+flake8-docstrings
+flake8-html
+flake8-pytest-style
+flake8-simplify
+isort
 lxml
 mypy
 pytest
@@ -14,6 +24,7 @@ pytest-randomly
 pytest-repeat
 pytest-timeout
 pyyaml
+tox
 types-PyYAML
 types-beautifulsoup4
 types-click

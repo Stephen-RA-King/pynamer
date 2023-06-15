@@ -303,7 +303,8 @@ def _final_analysis(pattern: list[int]) -> None:
             "through the web interface.\n\n"
             "The most likely cause is an abandoned or deleted project by the owner.\n\n"
             "Refer to PEP 541 – 'Package Index Name Retention' for details pertaining "
-            "to name transfer"
+            "to name transfer.\n"
+            "https://peps.python.org/pep-0541/#how-to-request-a-name-transfer"
         )
     elif pattern == [1, 1, 0]:
         table.add_row("[red]NOT AVAILABLE![/red]\n")

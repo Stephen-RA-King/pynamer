@@ -403,9 +403,10 @@ e.g. replacing "L" / "l" with the number 1 or "o" / "O" with 0. The Software uti
 
 ---
 
-[![](assets/linkedin.png)](https://www.linkedin.com/in/sr-king)
+[![Linkedin](assets/linkedin.png)](https://www.linkedin.com/in/sr-king)
 [![](assets/github.png)](https://github.com/Stephen-RA-King)
-[![](assets/pypi.png)](https://pypi.org/project/pynamer)
+[![PyPI repository](assets/pypi.png)](https://pypi.org/project/pynamer)
+[![Docker](assets/docker.png)](https://hub.docker.com/repository/docker/sraking/pynamer/general)
 [![](assets/www.png)](https://www.justpython.tech)
 [![](assets/email.png)](mailto:sking.github@gmail.com)
 

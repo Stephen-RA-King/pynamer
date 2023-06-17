@@ -199,7 +199,7 @@ def main() -> None:  # pragma: no cover, type: ignore
             else:
                 _feedback("Dryrun .... bypassing upload to PyPI..", "warning")
             _cleanup(new_project)
-        elif config.pypirc is None:
+        elif args.register is True and config.pypirc is None:
             _feedback(
                 ".pypirc file cannot be located ... wont attempt to 'register'",
                 "error",

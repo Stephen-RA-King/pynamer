@@ -22,7 +22,7 @@ _**Utility to find an available package name in the PyPI repository and optional
 
 As a pseudo replacement for pip search, pynamer will quickly ascertain if a project name is 'available' in PyPI.
 
-![](assets/pynamer.png)
+![](assets/pynamer1.png)
 
 # Contents
 
@@ -406,7 +406,7 @@ e.g. replacing "L" / "l" with the number 1 or "o" / "O" with 0. The Software uti
 [![Linkedin](assets/linkedin.png)](https://www.linkedin.com/in/sr-king)
 [![](assets/github.png)](https://github.com/Stephen-RA-King)
 [![PyPI repository](assets/pypi.png)](https://pypi.org/project/pynamer)
-[![Docker](assets/docker.png)](https://hub.docker.com/repository/docker/sraking/pynamer/general)
+[![Docker](assets/docker.png)](https://hub.docker.com/r/sraking/pynamer)
 [![](assets/www.png)](https://www.justpython.tech)
 [![](assets/email.png)](mailto:sking.github@gmail.com)
 

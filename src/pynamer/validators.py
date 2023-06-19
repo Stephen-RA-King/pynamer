@@ -169,6 +169,8 @@ def _ping_json(project_name: str, stats: bool = False) -> str:
         project_json = json.loads(project_json_raw.content)
 
         homepage_text, homepage_url = _get_homepage(project_json, project_name)
+        if homepage_url.startswith("http:"):
+            homepage_url = homepage_url.replace("http:", "https:")
 
         author = (
             "".join(["Author:   ", project_json["info"]["author"]])

@@ -2,6 +2,15 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.6 (2023-06-17)
+### Fix
+* Error message regarding pypirc file before registration ([`ded4143`](https://github.com/Stephen-RA-King/pynamer/commit/ded4143062a1e2fb5cf74c2912dea692d64fac17))
+
+### Documentation
+* Update logo ([`6be0f9a`](https://github.com/Stephen-RA-King/pynamer/commit/6be0f9ae77e6b63f382e1a490b57153a589a8920))
+* Add missing docstrings ([`1377322`](https://github.com/Stephen-RA-King/pynamer/commit/1377322620a7894bc036021c9cde50bcd4cc732b))
+* Update help screen image ([`7ce744b`](https://github.com/Stephen-RA-King/pynamer/commit/7ce744b6ad94610ebe0eee5158b46db359f73d85))
+
 ## v2.1.5 (2023-06-13)
 ### Fix
 * Typeerror for github license ([`bb7bd2a`](https://github.com/Stephen-RA-King/pynamer/commit/bb7bd2aafef6a78db971e6fda7c4e93978088c9e))

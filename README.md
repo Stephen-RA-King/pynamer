@@ -7,6 +7,7 @@ _**Utility to find an available package name in the PyPI repository and optional
 [![tests][tests-image]][tests-url]
 [![Codecov][codecov-image]][codecov-url]
 [![CodeQl][codeql-image]][codeql-url]
+[![Docker][docker-image]][docker-url]
 [![pre-commit.ci status][pre-commit.ci-image]][pre-commit.ci-url]
 [![readthedocs][readthedocs-image]][readthedocs-url]
 [![CodeFactor][codefactor-image]][codefactor-url]
@@ -424,7 +425,6 @@ Created with Cookiecutter template: [**pydough**][pydough-url] version 1.2.2
 [bandit-url]: https://github.com/PyCQA/bandit
 [black-image]: https://img.shields.io/badge/code%20style-black-000000.svg
 [black-url]: https://github.com/psf/black
-[pydough-url]: https://github.com/Stephen-RA-King/pydough
 [codeclimate-image]: https://api.codeclimate.com/v1/badges/b95fb617fbcd469ccfc3/maintainability
 [codeclimate-url]: https://codeclimate.com/github/Stephen-RA-King/pynamer/maintainability
 [codeclimate-url]: https://codeclimate.com/github/Stephen-RA-King/pynamer/maintainability
@@ -440,6 +440,8 @@ Created with Cookiecutter template: [**pydough**][pydough-url] version 1.2.2
 [conventional-commits-url]: https://conventionalcommits.org
 [deepsource-image]: https://static.deepsource.io/deepsource-badge-light-mini.svg
 [deepsource-url]: https://deepsource.io/gh/Stephen-RA-King/pynamer/?ref=repository-badge
+[docker-image]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/docker-image.yml/badge.svg
+[docker-url]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/docker-image.yml
 [downloads-image]: https://static.pepy.tech/personalized-badge/pynamer?period=total&units=international_system&left_color=black&right_color=blue&left_text=Downloads
 [downloads-url]: https://pepy.tech/project/pynamer
 [format-image]: https://img.shields.io/pypi/format/pynamer
@@ -458,8 +460,9 @@ Created with Cookiecutter template: [**pydough**][pydough-url] version 1.2.2
 [pre-commit-url]: https://github.com/pre-commit/pre-commit
 [pre-commit.ci-image]: https://results.pre-commit.ci/badge/github/Stephen-RA-King/pynamer/main.svg
 [pre-commit.ci-url]: https://results.pre-commit.ci/latest/github/Stephen-RA-King/pynamer/main
-[pypi-url]: https://pypi.org/project/pynamer/
+[pydough-url]: https://github.com/Stephen-RA-King/pydough
 [pypi-image]: https://img.shields.io/pypi/v/pynamer.svg
+[pypi-url]: https://pypi.org/project/pynamer/
 [python-version-image]: https://img.shields.io/pypi/pyversions/pynamer
 [readthedocs-image]: https://readthedocs.org/projects/pynamer/badge/?version=latest
 [readthedocs-url]: https://pynamer.readthedocs.io/en/latest/?badge=latest

@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.7 (2023-06-19)
+### Fix
+* Account for hompepoage beginning with http: ([`d9dcb50`](https://github.com/Stephen-RA-King/pynamer/commit/d9dcb50b4e6321d681a16aeba88bc2a2908f1005))
+
 ## v2.1.6 (2023-06-17)
 ### Fix
 * Error message regarding pypirc file before registration ([`ded4143`](https://github.com/Stephen-RA-King/pynamer/commit/ded4143062a1e2fb5cf74c2912dea692d64fac17))

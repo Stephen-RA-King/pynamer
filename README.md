@@ -20,6 +20,8 @@ _**Utility to find an available package name in the PyPI repository and optional
 [![Conventional Commits][conventional-commits-image]][conventional-commits-url]
 [![DeepSource][deepsource-image]][deepsource-url]
 [![license][license-image]][license-url]
+[![pydough][pydough-image]][pydough-url]
+[![openssf][openssf-image]][openssf-url]
 
 As a pseudo replacement for pip search, pynamer will quickly ascertain if a project name is 'available' in PyPI.
 
@@ -411,13 +413,13 @@ e.g. replacing "L" / "l" with the number 1 or "o" / "O" with 0. The Software uti
 [![](assets/www.png)](https://www.justpython.tech)
 [![](assets/email.png)](mailto:sking.github@gmail.com)
 
-Stephen R A King : [sking.github@gmail.com](mailto:sking.github@gmail.com)
+Author: Stephen King ([sking.github@gmail.com](mailto:sking.github@gmail.com))
 
 Distributed under the MIT license. See [![][license-image]][license-url] for more information.
 
-Created with Cookiecutter template: [**pydough**][pydough-url] version 1.2.2
+Created with Cookiecutter template: [![pydough][pydough-image]][pydough-url] version 1.2.2
 
-[![DOI](https://zenodo.org/badge/631029310.svg)](https://zenodo.org/badge/latestdoi/631029310)
+Digital Object Identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](https://zenodo.org/badge/latestdoi/631029310)
 
 <!-- Markdown link & img dfn's -->
 
@@ -455,11 +457,14 @@ Created with Cookiecutter template: [**pydough**][pydough-url] version 1.2.2
 [license-url]: https://github.com/Stephen-RA-King/pynamer/blob/main/LICENSE
 [mypy-image]: http://www.mypy-lang.org/static/mypy_badge.svg
 [mypy-url]: http://mypy-lang.org/
+[openssf-image]: https://api.securityscorecards.dev/projects/github.com/Stephen-RA-King/pynamer/badge
+[openssf-url]: https://api.securityscorecards.dev/projects/github.com/Stephen-RA-King/pynamer
 [pipx-url]: https://pypa.github.io/pipx/
 [pre-commit-image]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
 [pre-commit-url]: https://github.com/pre-commit/pre-commit
 [pre-commit.ci-image]: https://results.pre-commit.ci/badge/github/Stephen-RA-King/pynamer/main.svg
 [pre-commit.ci-url]: https://results.pre-commit.ci/latest/github/Stephen-RA-King/pynamer/main
+[pydough-image]: https://img.shields.io/badge/pydough-2023-orange
 [pydough-url]: https://github.com/Stephen-RA-King/pydough
 [pypi-image]: https://img.shields.io/pypi/v/pynamer.svg
 [pypi-url]: https://pypi.org/project/pynamer/

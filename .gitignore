@@ -136,6 +136,7 @@ dmypy.json
 
 # miscellaneous files
 TODO.txt
+notes.txt
 *.docx
 post_installation.py
 pypi_index

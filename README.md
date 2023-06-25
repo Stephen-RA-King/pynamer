@@ -21,8 +21,7 @@ _**Utility to find an available package name in the PyPI repository and optional
 [![DeepSource][deepsource-image]][deepsource-url]
 [![license][license-image]][license-url]
 [![pydough][pydough-image]][pydough-url]
-[![OpenSSF
-Scorecard](https://api.securityscorecards.dev/projects/github.com/Stephen-RA-King/pynamer/badge)](https://api.securityscorecards.dev/projects/github.com/Stephen-RA-King/pynamer)
+<!-- [![OpenSSFScorecard][openssf-image]][openssf-url] -->
 
 As a pseudo replacement for pip search, pynamer will quickly ascertain if a project name is 'available' in PyPI.
 

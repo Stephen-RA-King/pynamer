@@ -419,7 +419,7 @@ Distributed under the MIT license. See [![][license-image]][license-url] for mor
 
 Created with Cookiecutter template: [![pydough][pydough-image]][pydough-url] version 1.2.2
 
-Digital Object Identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](https://zenodo.org/badge/latestdoi/631029310)
+Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](https://zenodo.org/badge/latestdoi/631029310)
 
 <!-- Markdown link & img dfn's -->
 

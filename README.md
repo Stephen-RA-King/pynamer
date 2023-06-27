@@ -386,6 +386,28 @@ Using a name similar to to an existing package name is a security issue.
 Malicious players will try to create project names that are frequently mistyped for large popular projects, thereby facilitating installation of a malicious project.
 e.g. replacing "L" / "l" with the number 1 or "o" / "O" with 0. The Software utilized by PyPI can be found on GitHub: [warehouse](https://github.com/pypi/warehouse).
 
+## Using the Docker Image
+
+Pull the latest image from the Hub.
+```bash
+~ $ docker pull sraking/pynamer
+```
+Run the image.
+```bash
+~ $ docker run -it sraking/pynamer /bin/bash
+```
+Use the command line as normal in the container.
+
+```bash
+root@4d315992ca28:/app# pynamer
+usage: pynamer [-h] [-r] [-v] [-g] [-m] [-s] [-w] [-f FILENAME] [-o FILENAME] [--version] [projects ...]
+
+Determine if project name is available on pypi with the option to 'register' it for future use if available
+...
+```
+
+
+
 ## Documentation
 
 ---

@@ -432,7 +432,7 @@ Determine if project name is available on pypi with the option to 'register' it 
 [![](assets/github.png)](https://github.com/Stephen-RA-King)
 [![PyPI repository](assets/pypi.png)](https://pypi.org/project/pynamer)
 [![Docker](assets/docker.png)](https://hub.docker.com/r/sraking/pynamer)
-[![](assets/www.png)](https://www.justpython.tech)
+[![](assets/www.png)](https://stephen-ra-king.github.io/justpython/)
 [![](assets/email.png)](mailto:sking.github@gmail.com)
 
 Author: Stephen King ([sking.github@gmail.com](mailto:sking.github@gmail.com))

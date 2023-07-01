@@ -118,7 +118,13 @@ def _github_meta(url: str) -> str:
             ]
         )
     if json_raw.status_code == 404:
-        return "".join([return_text, "repository does not exist"])
+        return "".join(
+            [
+                return_text,
+                "JSON API Does not exist.\n"
+                "This usually indicates a very old repository.",
+            ]
+        )
     return ""
 
 
@@ -150,7 +156,7 @@ def _ping_project(project_name: str) -> bool:
 
 
 def _ping_json(project_name: str, stats: bool = False) -> str:
-    """Collects some details about the project if it exists.
+    """Collects some PyPI details about the project if it exists.
 
     Args:
         project_name:   the name of the project to test.

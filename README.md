@@ -462,8 +462,8 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [commitizen-url]: http://commitizen.github.io/cz-cli/
 [conventional-commits-image]: https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg?style=flat-square
 [conventional-commits-url]: https://conventionalcommits.org
-[deepsource-image]: https://static.deepsource.io/deepsource-badge-light-mini.svg
-[deepsource-url]: https://deepsource.io/gh/Stephen-RA-King/pynamer/?ref=repository-badge
+[deepsource-image]: https://app.deepsource.com/gh/Stephen-RA-King/pynamer.svg/?label=active+issues&show_trend=true&token=SGo-Vr17NUYVQaEWkU9rBb6Y
+[deepsource-url]: https://app.deepsource.com/gh/Stephen-RA-King/pynamer/?ref=repository-badge
 [docker-image]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/docker-image.yml/badge.svg
 [docker-url]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/docker-image.yml
 [downloads-image]: https://static.pepy.tech/personalized-badge/pynamer?period=total&units=international_system&left_color=black&right_color=blue&left_text=Downloads

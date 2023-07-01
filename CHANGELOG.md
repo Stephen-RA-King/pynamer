@@ -2,6 +2,15 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.8 (2023-07-01)
+### Documentation
+* Update hyperlinks ([`68a4f66`](https://github.com/Stephen-RA-King/pynamer/commit/68a4f665b642795589c354bc3e192ff8038e19c6))
+* Update docker image usage ([`9637e54`](https://github.com/Stephen-RA-King/pynamer/commit/9637e54529e1113daea1e6c1ce6b8bf785d16aa0))
+* Minor case change ([`5c0535d`](https://github.com/Stephen-RA-King/pynamer/commit/5c0535d78b48a2efdaede61ff675359c78df135b))
+* Add openssf badge scorecard ([`779a9fe`](https://github.com/Stephen-RA-King/pynamer/commit/779a9fec1e400cfd3400ad5dcace6f9121de5bc3))
+* Update openssf badge ([`d196617`](https://github.com/Stephen-RA-King/pynamer/commit/d1966179c7dcec1ac872595b8278ad5501bafd2e))
+* Add openssf details ([`6fe62f8`](https://github.com/Stephen-RA-King/pynamer/commit/6fe62f8f5450949f4e37638f293457052061de61))
+
 ## v2.1.7 (2023-06-19)
 ### Fix
 * Account for hompepoage beginning with http: ([`d9dcb50`](https://github.com/Stephen-RA-King/pynamer/commit/d9dcb50b4e6321d681a16aeba88bc2a2908f1005))

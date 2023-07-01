@@ -38,7 +38,7 @@ expected_response_404_error = """
 
 GitHub Stats
 ------------
-repository does not exist"""
+JSON API Does not exist.\nThis usually indicates a very old repository."""
 
 
 @pytest.fixture

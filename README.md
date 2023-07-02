@@ -1,4 +1,4 @@
-_**Utility to find an available package name in the PyPI repository and optionally 'register' it.**_
+_**As a replacement for pip search, pynamer will quickly ascertain if a project name is 'available' in PyPI and optionally 'register' it.**_
 
 [![PyPI][pypi-image]][pypi-url]
 [![Downloads][downloads-image]][downloads-url]
@@ -23,7 +23,7 @@ _**Utility to find an available package name in the PyPI repository and optional
 [![pydough][pydough-image]][pydough-url]
 <!-- [![OpenSSFScorecard][openssf-image]][openssf-url] -->
 
-As a pseudo replacement for pip search, pynamer will quickly ascertain if a project name is 'available' in PyPI.
+
 
 ![](assets/pynamer1.png)
 

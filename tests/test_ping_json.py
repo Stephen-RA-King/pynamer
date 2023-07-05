@@ -66,13 +66,13 @@ def my_custom_get_not_found(url, **kwargs):
 
 def test_ping_json_found(monkeypatch):
     monkeypatch.setattr(requests, "get", my_custom_get_found)
-    result = pynamer._ping_json("pynball")
+    result = pynamer.ping_json("pynball")
     assert result == expected_response_found
 
 
 def test_ping_json_not_found(monkeypatch):
     monkeypatch.setattr(requests, "get", my_custom_get_not_found)
-    result = pynamer._ping_json("zeedonk")
+    result = pynamer.ping_json("zeedonk")
     assert result == ""
 
 
@@ -83,12 +83,12 @@ def test_ping_json_error(monkeypatch):
     monkeypatch.setattr(requests, "get", mock_requests_error)
 
     with pytest.raises(SystemExit) as excinfo:
-        pynamer._ping_json("pynball")
+        pynamer.ping_json("pynball")
     assert str(excinfo.value) == "An error occurred with an HTTP request"
 
 
 def test_ping_json_found_stats1(monkeypatch):
     monkeypatch.setattr(requests, "get", my_custom_get_found)
-    monkeypatch.setattr(validators, "_github_meta", return_stats)
-    result = pynamer._ping_json("pynball", stats=True)
+    monkeypatch.setattr(validators, "github_meta", return_stats)
+    result = pynamer.ping_json("pynball", stats=True)
     assert result == expected_response_found_stats

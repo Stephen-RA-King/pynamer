@@ -68,7 +68,7 @@ def pre_build_dist(monkeypatch):
 def test_build_dist(pre_build_dist, monkeypatch):
     # monkeypatch.setattr(pynamer, "project_path", BASE_DIR)
     monkeypatch.setattr(builder, "project_path", BASE_DIR)
-    pynamer._build_dist()
+    pynamer.build_dist()
     # builder._build_dist()
     assert (BASE_DIR / "build").exists()
     assert (BASE_DIR / "dist").exists()

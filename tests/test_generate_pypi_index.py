@@ -27,7 +27,7 @@ def test_generate_pypi_index(monkeypatch):
     monkeypatch.setattr(
         utils, "project_count_file_trv", BASE_DIR / "project_count.pickle"
     )
-    utils._generate_pypi_index()
+    utils.generate_pypi_index()
 
     assert (BASE_DIR / "pypi_index").exists()
     assert (BASE_DIR / "project_count.pickle").exists()
@@ -43,5 +43,5 @@ def test_generate_pypi_index_error(monkeypatch, project_path_mock):
     monkeypatch.setattr(utils, "pypi_index_file_trv", BASE_DIR / "pypi_index")
 
     with pytest.raises(SystemExit) as excinfo:
-        utils._generate_pypi_index()
+        utils.generate_pypi_index()
     assert str(excinfo.value) == "An error occurred with an HTTP request"

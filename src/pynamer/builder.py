@@ -28,10 +28,10 @@ from . import (
     setup_text,
 )
 from .config import config
-from .utils import _feedback
+from .utils import feedback
 
 
-def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
+def create_setup(new_project_name: str, new_meta: bool = False) -> None:
     """Utility script to create a setup.py file.
 
     The object being to create a setup.py file from a 'template' file for the purpose of
@@ -39,6 +39,7 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
 
     Args:
         new_project_name:       name used to render the template.
+        new_meta:               generate new package metadata.
     """
     # setup_file_py_trv = project_path / "setup.py"
 
@@ -68,7 +69,7 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
                 if author != "":
                     break
         except KeyboardInterrupt:  # pragma: no cover
-            _feedback("...bye!", "warning")
+            feedback("...bye!", "warning")
             raise SystemExit()
 
         try:
@@ -94,7 +95,7 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
                         + Style.RESET_ALL
                     )  # pragma: no cover
         except KeyboardInterrupt:  # pragma: no cover
-            _feedback("...bye!", "warning")
+            feedback("...bye!", "warning")
             raise SystemExit()
 
         try:
@@ -165,7 +166,7 @@ def _create_setup(new_project_name: str, new_meta: bool = False) -> None:
         message.write(content)
 
 
-def _rename_project_dir(old_name: str, new_name: str) -> None:
+def rename_project_dir(old_name: str, new_name: str) -> None:
     """Utility script to rename a directory.
 
     The object being to rename a 'template' directory for the purpose of creating a
@@ -188,7 +189,7 @@ def _rename_project_dir(old_name: str, new_name: str) -> None:
         raise FileNotFoundError
 
 
-def _delete_director(items_to_delete: Any) -> None:
+def delete_director(items_to_delete: Any) -> None:
     """Utility function to delete files and directories.
 
     Args:
@@ -206,7 +207,7 @@ def _delete_director(items_to_delete: Any) -> None:
             Path.unlink(item, missing_ok=True)
 
 
-def _cleanup(project_name: str) -> None:
+def cleanup(project_name: str) -> None:
     """Builds a manifest of artifacts to delete into a list of Path objects.
 
     Args:
@@ -214,7 +215,7 @@ def _cleanup(project_name: str) -> None:
     """
     if config.no_cleanup is True:  # pragma: no cover
         return
-    _rename_project_dir(
+    rename_project_dir(
         str(project_path.joinpath(project_name)),
         str(project_path.joinpath(config.original_project_name)),
     )
@@ -225,10 +226,10 @@ def _cleanup(project_name: str) -> None:
         project_path / "setup.py",
     ]
     logger.debug("cleaning build artifacts %s", build_artifacts)
-    _delete_director(build_artifacts)
+    delete_director(build_artifacts)
 
 
-def _run_command(
+def run_command(
     *arguments: str,
     shell: bool = True,
     working_dir: Union[Path, str, None] = None,
@@ -259,7 +260,7 @@ def _run_command(
             logger.error("Error running command: %s", arguments)
             logger.error("stderr: %s", stderr)
             if project is not None:
-                _cleanup(project)
+                cleanup(project)
             return
         logger.debug("%s", stdout)
         return
@@ -267,11 +268,11 @@ def _run_command(
         logger.error("Exception running command: %s", arguments)
         logger.error(e)
         if project is not None:
-            _cleanup(project)
+            cleanup(project)
         return
 
 
-def _upload_dist(project_name: str) -> None:
+def upload_dist(project_name: str) -> None:
     """Builds the twine command line to upload the minimalist project to PyPI.
 
     Args:
@@ -285,7 +286,7 @@ def _upload_dist(project_name: str) -> None:
     project_build = str(project_path / "dist" / "*")
     dir_path = os.fspath(project_build)
     pypirc_path = os.fspath(str(config.pypirc))
-    _run_command(
+    run_command(
         sys.executable,
         "-m",
         "twine",
@@ -297,7 +298,7 @@ def _upload_dist(project_name: str) -> None:
     )
 
 
-def _build_dist() -> None:
+def build_dist() -> None:
     """Builds the sdist and wheel of the minimalist project to upload to PyPI."""
     logger.debug("Building the distribution... ")
     builder = build.ProjectBuilder(project_path)

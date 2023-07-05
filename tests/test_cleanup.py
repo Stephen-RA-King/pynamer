@@ -33,7 +33,7 @@ def pre_cleanup(monkeypatch):
 
 def test_cleanup(pre_cleanup, monkeypatch):
     monkeypatch.setattr(builder, "project_path", BASE_DIR)
-    pynamer._cleanup("pynamer")
+    pynamer.cleanup("pynamer")
     assert not (BASE_DIR / "build").exists()
     assert not (BASE_DIR / "dist").exists()
     assert not (BASE_DIR / "dist" / "pynamer-0.0.0.tar.gz").exists()

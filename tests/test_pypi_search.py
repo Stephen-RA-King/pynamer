@@ -41,7 +41,7 @@ def my_custom_get(url, *args, **kwargs):
 
 def test_pypi_search(monkeypatch):
     monkeypatch.setattr(requests.Session, "get", my_custom_get)
-    match, others, others_total = pynamer._pypi_search("pynball")
+    match, others, others_total = pynamer.pypi_search("pynball")
     assert match == match_expected
     assert others == others_expected
     assert others_total == "1"

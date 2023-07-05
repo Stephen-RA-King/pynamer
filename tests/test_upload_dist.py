@@ -20,11 +20,11 @@ def test_upload_dist(monkeypatch, project_path_mock, capsys):
         captured_args.extend(args)
         return args
 
-    monkeypatch.setattr(builder, "_run_command", mock_run_command)
+    monkeypatch.setattr(builder, "run_command", mock_run_command)
     monkeypatch.setattr(builder, "project_path", BASE_DIR)
     monkeypatch.setattr(pynamer.config, "pypirc", pypirc_path)
 
-    pynamer._upload_dist("pynball")
+    pynamer.upload_dist("pynball")
 
     assert captured_args == [
         python_path,

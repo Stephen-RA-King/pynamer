@@ -65,7 +65,7 @@ def my_custom_get_found(url, **kwargs):
 
 def test_github_meta_black(monkeypatch):
     monkeypatch.setattr(requests, "get", my_custom_get_found)
-    result = pynamer.validators._github_meta("https://github.com/psf/black")
+    result = pynamer.validators.github_meta("https://github.com/psf/black")
     assert result == expected_response_found
 
 
@@ -75,10 +75,10 @@ def test_ping_json_error(monkeypatch):
 
     monkeypatch.setattr(requests, "get", mock_requests_error)
 
-    result = pynamer.validators._github_meta("https://github.com/psf/black")
+    result = pynamer.validators.github_meta("https://github.com/psf/black")
     assert result == expected_response_http_error
 
 
 def test_ping_json_not_exist(mock_response_404):
-    result = pynamer.validators._github_meta("https://github.com/psf/black")
+    result = pynamer.validators.github_meta("https://github.com/psf/black")
     assert result == expected_response_404_error

@@ -21,5 +21,5 @@ expected_result = [
 
 def test_process_input_file(monkeypatch):
     file = str(BASE_DIR / "resources" / "input_file")
-    result = pynamer._process_input_file(file)
+    result = pynamer.process_input_file(file)
     assert sorted(result) == expected_result

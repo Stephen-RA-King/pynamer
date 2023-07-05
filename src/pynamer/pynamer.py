@@ -11,29 +11,29 @@ from rich.table import Table
 # Local modules
 from . import logger, project_count, project_path
 from .builder import (
-    _build_dist,
-    _cleanup,
-    _create_setup,
-    _rename_project_dir,
-    _upload_dist,
+    build_dist,
+    cleanup,
+    create_setup,
+    rename_project_dir,
+    upload_dist,
 )
 from .cli import _parse_args
 from .config import config
 from .utils import (
-    _check_version,
-    _feedback,
-    _find_pypirc_file,
-    _generate_pypi_index,
-    _process_input_file,
-    _write_output_file,
+    check_version,
+    feedback,
+    find_pypirc_file,
+    generate_pypi_index,
+    process_input_file,
+    write_output_file,
 )
 from .validators import (
-    _final_analysis,
-    _is_valid_package_name,
-    _ping_json,
-    _ping_project,
-    _pypi_search,
-    _pypi_search_index,
+    final_analysis,
+    is_valid_package_name,
+    ping_json,
+    ping_project,
+    pypi_search,
+    pypi_search_index,
 )
 
 
@@ -42,17 +42,17 @@ def main() -> None:  # pragma: no cover, type: ignore
     logger.debug(" args: %s", args)
 
     if args.generate:
-        _generate_pypi_index()
+        generate_pypi_index()
 
     if args.version:
-        _check_version()
+        check_version()
 
     if args.projects == "None" and args.f == "None" and args.register:
-        _feedback("You need to specify a project name to register it", "error")
+        feedback("You need to specify a project name to register it", "error")
         raise SystemExit()
 
     if args.projects == "None" and args.f == "None" and args.meta:
-        _feedback(
+        feedback(
             "You can only update the meta data during the registration process", "error"
         )
         raise SystemExit()
@@ -69,7 +69,7 @@ def main() -> None:  # pragma: no cover, type: ignore
     project_list = []
     test_results = []
     aggregated_result = {}
-    _find_pypirc_file()
+    find_pypirc_file()
     if args.nocleanup is True:
         config.no_cleanup = True
 
@@ -80,15 +80,15 @@ def main() -> None:  # pragma: no cover, type: ignore
         logger.debug("project_list = %s", project_list)
     if args.f != "None":
         logger.debug("adding project names from file %s", args.f)
-        project_list.extend(_process_input_file(args.f))
+        project_list.extend(process_input_file(args.f))
         logger.debug("project_list = %s", project_list)
     project_list.sort()
 
     # Main loop
     for new_project in project_list:
-        if not _is_valid_package_name(new_project):
-            _feedback(f"{new_project} is not a valid package name", "error")
-            _feedback("refer to PEP508 & PEP423 for more details", "warning")
+        if not is_valid_package_name(new_project):
+            feedback(f"{new_project} is not a valid package name", "error")
+            feedback("refer to PEP508 & PEP423 for more details", "warning")
             continue
 
         test_table = Table(title=f"Test Results for {new_project}", show_lines=True)
@@ -113,12 +113,12 @@ def main() -> None:  # pragma: no cover, type: ignore
 
         # perform the tests
         # Test 1
-        if _ping_project(new_project):
+        if ping_project(new_project):
             test_results.append(1)
             if args.stats is True:
-                json_data = _ping_json(new_project, stats=True)
+                json_data = ping_json(new_project, stats=True)
             else:
-                json_data = _ping_json(new_project)
+                json_data = ping_json(new_project)
             test_table.add_row(
                 "1", "Check PyPI project URL", "[red]FOUND[/red]", json_data
             )
@@ -129,7 +129,7 @@ def main() -> None:  # pragma: no cover, type: ignore
             )
 
         # Test 2
-        if _pypi_search_index(new_project):
+        if pypi_search_index(new_project):
             test_results.append(1)
             test_table.add_row(
                 "2",
@@ -147,7 +147,7 @@ def main() -> None:  # pragma: no cover, type: ignore
             )
 
         # Test 3
-        match, others, others_total = _pypi_search(new_project)
+        match, others, others_total = pypi_search(new_project)
         if match:
             test_results.append(1)
             test_table.add_row(
@@ -179,7 +179,7 @@ def main() -> None:  # pragma: no cover, type: ignore
             console.print(match_table)
         if args.verbose and others:
             console.print(others_table)
-        _final_analysis(test_results)
+        final_analysis(test_results)
 
         # build and upload
         if (
@@ -188,33 +188,33 @@ def main() -> None:  # pragma: no cover, type: ignore
             and config.pypirc is not None
             and len(project_list) == 1
         ):
-            _create_setup(new_project, new_meta=args.meta)
-            _rename_project_dir(
+            create_setup(new_project, new_meta=args.meta)
+            rename_project_dir(
                 str(project_path.joinpath(config.original_project_name)),
                 str(project_path.joinpath(new_project)),
             )
-            _build_dist()
+            build_dist()
             if args.dryrun is False:
-                _upload_dist(new_project)
+                upload_dist(new_project)
             else:
-                _feedback("Dryrun .... bypassing upload to PyPI..", "warning")
-            _cleanup(new_project)
+                feedback("Dryrun .... bypassing upload to PyPI..", "warning")
+            cleanup(new_project)
         elif args.register is True and config.pypirc is None:
-            _feedback(
+            feedback(
                 ".pypirc file cannot be located ... wont attempt to 'register'",
                 "error",
             )
         elif sum(test_results) > 0 and args.register is True:
-            _feedback("Project already exists ... wont attempt to 'register'", "error")
+            feedback("Project already exists ... wont attempt to 'register'", "error")
 
         aggregated_result[new_project] = test_results.copy()
         test_results.clear()
 
     if args.o != "None":
-        _write_output_file(args.o, aggregated_result)
+        write_output_file(args.o, aggregated_result)
 
     if args.register and len(project_list) > 1:
-        _feedback(
+        feedback(
             f"You can only use 'register' for one project at a time. "
             f"You have specified {len(project_list)} projects",
             "warning",
@@ -225,7 +225,7 @@ def main() -> None:  # pragma: no cover, type: ignore
             url_project = "".join([config.pypi_project_url, project_list[0], "/"])
             webbrowser.open(url_project)
         else:
-            _feedback(
+            feedback(
                 f"You must choose one project to open the webbrowser. "
                 f"You have chosen {len(project_list)} projects",
                 "warning",

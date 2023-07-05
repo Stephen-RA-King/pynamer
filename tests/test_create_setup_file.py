@@ -31,7 +31,7 @@ def test_create_setup(create_env, monkeypatch):
     monkeypatch.setattr(builder, "setup_file_py_trv", BASE_DIR / "setup.py")
     monkeypatch.setattr(builder, "meta_file_trv", BASE_DIR / "meta.pickle")
 
-    builder._create_setup("pynball")
+    builder.create_setup("pynball")
 
     setup_file = BASE_DIR / "setup.py"
     with open(setup_file, encoding="utf-8") as f:

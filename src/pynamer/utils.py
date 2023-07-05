@@ -23,15 +23,15 @@ from . import logger, project_count_file_trv, pypi_index_file_trv
 from .config import config
 
 
-def _check_integrity() -> None:
+def check_integrity() -> None:
     pass  # pragma: no cover
 
 
-def _reset() -> None:
+def reset() -> None:
     pass  # pragma: no cover
 
 
-def _feedback(message: str, feedback_type: str) -> None:
+def feedback(message: str, feedback_type: str) -> None:
     """Generates a formatted messages appropriate to the message type.
 
     Args:
@@ -61,7 +61,7 @@ def _feedback(message: str, feedback_type: str) -> None:
             )
 
 
-def _search_json(json_data: dict, project_name: str) -> str:
+def search_json(json_data: dict, project_name: str) -> str:
     """Searches a json data structure for a GitHub project URL.
 
     The json data is found from the PyPI json URL: "https://pypi.org/pypi/package_name".
@@ -98,7 +98,7 @@ def _search_json(json_data: dict, project_name: str) -> str:
     return homepage
 
 
-def _find_pypirc_file(filename: str = ".pypirc") -> None:
+def find_pypirc_file(filename: str = ".pypirc") -> None:
     """Function to iterate over paths in the PATH environment variable to find a file.
 
      Designed to find a .pypirc file starting with the current working directory.
@@ -122,7 +122,7 @@ def _find_pypirc_file(filename: str = ".pypirc") -> None:
     logger.debug("%s is not present in the system's PATH.", filename)
 
 
-def _generate_pypi_index() -> None:
+def generate_pypi_index() -> None:
     """Generates a list of projects in PyPI's simple index - writes results to a file.
 
     Raises:
@@ -163,18 +163,18 @@ def _generate_pypi_index() -> None:
     if config.project_count > 0:
         diff = new_count - config.project_count
         if diff > 0:  # pragma: no cover
-            _feedback(
+            feedback(
                 f"Project count has increased by {diff} since last index generation",
                 "warning",
             )
         elif diff < 0:  # pragma: no cover
-            _feedback(
+            feedback(
                 f"Project count has decreased by {diff} since last index generation",
                 "warning",
             )
 
 
-def _check_version() -> None:
+def check_version() -> None:
     """Utility function to compare package version against latest version on PyPI.
 
     Returns:
@@ -194,13 +194,13 @@ def _check_version() -> None:
         pypi_version = version.parse(project_json["info"]["version"])
         if pypi_version > current_version:
             message = f"(There is a newer version available: {pypi_version})"
-            _feedback(f"{current_version} : {message}", "warning")
+            feedback(f"{current_version} : {message}", "warning")
         elif pypi_version == current_version:
             message = "(You have the most recent version)"
-            _feedback(f"{current_version} : {message}", "nominal")
+            feedback(f"{current_version} : {message}", "nominal")
 
 
-def _process_input_file(file: str) -> list[Union[str, Any]]:
+def process_input_file(file: str) -> list[Union[str, Any]]:
     """Processes the contents of the file to a list of strings.
 
     Args:
@@ -220,23 +220,23 @@ def _process_input_file(file: str) -> list[Union[str, Any]]:
             projects = file_contents.split()
             return list(set(projects))
     except FileNotFoundError:  # pragma: no cover
-        _feedback(f"The file {file} does not exist", "warning")
+        feedback(f"The file {file} does not exist", "warning")
         raise SystemExit()
     except PermissionError:  # pragma: no cover
-        _feedback(f"Permission denied to file: {file}", "warning")
+        feedback(f"Permission denied to file: {file}", "warning")
         raise SystemExit()
     except IsADirectoryError:  # pragma: no cover
-        _feedback(f"{file} is a directory not a file", "warning")
+        feedback(f"{file} is a directory not a file", "warning")
         raise SystemExit()
     except OSError:  # pragma: no cover
-        _feedback(f"A general IO error has occurred opening file: {file}", "warning")
+        feedback(f"A general IO error has occurred opening file: {file}", "warning")
         raise SystemExit()
     except Exception as e:  # pragma: no cover
-        _feedback(f"An error occurred:, {str(e)}", "warning")
+        feedback(f"An error occurred:, {str(e)}", "warning")
         raise SystemExit()
 
 
-def _write_output_file(file_name: str, results: dict) -> None:
+def write_output_file(file_name: str, results: dict) -> None:
     """Write the results to a file.
 
     Args:
@@ -280,17 +280,17 @@ def _write_output_file(file_name: str, results: dict) -> None:
         with file_path.open(mode="w") as f:
             f.write(final_output_text)
     except PermissionError:  # pragma: no cover
-        _feedback(f"Permission denied to file: {file_path.open}", "warning")
+        feedback(f"Permission denied to file: {file_path.open}", "warning")
         raise SystemExit()
     except FileExistsError:  # pragma: no cover
-        _feedback(f"File {file_path.open} already exists", "warning")
+        feedback(f"File {file_path.open} already exists", "warning")
         raise SystemExit()
     except IsADirectoryError:  # pragma: no cover
-        _feedback(f"{file_path.open} is a directory not a file", "warning")
+        feedback(f"{file_path.open} is a directory not a file", "warning")
         raise SystemExit()
     except OSError:  # pragma: no cover
-        _feedback("General IO error has occurred", "warning")
+        feedback("General IO error has occurred", "warning")
         raise SystemExit()
     except Exception as e:  # pragma: no cover
-        _feedback(f"An error occurred:, {str(e)}", "warning")
+        feedback(f"An error occurred:, {str(e)}", "warning")
         raise SystemExit()

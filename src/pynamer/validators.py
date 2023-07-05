@@ -17,10 +17,10 @@ from rich.table import Table
 # Local modules
 from . import logger, pypi_index_file_trv
 from .config import config
-from .utils import _generate_pypi_index, _search_json
+from .utils import generate_pypi_index, search_json
 
 
-def _is_valid_package_name(project_name: str) -> bool:
+def is_valid_package_name(project_name: str) -> bool:
     """Function does a basic check of project name validity.
 
     Args:
@@ -37,7 +37,7 @@ def _is_valid_package_name(project_name: str) -> bool:
         return False
 
 
-def _get_homepage(project_json: dict, project_name: str) -> tuple[str, str]:
+def get_homepage(project_json: dict, project_name: str) -> tuple[str, str]:
     """Finds the GitHub homepage from the PyPI json data.
 
     With this function we are trying to ultimately find the GitHub 'homepage':
@@ -64,7 +64,7 @@ def _get_homepage(project_json: dict, project_name: str) -> tuple[str, str]:
         home_url = "".join([config.github_base_url, home_url])
         return "".join(["Homepage: ", home_url]), home_url
 
-    homepage = _search_json(project_json, project_name)
+    homepage = search_json(project_json, project_name)
     if homepage:
         return "".join(["Homepage: ", homepage]), homepage
 
@@ -74,7 +74,7 @@ def _get_homepage(project_json: dict, project_name: str) -> tuple[str, str]:
     return "Homepage: None", ""
 
 
-def _github_meta(url: str) -> str:
+def github_meta(url: str) -> str:
     """Finds GitHub statistics given a GitHub Homepage URL.
 
     Args:
@@ -128,7 +128,7 @@ def _github_meta(url: str) -> str:
     return ""
 
 
-def _ping_project(project_name: str) -> bool:
+def ping_project(project_name: str) -> bool:
     """Determines if the URL to the project exists in PyPIs project area.
 
     Args:
@@ -155,11 +155,12 @@ def _ping_project(project_name: str) -> bool:
     return False
 
 
-def _ping_json(project_name: str, stats: bool = False) -> str:
+def ping_json(project_name: str, stats: bool = False) -> str:
     """Collects some PyPI details about the project if it exists.
 
     Args:
         project_name:   the name of the project to test.
+        stats:          display stats from github json url.
 
     Raises:
         SystemExit:     if any requests.RequestException occurs.
@@ -174,7 +175,7 @@ def _ping_json(project_name: str, stats: bool = False) -> str:
     if project_json_raw.status_code == 200:
         project_json = json.loads(project_json_raw.content)
 
-        homepage_text, homepage_url = _get_homepage(project_json, project_name)
+        homepage_text, homepage_url = get_homepage(project_json, project_name)
         if homepage_url.startswith("http:"):
             homepage_url = homepage_url.replace("http:", "https:")
 
@@ -203,13 +204,13 @@ def _ping_json(project_name: str, stats: bool = False) -> str:
         )
 
         if "github" in homepage_url and stats is True:
-            result = "".join([result, _github_meta(homepage_url)])
+            result = "".join([result, github_meta(homepage_url)])
         return result
     logger.debug("No response from JSON URL")
     return ""
 
 
-def _pypi_search_index(project_name: str) -> bool:
+def pypi_search_index(project_name: str) -> bool:
     """Open the generated index file and search for the project name.
 
     Args:
@@ -220,7 +221,7 @@ def _pypi_search_index(project_name: str) -> bool:
         False:          a match was not found.
     """
     if not pypi_index_file_trv.is_file():
-        _generate_pypi_index()
+        generate_pypi_index()
 
     projects = pypi_index_file_trv.read_text(encoding="utf-8")
     if project_name in projects:
@@ -230,7 +231,7 @@ def _pypi_search_index(project_name: str) -> bool:
     return False
 
 
-def _pypi_search(
+def pypi_search(
     search_project: str,
 ) -> tuple[list[list[Union[str, Any]]], list[list[Union[str, Any]]], str]:
     """Performs a get request to PyPI's search API for the project name.
@@ -292,7 +293,7 @@ def _pypi_search(
     return match, others, others_total
 
 
-def _final_analysis(pattern: list[int]) -> None:
+def final_analysis(pattern: list[int]) -> None:
     """Displays a rich console table displaying the conclusion of the test results
 
     Args:

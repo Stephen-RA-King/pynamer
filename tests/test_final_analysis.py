@@ -30,7 +30,7 @@ def test_final_analysis_010(capsys):
     console.print(table)
     captured_expected = capsys.readouterr()
 
-    pynamer._final_analysis([0, 1, 0])
+    pynamer.final_analysis([0, 1, 0])
     captured_actual = capsys.readouterr()
 
     assert captured_actual.out.strip() == captured_expected.out.strip()
@@ -51,7 +51,7 @@ def test_final_analysis_110(capsys):
     console.print(table)
     captured_expected = capsys.readouterr()
 
-    pynamer._final_analysis([1, 1, 0])
+    pynamer.final_analysis([1, 1, 0])
     captured_actual = capsys.readouterr()
 
     assert captured_actual.out.strip() == captured_expected.out.strip()
@@ -66,7 +66,7 @@ def test_final_analysis_001(capsys):
     console.print(table)
     captured_expected = capsys.readouterr()
 
-    pynamer._final_analysis([0, 0, 1])
+    pynamer.final_analysis([0, 0, 1])
     captured_actual = capsys.readouterr()
 
     assert captured_actual.out.strip() == captured_expected.out.strip()
@@ -81,7 +81,7 @@ def test_final_analysis_000(capsys):
     console.print(table)
     captured_expected = capsys.readouterr()
 
-    pynamer._final_analysis([0, 0, 0])
+    pynamer.final_analysis([0, 0, 0])
     captured_actual = capsys.readouterr()
 
     assert captured_actual.out.strip() == captured_expected.out.strip()

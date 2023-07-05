@@ -15,13 +15,13 @@ def test_rename_directory(create_env):
     old_name = BASE_DIR / "project_name"
     new_name = BASE_DIR / "pynamer"
     assert old_name.exists()
-    pynamer._rename_project_dir(str(old_name), str(new_name))
+    pynamer.rename_project_dir(str(old_name), str(new_name))
     assert new_name.exists()
-    pynamer._rename_project_dir(str(new_name), str(old_name))
+    pynamer.rename_project_dir(str(new_name), str(old_name))
 
 
 def test_rename_directory_dir_missing(create_env):
     old_name = BASE_DIR / "project_name1"
     new_name = BASE_DIR / "pynamer"
     with pytest.raises(FileNotFoundError):
-        pynamer._rename_project_dir(str(old_name), str(new_name))
+        pynamer.rename_project_dir(str(old_name), str(new_name))

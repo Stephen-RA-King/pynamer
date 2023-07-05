@@ -16,7 +16,7 @@ def test_search_json_black():
     request_object = pickle.loads(pickle_bytes)
     project_json = json.loads(request_object.content)
 
-    url = pynamer.utils._search_json(project_json, "black")
+    url = pynamer.utils.search_json(project_json, "black")
 
     assert url == "https://github.com/psf/black"
 
@@ -27,7 +27,7 @@ def test_search_json_isort():
     request_object = pickle.loads(pickle_bytes)
     project_json = json.loads(request_object.content)
 
-    url = pynamer.utils._search_json(project_json, "isort")
+    url = pynamer.utils.search_json(project_json, "isort")
 
     assert url == "https://github.com/pycqa/isort"
 
@@ -38,6 +38,6 @@ def test_search_json_requests():
     request_object = pickle.loads(pickle_bytes)
     project_json = json.loads(request_object.content)
 
-    url = pynamer.utils._search_json(project_json, "requests")
+    url = pynamer.utils.search_json(project_json, "requests")
 
     assert url == "https://github.com/psf/requests"

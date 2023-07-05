@@ -13,5 +13,5 @@ def test_pypi_search_index(monkeypatch):
     monkeypatch.setattr(
         validators, "pypi_index_file_trv", BASE_DIR / "resources" / "pypi_index"
     )
-    assert pynamer._pypi_search_index("pynball") is True
-    assert pynamer._pypi_search_index("zeedonk") is False
+    assert pynamer.pypi_search_index("pynball") is True
+    assert pynamer.pypi_search_index("zeedonk") is False

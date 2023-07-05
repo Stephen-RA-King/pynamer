@@ -30,13 +30,13 @@ def my_custom_get_not_found(url, **kwargs):
 
 def test_ping_project_found(monkeypatch):
     monkeypatch.setattr(requests, "get", my_custom_get_found)
-    result = pynamer._ping_project("pynball")
+    result = pynamer.ping_project("pynball")
     assert result is True
 
 
 def test_ping_project_not_found(monkeypatch):
     monkeypatch.setattr(requests, "get", my_custom_get_not_found)
-    result = pynamer._ping_project("zeedonk")
+    result = pynamer.ping_project("zeedonk")
     assert result is False
 
 
@@ -47,5 +47,5 @@ def test_ping_project_error(monkeypatch):
     monkeypatch.setattr(requests, "get", mock_requests_error)
 
     with pytest.raises(SystemExit) as excinfo:
-        pynamer._ping_project("pynball")
+        pynamer.ping_project("pynball")
     assert str(excinfo.value) == "An error occurred with an HTTP request"

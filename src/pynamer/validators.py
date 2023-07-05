@@ -17,6 +17,7 @@ from rich.table import Table
 # Local modules
 from . import logger, pypi_index_file_trv
 from .config import config
+from .exceptions import request_exception
 from .utils import generate_pypi_index, search_json
 
 
@@ -128,6 +129,7 @@ def github_meta(url: str) -> str:
     return ""
 
 
+@request_exception
 def ping_project(project_name: str) -> bool:
     """Determines if the URL to the project exists in PyPIs project area.
 
@@ -143,11 +145,9 @@ def ping_project(project_name: str) -> bool:
     """
     url_project = "".join([config.pypi_project_url, project_name, "/"])
     logger.debug("attempting to get url %s", url_project)
-    try:
-        project_ping = requests.get(url_project, timeout=5)
-    except requests.RequestException as e:
-        logger.error("An error occurred: %s", e)
-        raise SystemExit("An error occurred with an HTTP request")
+
+    project_ping = requests.get(url_project, timeout=5)
+
     if project_ping.status_code == 200:
         logger.debug("%s FOUND in the project area of PyPI", project_name)
         return True
@@ -155,6 +155,7 @@ def ping_project(project_name: str) -> bool:
     return False
 
 
+@request_exception
 def ping_json(project_name: str, stats: bool = False) -> str:
     """Collects some PyPI details about the project if it exists.
 
@@ -167,11 +168,9 @@ def ping_json(project_name: str, stats: bool = False) -> str:
     """
     url_json = "".join([config.pypi_json_url, project_name, "/json"])
     logger.debug("attempting to get url %s", url_json)
-    try:
-        project_json_raw = requests.get(url_json, timeout=5)
-    except requests.RequestException as e:
-        logger.error("An error occurred: %s", e)
-        raise SystemExit("An error occurred with an HTTP request")
+
+    project_json_raw = requests.get(url_json, timeout=5)
+
     if project_json_raw.status_code == 200:
         project_json = json.loads(project_json_raw.content)
 

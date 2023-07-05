@@ -84,7 +84,7 @@ def test_ping_json_error(monkeypatch):
 
     with pytest.raises(SystemExit) as excinfo:
         pynamer.ping_json("pynball")
-    assert str(excinfo.value) == "An error occurred with an HTTP request"
+    assert str(excinfo.value) == "A connection error occurred"
 
 
 def test_ping_json_found_stats1(monkeypatch):

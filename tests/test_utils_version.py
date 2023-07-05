@@ -47,4 +47,4 @@ def test_ping_json_error(monkeypatch):
     monkeypatch.setattr(requests, "get", mock_requests_error)
     with pytest.raises(SystemExit) as excinfo:
         pynamer.utils.check_version()
-    assert str(excinfo.value) == "An error occurred with an HTTP request"
+    assert str(excinfo.value) == "A connection error occurred"

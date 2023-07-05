@@ -44,4 +44,4 @@ def test_generate_pypi_index_error(monkeypatch, project_path_mock):
 
     with pytest.raises(SystemExit) as excinfo:
         utils.generate_pypi_index()
-    assert str(excinfo.value) == "An error occurred with an HTTP request"
+    assert str(excinfo.value) == "A connection error occurred"

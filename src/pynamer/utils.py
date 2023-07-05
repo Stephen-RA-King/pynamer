@@ -21,6 +21,7 @@ import pynamer
 # Local modules
 from . import logger, project_count_file_trv, pypi_index_file_trv
 from .config import config
+from .exceptions import file_exception, request_exception
 
 
 def check_integrity() -> None:
@@ -122,6 +123,7 @@ def find_pypirc_file(filename: str = ".pypirc") -> None:
     logger.debug("%s is not present in the system's PATH.", filename)
 
 
+@request_exception
 def generate_pypi_index() -> None:
     """Generates a list of projects in PyPI's simple index - writes results to a file.
 
@@ -142,11 +144,8 @@ def generate_pypi_index() -> None:
 
     progress_bar = tqdm(total=config.project_count)
 
-    try:
-        index_object_raw = requests.get(config.pypi_simple_index_url, timeout=5)
-    except requests.RequestException as e:
-        logger.error("An error occurred: %s", e)
-        raise SystemExit("An error occurred with an HTTP request")
+    index_object_raw = requests.get(config.pypi_simple_index_url, timeout=5)
+
     with pypi_index_file_trv.open("a") as file:
         for line in index_object_raw.iter_lines():
             line = str(line)
@@ -174,6 +173,7 @@ def generate_pypi_index() -> None:
             )
 
 
+@request_exception
 def check_version() -> None:
     """Utility function to compare package version against latest version on PyPI.
 
@@ -182,13 +182,15 @@ def check_version() -> None:
         str:                message concerning the result of the comparison.
         bool:               True: if the installed package is up-to-date.
                             False: if there is a newer version on PyPI.
+
+    Raises:
+        SystemExit:     if any requests.RequestException occurs.
     """
     url_json = "".join([config.pypi_json_url, "pynamer", "/json"])
     current_version = version.parse(pynamer.__version__)
-    try:
-        project_json_raw = requests.get(url_json, timeout=5)
-    except requests.RequestException:
-        raise SystemExit("An error occurred with an HTTP request")
+
+    project_json_raw = requests.get(url_json, timeout=5)
+
     if project_json_raw.status_code == 200:
         project_json = json.loads(project_json_raw.content)
         pypi_version = version.parse(project_json["info"]["version"])
@@ -200,6 +202,7 @@ def check_version() -> None:
             feedback(f"{current_version} : {message}", "nominal")
 
 
+@file_exception
 def process_input_file(file: str) -> list[Union[str, Any]]:
     """Processes the contents of the file to a list of strings.
 
@@ -207,35 +210,21 @@ def process_input_file(file: str) -> list[Union[str, Any]]:
         file:           simple string for the file.
 
     Raises:
-        SystemExit:     if the file is found to not exist.
+        SystemExit:     if there is an error opening the file.
 
     Notes:
         File contents should contain any number of space separated strings on any
         number of lines.
     """
     file_path = Path(file)
-    try:
-        with file_path.open(mode="r") as f:
-            file_contents = f.read()
-            projects = file_contents.split()
-            return list(set(projects))
-    except FileNotFoundError:  # pragma: no cover
-        feedback(f"The file {file} does not exist", "warning")
-        raise SystemExit()
-    except PermissionError:  # pragma: no cover
-        feedback(f"Permission denied to file: {file}", "warning")
-        raise SystemExit()
-    except IsADirectoryError:  # pragma: no cover
-        feedback(f"{file} is a directory not a file", "warning")
-        raise SystemExit()
-    except OSError:  # pragma: no cover
-        feedback(f"A general IO error has occurred opening file: {file}", "warning")
-        raise SystemExit()
-    except Exception as e:  # pragma: no cover
-        feedback(f"An error occurred:, {str(e)}", "warning")
-        raise SystemExit()
+
+    with file_path.open(mode="r") as f:
+        file_contents = f.read()
+        projects = file_contents.split()
+        return list(set(projects))
 
 
+@file_exception
 def write_output_file(file_name: str, results: dict) -> None:
     """Write the results to a file.
 
@@ -243,6 +232,9 @@ def write_output_file(file_name: str, results: dict) -> None:
         file_name:      name of file to save as a simple string.
         results:        dictionary containing the test results e.g.
                         {"pynball": [1, 1, 1]}
+
+    Raises:
+        SystemExit:     if there is an error opening the file.
     """
     header_width = 83
     truncation_width = 25
@@ -276,21 +268,5 @@ def write_output_file(file_name: str, results: dict) -> None:
 
     final_output_text = "".join([title, header, projects_results])
 
-    try:  # pragma: no cover
-        with file_path.open(mode="w") as f:
-            f.write(final_output_text)
-    except PermissionError:  # pragma: no cover
-        feedback(f"Permission denied to file: {file_path.open}", "warning")
-        raise SystemExit()
-    except FileExistsError:  # pragma: no cover
-        feedback(f"File {file_path.open} already exists", "warning")
-        raise SystemExit()
-    except IsADirectoryError:  # pragma: no cover
-        feedback(f"{file_path.open} is a directory not a file", "warning")
-        raise SystemExit()
-    except OSError:  # pragma: no cover
-        feedback("General IO error has occurred", "warning")
-        raise SystemExit()
-    except Exception as e:  # pragma: no cover
-        feedback(f"An error occurred:, {str(e)}", "warning")
-        raise SystemExit()
+    with file_path.open(mode="w") as f:
+        f.write(final_output_text)

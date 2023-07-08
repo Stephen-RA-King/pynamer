@@ -366,6 +366,16 @@ Even worse ...
 
 ![](assets/usage_zem.png)
 
+You may ask .. Why not just use the PyPI simple search index, that seems to be a pretty good indicator?
+Well that is because it isn't...
+
+```bash
+~ $ pynamer gitmon
+```
+
+![](assets/usage_gitmon.png)
+
+
 ## Limitations
 
 There will be occasions where all the tests pass, the name appears to be available but the upload to PyPI still fails.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Collection of functions to build a minimal package and upload to PyPI."""
+"""Collection of functions to build a minimal package and publish on PyPI."""
 # Core Library modules
 import os
 import pickle
@@ -41,8 +41,6 @@ def create_setup(new_project_name: str, new_meta: bool = False) -> None:
         new_project_name:       name used to render the template.
         new_meta:               generate new package metadata.
     """
-    # setup_file_py_trv = project_path / "setup.py"
-
     author = meta["author"] if meta else ""
     email = meta["email"] if meta else ""
     description = meta["description"] if meta else config.description
@@ -238,12 +236,12 @@ def run_command(
     """Utility designed to execute a command line utility.
 
     Args:
-        arguments:  Comma separated strings- "utility", "arg1", "arg2", etc.
-        shell:      command executed by the shell or directly by the operating system.
-        cwd:        specifies the current working directory to use when starting
-                    the subprocess.
-                    e.g. "/home/user/mydir"
-        project:    the name of the project currently being tested
+        arguments:   Comma separated strings- "utility", "arg1", "arg2", etc.
+        shell:       command executed by the shell or directly by the operating system.
+        working_dir: specifies the current working directory to use when starting
+                     the subprocess.
+                     e.g. "/home/user/mydir"
+        project:     the name of the project currently being tested
     """
     working_dir = os.getcwd() if working_dir is None else working_dir
     try:

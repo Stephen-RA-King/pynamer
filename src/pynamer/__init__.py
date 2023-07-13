@@ -17,7 +17,6 @@ __description__ = (
 __email__ = "sking.github@gmail.com"
 __license__ = "MIT"
 __copyright__ = "Copyright 2023 Stephen R A King"
-
 __all__ = ["builder", "cli", "config", "pynamer", "utils", "validators"]
 
 

@@ -32,12 +32,10 @@ def request_exception(func: Callable) -> Callable:
             raise SystemExit("An HTTP error occurred.")
         except RequestException as e:  # pragma: no cover
             logger.error(
-                "An ambiguous exception that occurred while handling request: %s",
+                "An ambiguous exception occurred while handling request: %s",
                 e,
             )
-            raise SystemExit(
-                "An ambiguous exception that occurred while handling request."
-            )
+            raise SystemExit("An ambiguous exception occurred while handling request.")
         return result
 
     return wrapper
@@ -55,7 +53,6 @@ def file_exception(func: Callable) -> Callable:
             raise SystemExit("Permission denied to file")
         except IsADirectoryError as e:  # pragma: no cover
             logger.error("File is a directory not a file: %s", e)
-
             raise SystemExit("File is a directory not a file")
         except OSError as e:  # pragma: no cover
             logger.error("A general IO error has occurred opening file: %s", e)

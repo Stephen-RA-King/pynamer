@@ -183,7 +183,7 @@ def main() -> None:  # pragma: no cover, type: ignore
 
         # build and upload
         if (
-            test_results == [0, 0, 0]
+            (test_results == [0, 0, 0] or args.force)
             and args.register is True
             and config.pypirc is not None
             and len(project_list) == 1

@@ -27,6 +27,11 @@ def _parse_args(args: list) -> tuple[argparse.Namespace, argparse.ArgumentParser
         help="register the name on PyPi if the name is available",
     )
     parser.add_argument(
+        "--force",
+        action="store_true",
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
         "-d",
         "--dryrun",
         action="store_true",

@@ -1,0 +1,43 @@
+name: Jinja-Genie templater
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Fetch and Merge Remote Changes
+        run: git pull origin main
+
+      - name: Template __init__ file
+        uses: stephen-ra-king/jinja-genie@v1
+        if: always()
+        with:
+          template: templates/__init__.py.j2
+          target: src/pynamer/__init__.py
+          protect: true
+          dynamic_script: templater.py
+
+      - name: Template readme file
+        uses: stephen-ra-king/jinja-genie@v1
+        if: always()
+        with:
+          template: templates/README.md.j2
+          target: README.md
+          protect: true
+          dynamic_script: templater.py
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        if: always()
+        with:
+          author_name: Jinja Genie
+          author_email: JinjaGenie@github.com
+          message: "Jinja2 template successfully applied"
+          add: .

@@ -29,31 +29,31 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 
 # Contents
 
--   [tl;dr](#TLDR)
--   [Introduction](#Introduction)
--   [Quick Start](#Quick-Start)
-    -   [Prerequisites](#Prerequisites)
-    -   [Installation](#Installation)
-    -   [Basic Usage](#Basic-Usage)
--   [Usage](#Usage)
-    -   [Specifying multiple names](#Specifying-multiple-names)
-    -   [Using an input file](#Using-an-input-file)
-    -   [Saving the results to a file](#Saving-the-results-to-a-file)
-    -   [Display GitHub statistics](#Display-GitHub-statistics)
-    -   [Register the name with PyPI](#Register-the-name-with-PyPI)
-    -   [Verbose output](#Verbose-output)
-    -   [Regenerate the PyPI simple Repository Index](#Regenerate-the-PyPI-simple-Repository-Index)
--   [The oddities](#The-Oddities)
--   [Limitations](#Limitations)
--   [Documentation](#Documentation)
+-   [tl;dr](#tldr)
+-   [Project Rationale](#project-rationale)
+-   [Quick Start](#quick-start)
+    -   [Prerequisites](#prerequisites)
+    -   [Installation](#installation)
+    -   [Basic Usage](#basic-usage)
+-   [Usage](#usage)
+    -   [Specifying multiple names](#specifying-multiple-names)
+    -   [Using an input file](#using-an-input-file)
+    -   [Saving the results to a file](#saving-the-results-to-a-file)
+    -   [Display GitHub statistics](#display-github-statistics)
+    -   [Register the name with PyPI](#register-the-package-name-with-pypi)
+    -   [Verbose output](#verbose-output)
+    -   [Regenerate the PyPI simple Repository Index](#regenerate-the-pypi-simple-repository-index)
+-   [The oddities](#the-oddities)
+-   [Limitations](#limitations)
+-   [Documentation](#documentation)
     -   [Read the Docs](https://pynamer.readthedocs.io/en/latest/)
     -   [API](https://pynamer.readthedocs.io/en/latest/autoapi/pynamer/pynamer/index.html)
     -   [Wiki](https://github.com/Stephen-RA-King/pynamer/wiki)
--   [Planned Future improvements](#Planned-Future-improvements)
+-   [Planned Future improvements](#planned-future-improvements)
+-   [Meta Information](#meta)
 
-## Introduction
 
-### Project Rationale
+## Project Rationale
 
 Some of you may have reached the point where you want to publish a package in the PyPI python repository.
 The first step of which is to choose a unique name. Here lies the problem.

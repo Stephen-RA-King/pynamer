@@ -16,21 +16,27 @@ jobs:
         run: git pull origin main
 
       - name: Template __init__ file
-        uses: stephen-ra-king/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@main
         if: always()
         with:
           template: templates/__init__.py.j2
           target: src/pynamer/__init__.py
           protect: true
+          requires: |
+            beautifulsoup4==4.12.2
+            requests==2.31.0
           dynamic_script: templater.py
 
       - name: Template readme file
-        uses: stephen-ra-king/jinja-genie@v1
+        uses: stephen-ra-king/jinja-genie@main
         if: always()
         with:
           template: templates/README.md.j2
           target: README.md
           protect: true
+          requires: |
+            beautifulsoup4==4.12.2
+            requests==2.31.0
           dynamic_script: templater.py
 
       - name: Commit changes

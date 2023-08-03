@@ -58,7 +58,7 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 Some of you may have reached the point where you want to publish a package in the PyPI python repository.
 The first step of which is to choose a unique name. Here lies the problem.
 
-A recent look at the PyPI repository revealed there were over 471,800 projects, so many names have already been taken.
+A recent look at the PyPI repository revealed there were over 471,833 projects, so many names have already been taken.
 
 pip leaps to the rescue with its search utility... or does it?
 

@@ -7,6 +7,7 @@ exclude: |
       examples/[\w]*.py|
       tasks.py|
       post_installation.py
+      templater.py
   )$
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks

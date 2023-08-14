@@ -36,11 +36,14 @@ backcall==0.2.0
 bandit==1.7.5
     # via
     #   -r development.in
+    #   -r test.in
     #   flake8-bandit
 beautifulsoup4==4.12.2
     # via nbconvert
 black==23.3.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 bleach==6.0.0
     # via
     #   nbconvert
@@ -54,6 +57,7 @@ certifi==2022.12.7
 cffi==1.15.1
     # via
     #   argon2-cffi-bindings
+    #   cryptography
     #   pynacl
 cfgv==3.3.1
     # via pre-commit
@@ -74,27 +78,27 @@ click-log==0.4.0
 colorama==0.4.6
     # via
     #   -r development.in
-    #   bandit
-    #   build
-    #   click
     #   commitizen
-    #   ipython
-    #   pytest
-    #   sphinx
     #   tox
-    #   tqdm
     #   twine
 comm==0.1.3
     # via ipykernel
 commitizen==3.2.1
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 coverage[toml]==7.2.5
     # via
     #   -r development.in
+    #   -r test.in
     #   coverage-conditional-plugin
     #   pytest-cov
 coverage-conditional-plugin==0.8.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
+cryptography==41.0.3
+    # via secretstorage
 debugpy==1.6.7
     # via ipykernel
 decli==0.6.0
@@ -113,8 +117,6 @@ docutils==0.18.1
     #   sphinx-rtd-theme
 dotty-dict==1.3.1
     # via python-semantic-release
-exceptiongroup==1.1.1
-    # via pytest
 executing==1.2.0
     # via stack-data
 fastjsonschema==2.16.3
@@ -126,23 +128,34 @@ filelock==3.12.0
 flake8==6.0.0
     # via
     #   -r development.in
+    #   -r test.in
     #   flake8-bandit
     #   flake8-comprehensions
     #   flake8-html
     #   flake8-simplify
     #   pep8-naming
 flake8-bandit==4.1.1
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 flake8-comprehensions==3.12.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 flake8-html==0.4.3
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 flake8-plugin-utils==1.3.2
     # via flake8-pytest-style
 flake8-pytest-style==1.7.2
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 flake8-simplify==0.20.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 fqdn==1.5.1
     # via jsonschema
 gitdb==4.0.10
@@ -165,20 +178,16 @@ imagesize==1.4.1
 importlib-metadata==6.6.0
     # via
     #   commitizen
-    #   coverage-conditional-plugin
     #   jupyter-cache
-    #   jupyter-client
     #   keyring
     #   myst-nb
-    #   nbconvert
-    #   pytest-randomly
-    #   sphinx
     #   twine
 iniconfig==2.0.0
     # via pytest
 invoke==1.7.3
     # via
     #   -r development.in
+    #   -r test.in
     #   python-semantic-release
 ipykernel==6.22.0
     # via
@@ -205,11 +214,17 @@ ipywidgets==8.0.6
 isoduration==20.11.0
     # via jsonschema
 isort==5.12.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 jaraco-classes==3.2.3
     # via keyring
 jedi==0.18.2
     # via ipython
+jeepney==0.8.0
+    # via
+    #   keyring
+    #   secretstorage
 jinja2==3.1.2
     # via
     #   commitizen
@@ -273,7 +288,9 @@ keyring==23.13.1
 lazy-object-proxy==1.9.0
     # via astroid
 lxml==4.9.2
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 markdown-it-py==2.2.0
     # via
     #   mdit-py-plugins
@@ -298,7 +315,9 @@ mistune==2.0.5
 more-itertools==9.1.0
     # via jaraco-classes
 mypy==1.2.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 mypy-extensions==1.0.0
     # via
     #   black
@@ -366,6 +385,8 @@ pbr==5.11.1
     # via stevedore
 pep8-naming==0.13.3
     # via -r development.in
+pexpect==4.8.0
+    # via ipython
 pickleshare==0.7.5
     # via ipython
 pkginfo==1.9.6
@@ -381,7 +402,9 @@ pluggy==1.0.0
     #   pytest
     #   tox
 pre-commit==3.3.1
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 prometheus-client==0.16.0
     # via
     #   jupyter-server
@@ -394,6 +417,10 @@ prompt-toolkit==3.0.38
     #   questionary
 psutil==5.9.5
     # via ipykernel
+ptyprocess==0.7.0
+    # via
+    #   pexpect
+    #   terminado
 pure-eval==0.2.2
     # via stack-data
 py==1.11.0
@@ -425,6 +452,7 @@ pyrsistent==0.19.3
 pytest==7.3.1
     # via
     #   -r development.in
+    #   -r test.in
     #   pytest-cov
     #   pytest-html
     #   pytest-metadata
@@ -433,21 +461,34 @@ pytest==7.3.1
     #   pytest-repeat
     #   pytest-timeout
 pytest-cov==4.0.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 pytest-html==3.2.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 pytest-metadata==2.0.4
     # via
     #   -r development.in
+    #   -r test.in
     #   pytest-html
 pytest-mock==3.10.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 pytest-randomly==3.12.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 pytest-repeat==0.9.1
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 pytest-timeout==2.1.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 python-dateutil==2.8.2
     # via
     #   arrow
@@ -457,19 +498,13 @@ python-gitlab==3.14.0
 python-json-logger==2.0.7
     # via jupyter-events
 python-semantic-release==7.33.3
-    # via -r development.in
-pywin32==306
-    # via jupyter-core
-pywin32-ctypes==0.2.0
-    # via keyring
-pywinpty==2.0.10
     # via
-    #   jupyter-server
-    #   jupyter-server-terminals
-    #   terminado
+    #   -r development.in
+    #   -r test.in
 pyyaml==6.0
     # via
     #   -r development.in
+    #   -r test.in
     #   bandit
     #   commitizen
     #   jupyter-cache
@@ -519,6 +554,8 @@ rfc3986-validator==0.1.1
     #   jupyter-events
 rich==13.3.5
     # via bandit
+secretstorage==3.3.3
+    # via keyring
 semver==2.13.0
     # via python-semantic-release
 send2trash==1.8.2
@@ -584,21 +621,11 @@ terminado==0.17.1
     #   notebook
 tinycss2==1.2.1
     # via nbconvert
-tomli==2.0.1
-    # via
-    #   black
-    #   build
-    #   coverage
-    #   mypy
-    #   pyproject-api
-    #   pyproject-hooks
-    #   pytest
-    #   tox
 tomlkit==0.11.8
     # via
     #   commitizen
     #   python-semantic-release
-tornado==6.3.1
+tornado==6.3.3
     # via
     #   ipykernel
     #   jupyter-client
@@ -607,7 +634,9 @@ tornado==6.3.1
     #   notebook
     #   terminado
 tox==4.5.1
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 tqdm==4.65.0
     # via twine
 traitlets==5.9.0
@@ -633,28 +662,37 @@ twine==3.8.0
     #   -r development.in
     #   python-semantic-release
 types-beautifulsoup4==4.12.0.5
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 types-click==7.1.8
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 types-html5lib==1.1.11.14
     # via
     #   -r development.in
+    #   -r test.in
     #   types-beautifulsoup4
 types-python-dateutil==2.8.19.13
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 types-pyyaml==6.0.12.10
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 types-requests==2.30.0.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 types-urllib3==1.26.25.12
     # via
     #   -r development.in
+    #   -r test.in
     #   types-requests
 typing-extensions==4.5.0
     # via
-    #   astroid
-    #   black
-    #   ipython
     #   mypy
     #   myst-nb
     #   myst-parser

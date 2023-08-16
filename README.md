@@ -50,6 +50,7 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
     -   [API](https://pynamer.readthedocs.io/en/latest/autoapi/pynamer/pynamer/index.html)
     -   [Wiki](https://github.com/Stephen-RA-King/pynamer/wiki)
 -   [Planned Future improvements](#planned-future-improvements)
+-   [Package Statistics](#package-statistics)
 -   [Meta Information](#meta)
 
 
@@ -432,7 +433,19 @@ Determine if project name is available on pypi with the option to 'register' it 
 
 ## Planned Future improvements
 
+---
+
 -   Improve performance of the regeneration of the PyPI simple Repository Index, so this can be run in the background automatically.
+
+
+## Package Statistics
+
+---
+
+#### [**libraries.io**](https://libraries.io/pypi/pynamer)
+#### [**PyPI Stats**](https://pypistats.org/packages/pynamer)
+#### [**Pepy**](https://www.pepy.tech/projects/pynamer)
+
 
 ## Meta
 
@@ -496,7 +509,7 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [pre-commit-url]: https://github.com/pre-commit/pre-commit
 [pre-commit.ci-image]: https://results.pre-commit.ci/badge/github/Stephen-RA-King/pynamer/main.svg
 [pre-commit.ci-url]: https://results.pre-commit.ci/latest/github/Stephen-RA-King/pynamer/main
-[pydough-image]: https://img.shields.io/badge/pydough-2023-orange
+[pydough-image]: https://img.shields.io/badge/created%20with-pydough-orange?logo=cookiecutter
 [pydough-url]: https://github.com/Stephen-RA-King/pydough
 [pypi-image]: https://img.shields.io/pypi/v/pynamer.svg
 [pypi-url]: https://pypi.org/project/pynamer/

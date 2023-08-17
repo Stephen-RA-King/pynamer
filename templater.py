@@ -12,7 +12,7 @@ from requests import RequestException
 env_file = "".join([Path(__file__).stem, ".env"])
 
 
-def write_to_env_file(key: str, value: str) -> None:    # type: ignore
+def write_to_env_file(key: str, value: str) -> None:  # type: ignore
     entry = "".join([key, "=", value, "\n"])
     with open(env_file, mode="a") as file:
         file.write(entry)

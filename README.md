@@ -50,6 +50,7 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
     -   [API](https://pynamer.readthedocs.io/en/latest/autoapi/pynamer/pynamer/index.html)
     -   [Wiki](https://github.com/Stephen-RA-King/pynamer/wiki)
 -   [Planned Future improvements](#planned-future-improvements)
+-   [Package Statistics](#package-statistics)
 -   [Meta Information](#meta)
 
 
@@ -58,7 +59,7 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 Some of you may have reached the point where you want to publish a package in the PyPI python repository.
 The first step of which is to choose a unique name. Here lies the problem.
 
-A recent look at the PyPI repository revealed there were over 475,527 projects, so many names have already been taken.
+A recent look at the PyPI repository revealed there were over 474,733 projects, so many names have already been taken.
 
 pip leaps to the rescue with its search utility... or does it?
 
@@ -432,7 +433,19 @@ Determine if project name is available on pypi with the option to 'register' it 
 
 ## Planned Future improvements
 
+---
+
 -   Improve performance of the regeneration of the PyPI simple Repository Index, so this can be run in the background automatically.
+
+
+## Package Statistics
+
+---
+
+#### [**libraries.io**](https://libraries.io/pypi/pynamer)
+#### [**PyPI Stats**](https://pypistats.org/packages/pynamer)
+#### [**Pepy**](https://www.pepy.tech/projects/pynamer)
+
 
 ## Meta
 
@@ -476,10 +489,10 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [deepsource-url]: https://app.deepsource.com/gh/Stephen-RA-King/pynamer/?ref=repository-badge
 [docker-image]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/docker-image.yml/badge.svg
 [docker-url]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/docker-image.yml
-[downloads-image]: https://static.pepy.tech/personalized-badge/pynamer?period=total&units=international_system&left_color=black&right_color=blue&left_text=Downloads
+[downloads-image]: https://static.pepy.tech/personalized-badge/pynamer?period=total&left_color=black&right_color=blue&left_text=Downloads
 [downloads-url]: https://pepy.tech/project/pynamer
 [format-image]: https://img.shields.io/pypi/format/pynamer
-[isort-image]: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336
+[isort-image]: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336?
 [isort-url]: https://github.com/pycqa/isort/
 [lgtm-alerts-image]: https://img.shields.io/lgtm/alerts/g/Stephen-RA-King/pynamer.svg?logo=lgtm&logoWidth=18
 [lgtm-alerts-url]: https://lgtm.com/projects/g/Stephen-RA-King/pynamer/alerts/
@@ -496,14 +509,14 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [pre-commit-url]: https://github.com/pre-commit/pre-commit
 [pre-commit.ci-image]: https://results.pre-commit.ci/badge/github/Stephen-RA-King/pynamer/main.svg
 [pre-commit.ci-url]: https://results.pre-commit.ci/latest/github/Stephen-RA-King/pynamer/main
-[pydough-image]: https://img.shields.io/badge/pydough-2023-orange
+[pydough-image]: https://img.shields.io/badge/created%20with-pydough-orange?logo=cookiecutter
 [pydough-url]: https://github.com/Stephen-RA-King/pydough
-[pypi-image]: https://img.shields.io/pypi/v/pynamer.svg
+[pypi-image]: https://img.shields.io/pypi/v/pynamer?logo=pypi&logoColor=lightblue
 [pypi-url]: https://pypi.org/project/pynamer/
-[python-version-image]: https://img.shields.io/pypi/pyversions/pynamer
+[python-version-image]: https://img.shields.io/pypi/pyversions/pynamer?logo=pypi&logoColor=lightblue
 [readthedocs-image]: https://readthedocs.org/projects/pynamer/badge/?version=latest
 [readthedocs-url]: https://pynamer.readthedocs.io/en/latest/?badge=latest
-[status-image]: https://img.shields.io/pypi/status/pynamer.svg
+[status-image]: https://img.shields.io/pypi/status/pynamer?logo=pypi&logoColor=lightblue
 [tests-image]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/tests.yml/badge.svg
 [tests-url]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/tests.yml
 [wiki]: https://github.com/Stephen-RA-King/pynamer/wiki

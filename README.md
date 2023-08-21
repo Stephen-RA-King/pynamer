@@ -30,12 +30,12 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 # Contents
 
 -   [tl;dr](#tldr)
--   [Project Rationale](#project-rationale)
--   [Quick Start](#quick-start)
-    -   [Prerequisites](#prerequisites)
-    -   [Installation](#installation)
-    -   [Basic Usage](#basic-usage)
--   [Usage](#usage)
+-   [Project Rationale](#-project-rationale)
+-   [Quick Start](#-quick-start)
+    -   [Prerequisites](#-prerequisites)
+    -   [Installation](#-installation)
+    -   [Basic Usage](#-basic-usage)
+-   [Usage](#-usage)
     -   [Specifying multiple names](#specifying-multiple-names)
     -   [Using an input file](#using-an-input-file)
     -   [Saving the results to a file](#saving-the-results-to-a-file)
@@ -43,18 +43,19 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
     -   [Register the name with PyPI](#register-the-package-name-with-pypi)
     -   [Verbose output](#verbose-output)
     -   [Regenerate the PyPI simple Repository Index](#regenerate-the-pypi-simple-repository-index)
--   [The oddities](#the-oddities)
--   [Limitations](#limitations)
--   [Documentation](#documentation)
+-   [The oddities](#-the-oddities)
+-   [Limitations](#-limitations)
+-   [Documentation](#-documentation)
     -   [Read the Docs](https://pynamer.readthedocs.io/en/latest/)
     -   [API](https://pynamer.readthedocs.io/en/latest/autoapi/pynamer/pynamer/index.html)
     -   [Wiki](https://github.com/Stephen-RA-King/pynamer/wiki)
--   [Planned Future improvements](#planned-future-improvements)
--   [Package Statistics](#package-statistics)
--   [Meta Information](#meta)
+-   [Planned Future improvements](#-planned-future-improvements)
+-   [Package Statistics](#-package-statistics)
+-   [License](#-license)
+-   [Meta Information](#ℹ-meta)
 
 
-## Project Rationale
+# 💡 Project Rationale
 
 Some of you may have reached the point where you want to publish a package in the PyPI python repository.
 The first step of which is to choose a unique name. Here lies the problem.
@@ -120,11 +121,11 @@ Pynamer uses the following methods to ascertain whether a package already exists
 
 Pynamer provides a way to optionally 'register' a name on PyPI by building a minimalistic package and uploading
 
-## Quick Start
+# 🚀 Quick Start
 
 ---
 
-### Prerequisites
+## 📋 Prerequisites
 
 ---
 
@@ -152,7 +153,7 @@ username = __token__
 password = your_API_token_here
 ```
 
-### Installation
+## 💾 Installation
 
 Pynamer can be installed into any python environment using pip:
 
@@ -166,7 +167,7 @@ However, optimal installation can be achieved using [**pipx**][pipx-url]:
 ~ $ pipx install pynamer
 ```
 
-### Basic Usage
+## 📝 Basic Usage
 
 #### A package name that is not available
 
@@ -192,7 +193,7 @@ Even though the name has nothing in common with your project, or may not even be
 
 Congratulations!
 
-# Usage
+# 📝 Usage
 
 ---
 
@@ -349,7 +350,7 @@ Using the `-g` argument can be used to regenerate the local file contents.
 
 See planned future improvements
 
-## The Oddities
+# ⁉️ The Oddities
 
 The reason I wrote this application in the first place...
 
@@ -377,7 +378,7 @@ Well that is because it isn't...
 ![](assets/usage_gitmon.png)
 
 
-## Limitations
+# ⚠️ Limitations
 
 There will be occasions where all the tests pass, the name appears to be available but the upload to PyPI still fails.
 This can be several reasons for this:
@@ -397,7 +398,7 @@ Using a name similar to to an existing package name is a security issue.
 Malicious players will try to create project names that are frequently mistyped for large popular projects, thereby facilitating installation of a malicious project.
 e.g. replacing "L" / "l" with the number 1 or "o" / "O" with 0. The Software utilized by PyPI can be found on GitHub: [warehouse](https://github.com/pypi/warehouse).
 
-## Using the Docker Image
+# 🐳 Using the Docker Image
 
 Pull the latest image from the Hub.
 ```bash
@@ -419,7 +420,7 @@ Determine if project name is available on pypi with the option to 'register' it 
 
 
 
-## Documentation
+# 📚 Documentation
 
 ---
 
@@ -431,23 +432,30 @@ Determine if project name is available on pypi with the option to 'register' it 
 
 [**Wiki**](https://github.com/Stephen-RA-King/pynamer/wiki)
 
-## Planned Future improvements
+# 📆 Planned Future improvements
 
 ---
 
 -   Improve performance of the regeneration of the PyPI simple Repository Index, so this can be run in the background automatically.
 
 
-## Package Statistics
+# 📊 Package Statistics
 
 ---
 
-#### [**libraries.io**](https://libraries.io/pypi/pynamer)
-#### [**PyPI Stats**](https://pypistats.org/packages/pynamer)
-#### [**Pepy**](https://www.pepy.tech/projects/pynamer)
+- [**libraries.io**](https://libraries.io/pypi/pynamer)
+- [**PyPI Stats**](https://pypistats.org/packages/pynamer)
+- [**Pepy**](https://www.pepy.tech/projects/pynamer)
 
 
-## Meta
+## 📜 License
+
+Distributed under the MIT license. See [![][license-image]][license-url] for more information.
+
+
+
+
+# <ℹ️> Meta
 
 ---
 
@@ -458,7 +466,7 @@ Determine if project name is available on pypi with the option to 'register' it 
 [![](assets/www.png)](https://stephen-ra-king.github.io/justpython/)
 [![](assets/email2.png)](mailto:sking.github@gmail.com)
 
-Author: Stephen King ([sking.github@gmail.com](mailto:sking.github@gmail.com))
+Author: Stephen King  ([sking.github@gmail.com](mailto:sking.github@gmail.com))
 
 Distributed under the MIT license. See [![][license-image]][license-url] for more information.
 

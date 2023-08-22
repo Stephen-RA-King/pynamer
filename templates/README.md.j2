@@ -45,6 +45,7 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
     -   [Regenerate the PyPI simple Repository Index](#regenerate-the-pypi-simple-repository-index)
 -   [The oddities](#-the-oddities)
 -   [Limitations](#-limitations)
+-   [Using the Docker Image](#-using-the-docker-image)
 -   [Documentation](#-documentation)
     -   [Read the Docs](https://pynamer.readthedocs.io/en/latest/)
     -   [API](https://pynamer.readthedocs.io/en/latest/autoapi/pynamer/pynamer/index.html)
@@ -448,7 +449,7 @@ Determine if project name is available on pypi with the option to 'register' it 
 - [**Pepy**](https://www.pepy.tech/projects/pynamer)
 
 
-## 📜 License
+# 📜 License
 
 Distributed under the MIT license. See [![][license-image]][license-url] for more information.
 
@@ -467,8 +468,6 @@ Distributed under the MIT license. See [![][license-image]][license-url] for mor
 [![](assets/email2.png)](mailto:sking.github@gmail.com)
 
 Author: Stephen King  ([sking.github@gmail.com](mailto:sking.github@gmail.com))
-
-Distributed under the MIT license. See [![][license-image]][license-url] for more information.
 
 Created with Cookiecutter template: [![pydough][pydough-image]][pydough-url] version 1.2.2
 

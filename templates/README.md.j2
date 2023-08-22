@@ -29,7 +29,7 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 
 # Contents
 
--   [tl;dr](#tldr)
+-   [TL;DR](#-tldr)
 -   [Project Rationale](#-project-rationale)
 -   [Quick Start](#-quick-start)
     -   [Prerequisites](#-prerequisites)
@@ -112,7 +112,7 @@ did not find the project.
 
 Enter Pynamer. Pynamer does not rely on a single method of finding a PyPI package:
 
-#### TLDR
+## 👓 TLDR
 
 Pynamer uses the following methods to ascertain whether a package already exists on PyPI:
 

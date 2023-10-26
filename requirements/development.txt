@@ -6,6 +6,8 @@
 #
 alabaster==0.7.13
     # via sphinx
+anyascii==0.3.2
+    # via sphinx-autoapi
 anyio==3.6.2
     # via jupyter-server
 argcomplete==3.0.8
@@ -26,9 +28,7 @@ astroid==2.15.4
 asttokens==2.2.1
     # via stack-data
 attrs==23.1.0
-    # via
-    #   jsonschema
-    #   jupyter-cache
+    # via jsonschema
 babel==2.12.1
     # via sphinx
 backcall==0.2.0
@@ -36,11 +36,14 @@ backcall==0.2.0
 bandit==1.7.5
     # via
     #   -r development.in
+    #   -r test.in
     #   flake8-bandit
 beautifulsoup4==4.12.2
     # via nbconvert
 black==23.3.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 bleach==6.0.0
     # via
     #   nbconvert
@@ -67,7 +70,6 @@ click==8.1.3
     # via
     #   black
     #   click-log
-    #   jupyter-cache
     #   python-semantic-release
 click-log==0.4.0
     # via python-semantic-release
@@ -87,14 +89,19 @@ colorama==0.4.6
 comm==0.1.3
     # via ipykernel
 commitizen==3.2.1
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 coverage[toml]==7.2.5
     # via
     #   -r development.in
+    #   -r test.in
     #   coverage-conditional-plugin
     #   pytest-cov
 coverage-conditional-plugin==0.8.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 debugpy==1.6.7
     # via ipykernel
 decli==0.6.0
@@ -107,7 +114,6 @@ distlib==0.3.6
     # via virtualenv
 docutils==0.18.1
     # via
-    #   myst-parser
     #   readme-renderer
     #   sphinx
     #   sphinx-rtd-theme
@@ -126,23 +132,34 @@ filelock==3.12.0
 flake8==6.0.0
     # via
     #   -r development.in
+    #   -r test.in
     #   flake8-bandit
     #   flake8-comprehensions
     #   flake8-html
     #   flake8-simplify
     #   pep8-naming
 flake8-bandit==4.1.1
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 flake8-comprehensions==3.12.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 flake8-html==0.4.3
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 flake8-plugin-utils==1.3.2
     # via flake8-pytest-style
 flake8-pytest-style==1.7.2
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 flake8-simplify==0.20.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 fqdn==1.5.1
     # via jsonschema
 gitdb==4.0.10
@@ -151,8 +168,6 @@ gitpython==3.1.31
     # via
     #   bandit
     #   python-semantic-release
-greenlet==2.0.2
-    # via sqlalchemy
 identify==2.5.24
     # via pre-commit
 idna==3.4
@@ -166,10 +181,8 @@ importlib-metadata==6.6.0
     # via
     #   commitizen
     #   coverage-conditional-plugin
-    #   jupyter-cache
     #   jupyter-client
     #   keyring
-    #   myst-nb
     #   nbconvert
     #   pytest-randomly
     #   sphinx
@@ -179,13 +192,13 @@ iniconfig==2.0.0
 invoke==1.7.3
     # via
     #   -r development.in
+    #   -r test.in
     #   python-semantic-release
 ipykernel==6.22.0
     # via
     #   ipywidgets
     #   jupyter
     #   jupyter-console
-    #   myst-nb
     #   nbclassic
     #   notebook
     #   qtconsole
@@ -194,7 +207,6 @@ ipython==8.13.2
     #   ipykernel
     #   ipywidgets
     #   jupyter-console
-    #   myst-nb
 ipython-genutils==0.2.0
     # via
     #   nbclassic
@@ -205,7 +217,9 @@ ipywidgets==8.0.6
 isoduration==20.11.0
     # via jsonschema
 isort==5.12.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 jaraco-classes==3.2.3
     # via keyring
 jedi==0.18.2
@@ -215,7 +229,6 @@ jinja2==3.1.2
     #   commitizen
     #   flake8-html
     #   jupyter-server
-    #   myst-parser
     #   nbclassic
     #   nbconvert
     #   notebook
@@ -229,8 +242,6 @@ jsonschema[format-nongpl]==4.17.3
     #   nbformat
 jupyter==1.0.0
     # via -r development.in
-jupyter-cache==0.6.1
-    # via myst-nb
 jupyter-client==8.2.0
     # via
     #   ipykernel
@@ -273,12 +284,11 @@ keyring==23.13.1
 lazy-object-proxy==1.9.0
     # via astroid
 lxml==4.9.2
-    # via -r development.in
-markdown-it-py==2.2.0
     # via
-    #   mdit-py-plugins
-    #   myst-parser
-    #   rich
+    #   -r development.in
+    #   -r test.in
+markdown-it-py==2.2.0
+    # via rich
 markupsafe==2.1.2
     # via
     #   jinja2
@@ -289,8 +299,6 @@ matplotlib-inline==0.1.6
     #   ipython
 mccabe==0.7.0
     # via flake8
-mdit-py-plugins==0.3.5
-    # via myst-parser
 mdurl==0.1.2
     # via markdown-it-py
 mistune==2.0.5
@@ -298,22 +306,17 @@ mistune==2.0.5
 more-itertools==9.1.0
     # via jaraco-classes
 mypy==1.2.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 mypy-extensions==1.0.0
     # via
     #   black
     #   mypy
-myst-nb==0.17.2
-    # via -r development.in
-myst-parser==0.18.1
-    # via myst-nb
 nbclassic==1.0.0
     # via notebook
 nbclient==0.7.4
-    # via
-    #   jupyter-cache
-    #   myst-nb
-    #   nbconvert
+    # via nbconvert
 nbconvert==7.3.1
     # via
     #   jupyter
@@ -322,9 +325,7 @@ nbconvert==7.3.1
     #   notebook
 nbformat==5.8.0
     # via
-    #   jupyter-cache
     #   jupyter-server
-    #   myst-nb
     #   nbclassic
     #   nbclient
     #   nbconvert
@@ -381,7 +382,9 @@ pluggy==1.0.0
     #   pytest
     #   tox
 pre-commit==3.3.1
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 prometheus-client==0.16.0
     # via
     #   jupyter-server
@@ -425,6 +428,7 @@ pyrsistent==0.19.3
 pytest==7.3.1
     # via
     #   -r development.in
+    #   -r test.in
     #   pytest-cov
     #   pytest-html
     #   pytest-metadata
@@ -433,21 +437,34 @@ pytest==7.3.1
     #   pytest-repeat
     #   pytest-timeout
 pytest-cov==4.0.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 pytest-html==3.2.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 pytest-metadata==2.0.4
     # via
     #   -r development.in
+    #   -r test.in
     #   pytest-html
 pytest-mock==3.10.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 pytest-randomly==3.12.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 pytest-repeat==0.9.1
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 pytest-timeout==2.1.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 python-dateutil==2.8.2
     # via
     #   arrow
@@ -457,7 +474,9 @@ python-gitlab==3.14.0
 python-json-logger==2.0.7
     # via jupyter-events
 python-semantic-release==7.33.3
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 pywin32==306
     # via jupyter-core
 pywin32-ctypes==0.2.0
@@ -470,12 +489,10 @@ pywinpty==2.0.10
 pyyaml==6.0
     # via
     #   -r development.in
+    #   -r test.in
     #   bandit
     #   commitizen
-    #   jupyter-cache
     #   jupyter-events
-    #   myst-nb
-    #   myst-parser
     #   pre-commit
     #   sphinx-autoapi
 pyzmq==25.0.2
@@ -540,15 +557,13 @@ snowballstemmer==2.2.0
     # via sphinx
 soupsieve==2.4.1
     # via beautifulsoup4
-sphinx==5.3.0
+sphinx==6.2.1
     # via
     #   -r development.in
-    #   myst-nb
-    #   myst-parser
     #   sphinx-autoapi
     #   sphinx-rtd-theme
     #   sphinxcontrib-jquery
-sphinx-autoapi==2.1.0
+sphinx-autoapi==3.0.0
     # via -r development.in
 sphinx-rtd-theme==1.2.0
     # via -r development.in
@@ -566,14 +581,10 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
-sqlalchemy==2.0.12
-    # via jupyter-cache
 stack-data==0.6.2
     # via ipython
 stevedore==5.0.0
     # via bandit
-tabulate==0.9.0
-    # via jupyter-cache
 termcolor==2.3.0
     # via commitizen
 terminado==0.17.1
@@ -607,7 +618,9 @@ tornado==6.3.1
     #   notebook
     #   terminado
 tox==4.5.1
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 tqdm==4.65.0
     # via twine
 traitlets==5.9.0
@@ -633,22 +646,34 @@ twine==3.8.0
     #   -r development.in
     #   python-semantic-release
 types-beautifulsoup4==4.12.0.5
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 types-click==7.1.8
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 types-html5lib==1.1.11.14
     # via
     #   -r development.in
+    #   -r test.in
     #   types-beautifulsoup4
 types-python-dateutil==2.8.19.13
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 types-pyyaml==6.0.12.10
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 types-requests==2.30.0.0
-    # via -r development.in
+    # via
+    #   -r development.in
+    #   -r test.in
 types-urllib3==1.26.25.12
     # via
     #   -r development.in
+    #   -r test.in
     #   types-requests
 typing-extensions==4.5.0
     # via
@@ -656,11 +681,6 @@ typing-extensions==4.5.0
     #   black
     #   ipython
     #   mypy
-    #   myst-nb
-    #   myst-parser
-    #   sqlalchemy
-unidecode==1.3.6
-    # via sphinx-autoapi
 uri-template==1.2.0
     # via jsonschema
 urllib3==2.0.2

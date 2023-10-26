@@ -19,7 +19,7 @@ jupyter
 keyring
 lxml
 mypy
-myst-nb
+# myst-nb
 pep8-naming
 pre-commit
 pynacl
@@ -34,8 +34,8 @@ pytest-timeout
 python-semantic-release
 pyyaml
 requests
-sphinx
-sphinx-autoapi
+sphinx==6.2.1
+sphinx-autoapi==3.0.0
 sphinx-rtd-theme
 tox
 twine

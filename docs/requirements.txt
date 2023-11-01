@@ -1,5 +1,5 @@
 # myst-nb
 myst-parser
-sphinx==6.2.1
+sphinx==7.2.6
 sphinx-autoapi==3.0.0
 sphinx-rtd-theme

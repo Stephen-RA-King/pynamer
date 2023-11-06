@@ -30,6 +30,7 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 # Contents
 
 -   [TL;DR](#-tldr)
+-   [Demo](#-demo)
 -   [Project Rationale](#-project-rationale)
 -   [Quick Start](#-quick-start)
     -   [Prerequisites](#-prerequisites)
@@ -54,6 +55,11 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 -   [Package Statistics](#-package-statistics)
 -   [License](#-license)
 -   [Meta Information](#ℹ-meta)
+
+
+# 📺 Demo
+
+![](assets/demo.gif)
 
 
 # 💡 Project Rationale
@@ -516,7 +522,7 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [pre-commit-url]: https://github.com/pre-commit/pre-commit
 [pre-commit.ci-image]: https://results.pre-commit.ci/badge/github/Stephen-RA-King/pynamer/main.svg
 [pre-commit.ci-url]: https://results.pre-commit.ci/latest/github/Stephen-RA-King/pynamer/main
-[pydough-image]: https://img.shields.io/badge/created%20with-pydough-orange?logo=cookiecutter
+[pydough-image]: https://img.shields.io/badge/pydough-2023-orange?logo=cookiecutter
 [pydough-url]: https://github.com/Stephen-RA-King/pydough
 [pypi-image]: https://img.shields.io/pypi/v/pynamer?logo=pypi&logoColor=lightblue
 [pypi-url]: https://pypi.org/project/pynamer/

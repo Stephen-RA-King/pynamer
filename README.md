@@ -461,7 +461,6 @@ Distributed under the MIT license. See [![][license-image]][license-url] for mor
 
 
 
-
 # <ℹ️> Meta
 
 ---
@@ -478,6 +477,10 @@ Author: Stephen King  ([sking.github@gmail.com](mailto:sking.github@gmail.com))
 Created with Cookiecutter template: [![pydough][pydough-image]][pydough-url] version 1.2.2
 
 Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](https://zenodo.org/badge/latestdoi/631029310)
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8104298.svg)](https://doi.org/10.5281/zenodo.8104298)
+
+
 
 <!-- Markdown link & img dfn's -->
 

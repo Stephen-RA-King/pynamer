@@ -146,7 +146,7 @@ def generate_pypi_index() -> None:
 
     index_object_raw = requests.get(config.pypi_simple_index_url, timeout=5)
 
-    with pypi_index_file_trv.open("a") as file:
+    with pypi_index_file_trv.open("a") as file:  # pragma: no cover
         for line in index_object_raw.iter_lines():
             line = str(line)
             project_text = re.search(pattern, line)

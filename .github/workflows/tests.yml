@@ -23,7 +23,7 @@ jobs:
       # Step 2. Check-out repository so we can access its contents
       - uses: actions/checkout@v3
       # Step 3. Set up Python 3.9
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: 3.9
       # step 4. Install the dependencies from requirements.txt file

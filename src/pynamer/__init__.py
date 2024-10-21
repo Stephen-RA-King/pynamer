@@ -30,7 +30,6 @@ handlers:
     stream: ext://sys.stdout
     formatter: basic
 
-
 formatters:
   basic:
     style: "{"

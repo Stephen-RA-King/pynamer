@@ -495,8 +495,8 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [codecov-url]: https://app.codecov.io/gh/Stephen-RA-King/pynamer
 [codefactor-image]: https://www.codefactor.io/repository/github/Stephen-RA-King/pynamer/badge
 [codefactor-url]: https://www.codefactor.io/repository/github/Stephen-RA-King/pynamer
-[codeql-image]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/github-code-scanning/codeql/badge.svg
-[codeql-url]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/github-code-scanning/codeql
+[codeql-image]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/codeql.yml/badge.svg
+[codeql-url]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/codeql.yml
 [commitizen-image]: https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
 [commitizen-url]: http://commitizen.github.io/cz-cli/
 [conventional-commits-image]: https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg?style=flat-square

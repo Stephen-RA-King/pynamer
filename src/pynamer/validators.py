@@ -54,6 +54,8 @@ def get_homepage(project_json: dict, project_name: str) -> tuple[str, str]:
         tuple[str, str]:    strings containing found homepage URL.
     """
     home_url = project_json["info"]["home_page"]
+    if home_url is None:
+        return "Homepage: None", ""
 
     if "github.com" in home_url and home_url.endswith(project_name):
         return "".join(["Homepage: ", home_url]), home_url

@@ -20,6 +20,8 @@ cachetools==5.3.1
     # via tox
 certifi==2023.5.7
     # via requests
+cffi==1.16.0
+    # via cryptography
 cfgv==3.3.1
     # via pre-commit
 chardet==5.1.0
@@ -37,12 +39,8 @@ click-log==0.4.0
     # via python-semantic-release
 colorama==0.4.6
     # via
-    #   bandit
-    #   click
     #   commitizen
-    #   pytest
     #   tox
-    #   tqdm
     #   twine
 commitizen==3.3.0
     # via -r test.in
@@ -53,6 +51,8 @@ coverage[toml]==7.2.5
     #   pytest-cov
 coverage-conditional-plugin==0.9.0
     # via -r test.in
+cryptography==42.0.7
+    # via secretstorage
 decli==0.6.1
     # via commitizen
 distlib==0.3.6
@@ -113,6 +113,10 @@ isort==5.12.0
     # via -r test.in
 jaraco-classes==3.2.3
     # via keyring
+jeepney==0.8.0
+    # via
+    #   keyring
+    #   secretstorage
 jinja2==3.1.2
     # via
     #   commitizen
@@ -171,6 +175,8 @@ py==1.11.0
     # via pytest-html
 pycodestyle==2.10.0
     # via flake8
+pycparser==2.22
+    # via cffi
 pyflakes==3.0.1
     # via flake8
 pygments==2.15.1
@@ -210,8 +216,6 @@ python-gitlab==3.15.0
     # via python-semantic-release
 python-semantic-release==7.34.4
     # via -r test.in
-pywin32-ctypes==0.2.0
-    # via keyring
 pyyaml==6.0
     # via
     #   -r test.in
@@ -222,7 +226,7 @@ questionary==1.10.0
     # via commitizen
 readme-renderer==37.3
     # via twine
-requests==2.31.0
+requests==2.32.0
     # via
     #   python-gitlab
     #   python-semantic-release
@@ -236,6 +240,8 @@ rfc3986==2.0.0
     # via twine
 rich==13.3.5
     # via bandit
+secretstorage==3.3.3
+    # via keyring
 semver==2.13.0
     # via python-semantic-release
 six==1.16.0

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Top-level package for pynamer."""
+
 # Core Library modules
 import logging.config
 import pickle

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Collection of functions to build a minimal package and publish on PyPI."""
+
 # Core Library modules
 import os
 import pickle

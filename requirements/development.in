@@ -34,8 +34,8 @@ pytest-timeout
 python-semantic-release
 pyyaml
 requests
-sphinx==6.2.1
-sphinx-autoapi==3.0.0
+sphinx
+sphinx-autoapi
 sphinx-rtd-theme
 tox
 twine

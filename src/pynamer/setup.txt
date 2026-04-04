@@ -5,11 +5,11 @@
 from setuptools import setup
 
 setup(name='{{ PROJECT_NAME }}',
-      version='{{ PACKAGE_VERSION }}',
-      description='{{ DESCRIPTION }}',
+      version='0.0.0',
+      description='placeholder',
       url='http://github.com/SK/{{ PROJECT_NAME }}',
-      author='{{ AUTHOR }}',
-      author_email='{{ EMAIL }}',
+      author='Stephen King',
+      author_email='sking@gmail.com',
       license='MIT',
       packages=['{{ PROJECT_NAME }}'],
       zip_safe=False)

@@ -15,17 +15,17 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
         exclude:
           - os: windows-latest
-            python-version: "3.9"
+            python-version: "3.10"
     steps:
       # Step 2. Check-out repository so we can access its contents
-      - uses: actions/checkout@v3
-      # Step 3. Set up Python 3.9
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      # Step 3. Set up Python 3.10
+      - uses: actions/setup-python@v6
         with:
-          python-version: 3.9
+          python-version: 3.10
       # step 4. Install the dependencies from requirements.txt file
       - name: Install dependencies
         run: |

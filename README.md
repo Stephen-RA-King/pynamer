@@ -67,7 +67,7 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 Some of you may have reached the point where you want to publish a package in the PyPI python repository.
 The first step of which is to choose a unique name. Here lies the problem.
 
-A recent look at the PyPI repository revealed there were over 584,980 projects, so many names have already been taken.
+A recent look at the PyPI repository revealed there were over 780,089 projects, so many names have already been taken.
 
 pip leaps to the rescue with its search utility... or does it?
 
@@ -194,7 +194,7 @@ However, optimal installation can be achieved using [**pipx**][pipx-url]:
 
 Holy smoke batman! You've managed to identify a unique name.
 
-Yes, even though the odds were against you (given there are over 584,980 registered projects), you did it!
+Yes, even though the odds were against you (given there are over 780,089 registered projects), you did it!
 
 Even though the name has nothing in common with your project, or may not even be a real word... you did it!
 
@@ -529,7 +529,7 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [pydough-url]: https://github.com/Stephen-RA-King/pydough
 [pypi-image]: https://img.shields.io/pypi/v/pynamer?logo=pypi&logoColor=lightblue
 [pypi-url]: https://pypi.org/project/pynamer/
-[python-version-image]: https://img.shields.io/badge/Python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-blue?logo=pypi&logoColor=lightblue
+[python-version-image]: https://img.shields.io/pypi/pyversions/pynamer?logo=pypi&logoColor=lightblue
 [readthedocs-image]: https://readthedocs.org/projects/pynamer/badge/?version=latest
 [readthedocs-url]: https://pynamer.readthedocs.io/en/latest/?badge=latest
 [status-image]: https://img.shields.io/pypi/status/pynamer?logo=pypi&logoColor=lightblue

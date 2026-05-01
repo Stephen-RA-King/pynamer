@@ -40,7 +40,7 @@ jobs:
           dynamic_script: templater.py
 
       - name: Commit changes
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@v10
         if: always()
         with:
           author_name: Jinja Genie

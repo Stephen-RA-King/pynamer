@@ -529,7 +529,7 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [pydough-url]: https://github.com/Stephen-RA-King/pydough
 [pypi-image]: https://img.shields.io/pypi/v/pynamer?logo=pypi&logoColor=lightblue
 [pypi-url]: https://pypi.org/project/pynamer/
-[python-version-image]: https://img.shields.io/pypi/pyversions/pynamer?logo=pypi&logoColor=lightblue
+[python-version-image]: https://img.shields.io/pypi/pyversions/pynamer
 [readthedocs-image]: https://readthedocs.org/projects/pynamer/badge/?version=latest
 [readthedocs-url]: https://pynamer.readthedocs.io/en/latest/?badge=latest
 [status-image]: https://img.shields.io/pypi/status/pynamer?logo=pypi&logoColor=lightblue

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Collection of package support utilities."""
+
 # Core Library modules
 import json
 import os
@@ -155,9 +156,12 @@ def generate_pypi_index() -> None:
                 progress_bar.update(1)
                 project = "".join([project_text.group(1), " \n"])
                 file.write(project)
+
     progress_bar.close()
-    with project_count_file_trv.open("wb") as f:
-        pickle.dump(new_count, f)
+
+    with as_file(project_count_file_trv) as project_count_file:
+        with project_count_file.open("wb") as f:
+            pickle.dump(new_count, f)  # type: ignore[arg-type]
 
     if config.project_count > 0:
         diff = new_count - config.project_count

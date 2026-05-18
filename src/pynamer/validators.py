@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Collection of functions to test availability of a package name on PyPI"""
+
 # Core Library modules
 import json
 import re

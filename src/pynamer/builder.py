@@ -144,9 +144,10 @@ def create_setup(new_project_name: str, new_meta: bool = False) -> None:
             AUTHOR=author,
             EMAIL=email,
         )
-        with as_file(setup_file_trv) as setup_file:
-            with setup_file.open("w", encoding="utf-8") as f:
-                f.write(content)
+        with as_file(setup_file_trv) as setup_file, setup_file.open(
+            "w", encoding="utf-8"
+        ) as f:
+            f.write(content)
 
     meta_save = {
         "author": author,
@@ -155,18 +156,18 @@ def create_setup(new_project_name: str, new_meta: bool = False) -> None:
         "version": version,
     }
 
-    with as_file(meta_file_trv) as meta_file:
-        with meta_file.open("wb") as f:
-            pickle.dump(meta_save, f)  # type: ignore[arg-type]
+    with as_file(meta_file_trv) as meta_file, meta_file.open("wb") as f:
+        pickle.dump(meta_save, f)  # type: ignore[arg-type]
 
     setup_text_file = setup_file_trv.read_text(encoding="utf-8")
     template = Template(setup_text_file)
     content = template.render(PROJECT_NAME=new_project_name)
 
-    with as_file(setup_file_py_trv) as setup_file_py:
-        with setup_file_py.open("w", encoding="utf-8") as message:
-            logger.debug("creating new setup.py with the following: \n %s", content)
-            message.write(content)
+    with as_file(setup_file_py_trv) as setup_file_py, setup_file_py.open(
+        "w", encoding="utf-8"
+    ) as message:
+        logger.debug("creating new setup.py with the following: \n %s", content)
+        message.write(content)
 
 
 def rename_project_dir(old_name: str, new_name: str) -> None:

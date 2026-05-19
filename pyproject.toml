@@ -5,7 +5,99 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
-[tool]
+[project]
+name = "pynamer"
+dynamic = ["version"]
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Stephen R A King", email = "sking.github@gmail.com" }
+]
+maintainers = [
+    { name = "Stephen R A King", email = "sking.github@gmail.com" }
+]
+description = "Utility to find an available package name in the PyPI repository and register it"
+readme = "README.md"
+keywords = [
+    "available-on-pypi",
+    "pip-search",
+    "packaging",
+    "naming",
+    "name-generation",
+    "names",
+    "pypi",
+    "naming-conventions",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "beautifulsoup4>=4.14.3",
+    "build>=1.5.0",
+    "colorama>=0.4.6",
+    "jinja2>=3.1.6",
+    "packaging>=26.0",
+    "python-dateutil>=2.9.0.post0",
+    "pyyaml>=6.0.3",
+    "requests>=2.34.2",
+    "rich>=14.3.4",
+    "tqdm>=4.67.3",
+    "twine>=6.2.0",
+    "wheel>=0.46.3",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+
+[project.urls]
+Homepage = "https://github.com/Stephen-RA-King/pynamer"
+Documentation = "https://pynamer.readthedocs.io/en/latest/"
+"Bug Tracker" = "https://github.com/Stephen-RA-King/pynamer/issues"
+CI = "https://github.com/Stephen-RA-King/pynamer/actions"
+"Release Notes" = "https://github.com/Stephen-RA-King/pynamer/releases"
+"Source Code" = "https://github.com/Stephen-RA-King/pynamer/"
+Download = "https://github.com/Stephen-RA-King/pynamer/archive/refs/heads/main.zip"
+
+[project.scripts]
+pynamer = "pynamer.pynamer:main"
+
+[tool.setuptools.dynamic]
+version = { attr = "pynamer.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pynamer = [
+    "README.md",
+    "project_name",
+    "project_name/__init__.py",
+    "setup.txt",
+    "setup_base.txt",
+]
+
+[tool.flake8]
+docstring-convention = "numpy"
+max-complexity = 18
+max-line-length = 88
+select = ["B", "B9", "C", "D", "E", "F", "N", "W"]
+exclude = ["tests/*", ".tox/*", ".nox/*", "docs/*", ".git/*", ".github/*"]
+ignore = ["E203", "W503"]
+per-file-ignores = [
+    "pynamer.py:C901",
+    "builder.py:C901",
+]
+
+
 [tool.black]
 line-length = 88
 
@@ -16,33 +108,27 @@ skip = [
     "*/header.png",
     ".pypirc",
     "CHANGELOG.md",
-    "setup.cfg"
 ]
 
 [tool.isort]
-import_heading_stdlib = "Core Library modules"
-import_heading_thirdparty = "Third party modules"
-import_heading_firstparty = "First party modules"
-import_heading_localfolder = "Local modules"
-include_trailing_comma = true
-indent = '    '
+profile = "black"
+line_length = 88
 known_third_party = [
-    "click",
     "pytest",
     "setuptools",
-    "pip-tools",
-    "pre-commit"
+    "piptools",
+    "pre_commit",
 ]
 known_first_party = [
     "pathmagic"
 ]
-line_length = 80
-multi_line_output = 3
-force_grid_wrap = 0
-use_parentheses = true
+import_heading_stdlib = "Core Library modules"
+import_heading_thirdparty = "Third party modules"
+import_heading_firstparty = "First party modules"
+import_heading_localfolder = "Local modules"
 ensure_newline_before_comments = true
-balanced_wrapping = true
 combine_as_imports = true
+
 
 [tool.mypy]
 ignore_missing_imports = true
@@ -54,45 +140,28 @@ warn_redundant_casts = true
 warn_unused_configs = true
 disallow_untyped_calls = false
 disallow_incomplete_defs = true
-follow_imports = "skip"
-html_report = "reports/mypy"
+follow_imports = "normal"
 cache_dir = 'cache/.mypy_cache'
-mypy_path = "typeshed/pyi:typeshed/imports"
+mypy_path = ["typeshed/pyi", "typeshed/imports"]
 exclude = [
     '^tests/[\w]*.py$',
     '^tools/[\w]*.py$',
-    '^tasks.py$'
+    '^tasks\.py$',
 ]
 
 [tool.semantic_release]
-version_variable = [
+version_variables = [
     "src/pynamer/__init__.py:__version__",
     "docs/conf.py:version",
 ]
-branch = "main"
-changelog_file = "CHANGELOG.md"
 build_command = "python -m build"
-dist_path = "dist/"
-upload_to_pypi = true
-upload_to_repository = true
-remove_dist = true
-version_source = "tag"
-commit_message = "chore: generate by PSR"
+commit_message = "chore: generate release with PSR"
 
-[tool.flakeheaven]
-# base = "https://raw.githubusercontent.com/flakeheaven/flakeheaven/main/pyproject.toml"
-exclude = ["example.py"]
-format = "grouped"
-max_line_length = 80
-show_source = true
+[tool.semantic_release.changelog]
+file = "CHANGELOG.md"
 
-[tool.flakeheaven.plugins]
-pyflakes = ["+*", "-F401"]
-"flake8-*" = ["+*"]
-mccabe = ["+*"]
-pep8-naming = ["+*"]
-pycodestyle = ["+*"]
-pylint = ["+F*", "+E*", "-E0611", "-E1101", "-E0401", "-E1102", "-E1123"]
+[tool.semantic_release.remote.token]
+env = "GH_TOKEN"
 
 [tool.coverage.run]
 branch = true

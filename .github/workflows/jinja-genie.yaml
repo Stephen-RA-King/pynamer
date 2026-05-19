@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6.0.2
 
       - name: Fetch and Merge Remote Changes
         run: git pull origin main
@@ -23,8 +23,8 @@ jobs:
           target: src/pynamer/__init__.py
           protect: true
           requires: |
-            beautifulsoup4==4.12.2
-            requests==2.31.0
+            beautifulsoup4==4.14.3
+            requests==2.34.2
           dynamic_script: templater.py
 
       - name: Template readme file
@@ -35,12 +35,12 @@ jobs:
           target: README.md
           protect: true
           requires: |
-            beautifulsoup4==4.12.2
-            requests==2.31.0
+            beautifulsoup4==4.14.3
+            requests==2.34.2
           dynamic_script: templater.py
 
       - name: Commit changes
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@v10
         if: always()
         with:
           author_name: Jinja Genie

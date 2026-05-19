@@ -11,7 +11,6 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 [![pre-commit.ci status][pre-commit.ci-image]][pre-commit.ci-url]
 [![readthedocs][readthedocs-image]][readthedocs-url]
 [![CodeFactor][codefactor-image]][codefactor-url]
-[![Codeclimate][codeclimate-image]][codeclimate-url]
 [![Imports: isort][isort-image]][isort-url]
 [![Code style: black][black-image]][black-url]
 [![Checked with mypy][mypy-image]][mypy-url]
@@ -136,7 +135,7 @@ Pynamer provides a way to optionally 'register' a name on PyPI by building a min
 
 ---
 
--   [x] Python >= 3.9.
+-   [x] Python >= 3.10
 
 The following are optional but required for 'registering' a project name on PyPI
 

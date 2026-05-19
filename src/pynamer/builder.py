@@ -67,9 +67,9 @@ def create_setup(new_project_name: str, new_meta: bool = False) -> None:
                 )
                 if author != "":
                     break
-        except KeyboardInterrupt:  # pragma: no cover
+        except KeyboardInterrupt as e:  # pragma: no cover
             feedback("...bye!", "warning")
-            raise SystemExit()
+            raise SystemExit() from e
 
         try:
             while True:
@@ -93,9 +93,9 @@ def create_setup(new_project_name: str, new_meta: bool = False) -> None:
                         + "does not appear to be a valid email address"
                         + Style.RESET_ALL
                     )  # pragma: no cover
-        except KeyboardInterrupt:  # pragma: no cover
+        except KeyboardInterrupt as e:  # pragma: no cover
             feedback("...bye!", "warning")
-            raise SystemExit()
+            raise SystemExit() from e
 
         try:
             while True:
@@ -111,8 +111,8 @@ def create_setup(new_project_name: str, new_meta: bool = False) -> None:
                 )
                 if version != "":
                     break
-        except KeyboardInterrupt:  # pragma: no cover
-            raise SystemExit("Bye!")
+        except KeyboardInterrupt as e:  # pragma: no cover
+            raise SystemExit("Bye!") from e
 
         try:
             while True:
@@ -128,8 +128,8 @@ def create_setup(new_project_name: str, new_meta: bool = False) -> None:
                 )
                 if description != "":
                     break
-        except KeyboardInterrupt:  # pragma: no cover
-            raise SystemExit("Bye!")
+        except KeyboardInterrupt as e:  # pragma: no cover
+            raise SystemExit("Bye!") from e
 
         with as_file(setup_file_trv) as setup_file:
             if setup_file.exists():
@@ -144,9 +144,10 @@ def create_setup(new_project_name: str, new_meta: bool = False) -> None:
             AUTHOR=author,
             EMAIL=email,
         )
-        with as_file(setup_file_trv) as setup_file, setup_file.open(
-            "w", encoding="utf-8"
-        ) as f:
+        with (
+            as_file(setup_file_trv) as setup_file,
+            setup_file.open("w", encoding="utf-8") as f,
+        ):
             f.write(content)
 
     meta_save = {
@@ -163,9 +164,10 @@ def create_setup(new_project_name: str, new_meta: bool = False) -> None:
     template = Template(setup_text_file)
     content = template.render(PROJECT_NAME=new_project_name)
 
-    with as_file(setup_file_py_trv) as setup_file_py, setup_file_py.open(
-        "w", encoding="utf-8"
-    ) as message:
+    with (
+        as_file(setup_file_py_trv) as setup_file_py,
+        setup_file_py.open("w", encoding="utf-8") as message,
+    ):
         logger.debug("creating new setup.py with the following: \n %s", content)
         message.write(content)
 
@@ -188,9 +190,9 @@ def rename_project_dir(old_name: str, new_name: str) -> None:
     logger.debug("renaming project directory from %s to %s", old_name, new_name)
     try:
         old_directory_path.rename(new_directory_path)
-    except FileNotFoundError:
+    except FileNotFoundError as e:
         logger.error("directory %s cannot be found:", old_directory_path)
-        raise FileNotFoundError
+        raise FileNotFoundError from e
 
 
 def delete_director(items_to_delete: Any) -> None:

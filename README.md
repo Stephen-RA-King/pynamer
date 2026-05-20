@@ -477,7 +477,6 @@ Created with Cookiecutter template: [![pydough][pydough-image]][pydough-url] ver
 
 Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](https://zenodo.org/badge/latestdoi/631029310)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8104298.svg)](https://doi.org/10.5281/zenodo.8104298)
 
 
 
@@ -509,24 +508,18 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [format-image]: https://img.shields.io/pypi/format/pynamer
 [isort-image]: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336?
 [isort-url]: https://github.com/pycqa/isort/
-[lgtm-alerts-image]: https://img.shields.io/lgtm/alerts/g/Stephen-RA-King/pynamer.svg?logo=lgtm&logoWidth=18
-[lgtm-alerts-url]: https://lgtm.com/projects/g/Stephen-RA-King/pynamer/alerts/
-[lgtm-quality-image]: https://img.shields.io/lgtm/grade/python/g/Stephen-RA-King/pynamer.svg?logo=lgtm&logoWidth=18
-[lgtm-quality-url]: https://lgtm.com/projects/g/Stephen-RA-King/pynamer/context:python
 [license-image]: https://img.shields.io/pypi/l/pynamer
 [license-url]: https://github.com/Stephen-RA-King/pynamer/blob/main/LICENSE
 [mypy-image]: http://www.mypy-lang.org/static/mypy_badge.svg
-[mypy-url]: http://mypy-lang.org/
+[mypy-url]: https://mypy-lang.org/
 [openssf-image]: https://api.securityscorecards.dev/projects/github.com/Stephen-RA-King/pynamer/badge
 [openssf-url]: https://api.securityscorecards.dev/projects/github.com/Stephen-RA-King/pynamer
 [pipx-url]: https://pypa.github.io/pipx/
-[pre-commit-image]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
-[pre-commit-url]: https://github.com/pre-commit/pre-commit
 [pre-commit.ci-image]: https://results.pre-commit.ci/badge/github/Stephen-RA-King/pynamer/main.svg
 [pre-commit.ci-url]: https://results.pre-commit.ci/latest/github/Stephen-RA-King/pynamer/main
-[pydough-image]: https://img.shields.io/badge/pydough-2023-orange?logo=cookiecutter
+[pydough-image]: https://img.shields.io/badge/Cookiecutter-pydough-orange?logo=cookiecutter
 [pydough-url]: https://github.com/Stephen-RA-King/pydough
-[pypi-image]: https://img.shields.io/pypi/v/pynamer?logo=pypi&logoColor=lightblue
+[pypi-image]: https://img.shields.io/pypi/v/pynamer
 [pypi-url]: https://pypi.org/project/pynamer/
 [python-version-image]: https://img.shields.io/pypi/pyversions/pynamer
 [readthedocs-image]: https://readthedocs.org/projects/pynamer/badge/?version=latest

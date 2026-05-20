@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pynamer"
-dynamic = ["version"]
+version = "2.2.0"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [
@@ -152,6 +152,10 @@ exclude = [
 ]
 
 [tool.semantic_release]
+version_toml = [
+    "pyproject.toml:project.version",
+]
+
 version_variables = [
     "src/pynamer/__init__.py:__version__",
     "docs/conf.py:version",

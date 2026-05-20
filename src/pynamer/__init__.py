@@ -4,21 +4,13 @@
 # Core Library modules
 import logging.config
 import pickle
+from importlib.metadata import version
 from importlib.resources import files
 
 # Third party modules
 import yaml
 
-__title__ = "pynamer"
-__version__ = "2.2.1"
-__author__ = "Stephen R A King"
-__description__ = (
-    "Utility to find an available package name in the PyPI repository and register it "
-)
-__email__ = "sking.github@gmail.com"
-__license__ = "MIT"
-__copyright__ = "Copyright 2023 Stephen R A King"
-__all__ = ["builder", "cli", "config", "pynamer", "utils", "validators"]
+__version__ = version("pynamer")
 
 
 LOGGING_CONFIG = """

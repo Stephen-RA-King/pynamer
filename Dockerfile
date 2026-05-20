@@ -5,8 +5,6 @@ WORKDIR /app
 # Copy the local application and build files to the container
 COPY src /app/src
 COPY requirements/production.txt .
-COPY setup.py .
-COPY setup.cfg .
 COPY pyproject.toml .
 COPY README.md .
 

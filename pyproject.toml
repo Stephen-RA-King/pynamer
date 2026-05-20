@@ -159,9 +159,6 @@ version_variables = [
 build_command = "python -m build"
 commit_message = "chore: generate release with PSR"
 
-[tool.semantic_release.changelog]
-file = "CHANGELOG.md"
-
 [tool.semantic_release.remote.token]
 env = "GH_TOKEN"
 

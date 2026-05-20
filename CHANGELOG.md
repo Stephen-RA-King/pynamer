@@ -2,6 +2,35 @@
 
 <!-- version list -->
 
+## v2.2.1 (2026-05-20)
+
+### Bug Fixes
+
+- B904: raise inside an except block
+  ([`57ee7f2`](https://github.com/Stephen-RA-King/pynamer/commit/57ee7f2d2902d6ae6d0cb591046c137f88a88131))
+
+- Build system
+  ([`fb750a6`](https://github.com/Stephen-RA-King/pynamer/commit/fb750a6d5bd61b670c8c1fec67bff6f768ab903f))
+
+- Change psr config
+  ([`3654cf4`](https://github.com/Stephen-RA-King/pynamer/commit/3654cf4ba7593571fe6ce85b290a647cf664964b))
+
+- Correct psr config
+  ([`cfbaf26`](https://github.com/Stephen-RA-King/pynamer/commit/cfbaf26f947f4127d8f792478a610118030ae0ef))
+
+- Delete config files
+  ([`8d6dcf8`](https://github.com/Stephen-RA-King/pynamer/commit/8d6dcf8a12d76969a84dfbcc7d6cf0a4cb4e93b1))
+
+- Psr template issue
+  ([`262492e`](https://github.com/Stephen-RA-King/pynamer/commit/262492e002cf03f5278f40e6ffc293de34557754))
+
+- Psr template issue
+  ([`335e1af`](https://github.com/Stephen-RA-King/pynamer/commit/335e1af4a9e33402117514292ef0a867f1097fa7))
+
+- Python requires
+  ([`f8852a1`](https://github.com/Stephen-RA-King/pynamer/commit/f8852a111b06675c089eefc604b8616445147d46))
+
+
 ## v2.2.0 (2026-05-19)
 
 ### Bug Fixes

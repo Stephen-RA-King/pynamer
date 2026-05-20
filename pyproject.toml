@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pynamer"
-version = "2.2.0"
+version = "2.2.1"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [
@@ -159,6 +159,7 @@ version_toml = [
 version_variables = [
     "docs/conf.py:version",
 ]
+template_dir = ".psr_templates"
 build_command = "python -m build"
 commit_message = "chore: generate release with PSR"
 

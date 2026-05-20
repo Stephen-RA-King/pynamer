@@ -28,7 +28,7 @@ keywords = [
     "pypi",
     "naming-conventions",
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.10"
 
 dependencies = [
     "beautifulsoup4>=4.14.3",

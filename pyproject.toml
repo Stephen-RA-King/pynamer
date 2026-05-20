@@ -71,9 +71,6 @@ Download = "https://github.com/Stephen-RA-King/pynamer/archive/refs/heads/main.z
 [project.scripts]
 pynamer = "pynamer.pynamer:main"
 
-[tool.setuptools.dynamic]
-version = { attr = "pynamer.__version__" }
-
 [tool.setuptools.packages.find]
 where = ["src"]
 
@@ -159,9 +156,12 @@ version_toml = [
 version_variables = [
     "docs/conf.py:version",
 ]
-template_dir = ".psr_templates"
+
 build_command = "python -m build"
 commit_message = "chore: generate release with PSR"
+
+[tool.semantic_release.changelog]
+template_dir = ".psr_templates"
 
 [tool.semantic_release.remote.token]
 env = "GH_TOKEN"

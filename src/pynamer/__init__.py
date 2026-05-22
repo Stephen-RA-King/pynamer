@@ -1,16 +1,23 @@
 #!/usr/bin/env python3
 """Top-level package for pynamer."""
-
 # Core Library modules
 import logging.config
 import pickle
-from importlib.metadata import version
 from importlib.resources import files
 
 # Third party modules
 import yaml
 
-__version__ = version("pynamer")
+__title__ = "pynamer"
+__version__ = "2.1.8"
+__author__ = "Stephen R A King"
+__description__ = (
+    "Utility to find an available package name in the PyPI repository and register it "
+)
+__email__ = "sking.github@gmail.com"
+__license__ = "MIT"
+__copyright__ = "Copyright 2023 Stephen R A King"
+__all__ = ["builder", "cli", "config", "pynamer", "utils", "validators"]
 
 
 LOGGING_CONFIG = """
@@ -60,7 +67,7 @@ else:  # pragma: no cover
 if project_count_file_trv.is_file():
     project_count = pickle.loads(project_count_file_trv.read_bytes())
 else:  # pragma: no cover
-    project_count = 809001
+    project_count = 813995
 
 
 if meta_file_trv.is_file():

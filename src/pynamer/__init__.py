@@ -6,6 +6,7 @@ import logging.config
 import pickle
 from importlib.metadata import version
 from importlib.resources import files
+from pathlib import Path
 
 # Third party modules
 import yaml
@@ -19,9 +20,17 @@ disable_existing_loggers: True
 handlers:
   console:
     class: logging.StreamHandler
-    level: INFO
+    level: DEBUG
     stream: ext://sys.stdout
     formatter: basic
+  file:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    filename: logs/log.txt
+    maxBytes: 1048576    # 1MB
+    backupCount: 3       # keeps log.txt, log.txt.1, log.txt.2, log.txt.3
+    formatter: timestamp
+    encoding: utf-8
 
 
 formatters:
@@ -30,15 +39,16 @@ formatters:
     format: "{message:s}"
   timestamp:
     style: "{"
-    format: "{asctime} - {levelname} - {name} - {message}"
+    format: "{asctime} - {levelname} - {filename}:{lineno} - {message}"
 
 loggers:
   init:
-    handlers: []
+    handlers: [console, file]
     level: DEBUG
     propagate: False
 """
 
+Path("logs").mkdir(exist_ok=True)
 logging.config.dictConfig(yaml.safe_load(LOGGING_CONFIG))
 logger = logging.getLogger("init")
 

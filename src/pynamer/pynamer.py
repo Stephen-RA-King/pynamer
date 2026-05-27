@@ -86,7 +86,9 @@ def main() -> None:  # pragma: no cover, type: ignore
 
     # Main loop
     for new_project in project_list:
+        logger.debug("searching for project name: = %s", new_project)
         if not is_valid_package_name(new_project):
+            logger.debug("Not a valid name: = %s", new_project)
             feedback(f"{new_project} is not a valid package name", "error")
             feedback("refer to PEP508 & PEP423 for more details", "warning")
             continue
@@ -120,12 +122,12 @@ def main() -> None:  # pragma: no cover, type: ignore
             else:
                 json_data = ping_json(new_project)
             test_table.add_row(
-                "1", "Check PyPI project URL", "[red]FOUND[/red]", json_data
+                "1", "Check PyPI JSON URL", "[red]FOUND[/red]", json_data
             )
         else:
             test_results.append(0)
             test_table.add_row(
-                "1", "Check PyPI project URL", "[green]NOT FOUND[/green]", ""
+                "1", "Check PyPI JSON URL", "[green]NOT FOUND[/green]", ""
             )
 
         # Test 2

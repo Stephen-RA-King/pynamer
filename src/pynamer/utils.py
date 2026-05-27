@@ -120,7 +120,7 @@ def find_pypirc_file(filename: str = ".pypirc") -> None:
                     "%s is present in the system's PATH at %s", filename, directory
                 )
                 config.pypirc = file_path
-                break
+                return
     logger.debug("%s is not present in the system's PATH.", filename)
 
 

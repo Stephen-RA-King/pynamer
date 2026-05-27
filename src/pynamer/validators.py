@@ -146,9 +146,10 @@ def ping_project(project_name: str) -> bool:
     Raises:
         SystemExit:     if any requests.RequestException occurs.
     """
-    url_project = "".join([config.pypi_project_url, project_name, "/"])
-    logger.debug("attempting to get url %s", url_project)
+    # url_project = "".join([config.pypi_project_url, project_name, "/"])
+    url_project = "".join([config.pypi_json_url, project_name, "/json/"])
 
+    logger.debug("attempting to get url %s", url_project)
     project_ping = requests.get(url_project, timeout=5)
 
     if project_ping.status_code == 200:

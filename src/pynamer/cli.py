@@ -7,7 +7,7 @@ def _parse_args(args: list) -> tuple[argparse.Namespace, argparse.ArgumentParser
 
     Args:
         args:   A list of arguments from the commandline
-                e.g. ['pynball', '-v', '-g']
+                e.g. ['pynamer', '-s', '-w', 'project_name']
     """
     parser = argparse.ArgumentParser(
         prog="pynamer",

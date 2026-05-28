@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 """Top-level package for pynamer."""
-
 # Core Library modules
 import logging.config
 import pickle
 from importlib.resources import files
-from pathlib import Path
 
 # Third party modules
 import yaml
@@ -28,17 +26,9 @@ disable_existing_loggers: True
 handlers:
   console:
     class: logging.StreamHandler
-    level: DEBUG
+    level: INFO
     stream: ext://sys.stdout
     formatter: basic
-  file:
-    class: logging.handlers.RotatingFileHandler
-    level: DEBUG
-    filename: logs/log.txt
-    maxBytes: 1048576    # 1MB
-    backupCount: 3       # keeps log.txt, log.txt.1, log.txt.2, log.txt.3
-    formatter: timestamp
-    encoding: utf-8
 
 
 formatters:
@@ -47,16 +37,15 @@ formatters:
     format: "{message:s}"
   timestamp:
     style: "{"
-    format: "{asctime} - {levelname} - {filename}:{lineno} - {message}"
+    format: "{asctime} - {levelname} - {name} - {message}"
 
 loggers:
   init:
-    handlers: [console, file]
+    handlers: []
     level: DEBUG
     propagate: False
 """
 
-Path("logs").mkdir(exist_ok=True)
 logging.config.dictConfig(yaml.safe_load(LOGGING_CONFIG))
 logger = logging.getLogger("init")
 
@@ -78,7 +67,7 @@ else:  # pragma: no cover
 if project_count_file_trv.is_file():
     project_count = pickle.loads(project_count_file_trv.read_bytes())
 else:  # pragma: no cover
-    project_count = 817311
+    project_count = 818161
 
 
 if meta_file_trv.is_file():

@@ -181,7 +181,10 @@ def _clean_docs():
 
 def _clean_logs():
     """Clean the log files."""
-    patterns = ["*.log"]
+    patterns = [
+        "*.log",
+        "log.*",
+    ]
     excludes = [
         LOG_DIR / "tasks.log",
     ]

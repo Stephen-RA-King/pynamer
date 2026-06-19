@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Top-level package for pynamer."""
-
 # Core Library modules
 import logging.config
 import pickle
@@ -68,7 +67,7 @@ else:  # pragma: no cover
 if project_count_file_trv.is_file():
     project_count = pickle.loads(project_count_file_trv.read_bytes())
 else:  # pragma: no cover
-    project_count = 832313
+    project_count = 833676
 
 
 if meta_file_trv.is_file():

@@ -1,4 +1,4 @@
-name: Jinja-Genie templater
+name: Jinja-Genie
 
 on:
   schedule:

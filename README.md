@@ -20,8 +20,8 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 [![DeepSource][deepsource-image]][deepsource-url]
 [![license][license-image]][license-url]
 [![pydough][pydough-image]][pydough-url]
+[![Jinja-Genie][jinja-genie-image]][jinja-genie-url]
 <!-- [![OpenSSFScorecard][openssf-image]][openssf-url] -->
-
 
 
 ![](assets/pynamer1.png)
@@ -506,6 +506,10 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [docker-url]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/docker-image.yml
 [downloads-image]: https://static.pepy.tech/personalized-badge/pynamer?period=total&left_color=black&right_color=blue&left_text=Downloads
 [downloads-url]: https://pepy.tech/project/pynamer
+
+[jinja-genie-image]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/jinja-genie.yaml/badge.svg
+[jinja-genie-url]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/jinja-genie.yaml
+
 [format-image]: https://img.shields.io/pypi/format/pynamer
 [isort-image]: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336?
 [isort-url]: https://github.com/pycqa/isort/
@@ -524,7 +528,7 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [pre-commit-url]: https://github.com/pre-commit/pre-commit
 [pre-commit.ci-image]: https://results.pre-commit.ci/badge/github/Stephen-RA-King/pynamer/main.svg
 [pre-commit.ci-url]: https://results.pre-commit.ci/latest/github/Stephen-RA-King/pynamer/main
-[pydough-image]: https://img.shields.io/badge/pydough-2023-orange?logo=cookiecutter
+[pydough-image]: https://img.shields.io/badge/Cookiecutter-pydough-orange?logo=cookiecutter
 [pydough-url]: https://github.com/Stephen-RA-King/pydough
 [pypi-image]: https://img.shields.io/pypi/v/pynamer?logo=pypi&logoColor=lightblue
 [pypi-url]: https://pypi.org/project/pynamer/

@@ -4,8 +4,8 @@
 # Core Library modules
 import logging.config
 import pickle
-from importlib.resources import files
 from importlib.metadata import version
+from importlib.resources import files
 
 # Third party modules
 import yaml
@@ -59,7 +59,7 @@ else:  # pragma: no cover
 if project_count_file_trv.is_file():
     project_count = pickle.loads(project_count_file_trv.read_bytes())
 else:  # pragma: no cover
-    project_count = 834338
+    project_count = 834342
 
 
 if meta_file_trv.is_file():

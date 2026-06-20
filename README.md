@@ -20,8 +20,8 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 [![DeepSource][deepsource-image]][deepsource-url]
 [![license][license-image]][license-url]
 [![pydough][pydough-image]][pydough-url]
-[![Jinja-Genie][jinja-genie-image]][jinja-genie-url]
 <!-- [![OpenSSFScorecard][openssf-image]][openssf-url] -->
+
 
 
 ![](assets/pynamer1.png)
@@ -66,7 +66,7 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 Some of you may have reached the point where you want to publish a package in the PyPI python repository.
 The first step of which is to choose a unique name. Here lies the problem.
 
-A recent look at the PyPI repository revealed there were over 833,701 projects, so many names have already been taken.
+A recent look at the PyPI repository revealed there were over 834,318 projects, so many names have already been taken.
 
 pip leaps to the rescue with its search utility... or does it?
 
@@ -193,7 +193,7 @@ However, optimal installation can be achieved using [**pipx**][pipx-url]:
 
 Holy smoke batman! You've managed to identify a unique name.
 
-Yes, even though the odds were against you (given there are over 833,701 registered projects), you did it!
+Yes, even though the odds were against you (given there are over 834,318 registered projects), you did it!
 
 Even though the name has nothing in common with your project, or may not even be a real word... you did it!
 
@@ -506,10 +506,6 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [docker-url]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/docker-image.yml
 [downloads-image]: https://static.pepy.tech/personalized-badge/pynamer?period=total&left_color=black&right_color=blue&left_text=Downloads
 [downloads-url]: https://pepy.tech/project/pynamer
-
-[jinja-genie-image]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/jinja-genie.yaml/badge.svg
-[jinja-genie-url]: https://github.com/Stephen-RA-King/pynamer/actions/workflows/jinja-genie.yaml
-
 [format-image]: https://img.shields.io/pypi/format/pynamer
 [isort-image]: https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336?
 [isort-url]: https://github.com/pycqa/isort/
@@ -528,7 +524,7 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [pre-commit-url]: https://github.com/pre-commit/pre-commit
 [pre-commit.ci-image]: https://results.pre-commit.ci/badge/github/Stephen-RA-King/pynamer/main.svg
 [pre-commit.ci-url]: https://results.pre-commit.ci/latest/github/Stephen-RA-King/pynamer/main
-[pydough-image]: https://img.shields.io/badge/Cookiecutter-pydough-orange?logo=cookiecutter
+[pydough-image]: https://img.shields.io/badge/pydough-2023-orange?logo=cookiecutter
 [pydough-url]: https://github.com/Stephen-RA-King/pydough
 [pypi-image]: https://img.shields.io/pypi/v/pynamer?logo=pypi&logoColor=lightblue
 [pypi-url]: https://pypi.org/project/pynamer/

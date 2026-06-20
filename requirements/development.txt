@@ -53,7 +53,7 @@ build==1.5.0
     # via -r development.in
 cachetools==7.1.4
     # via tox
-certifi==2026.5.20
+certifi==2026.6.17
     # via
     #   httpcore
     #   httpx
@@ -237,7 +237,7 @@ jinja2==3.1.6
     #   python-semantic-release
     #   sphinx
     #   sphinx-autoapi
-json5==0.14.0
+json5==0.15.0
     # via jupyterlab-server
 jsonpointer==3.1.1
     # via jsonschema
@@ -250,6 +250,10 @@ jsonschema-specifications==2025.9.1
     # via jsonschema
 jupyter==1.1.1
     # via -r development.in
+jupyter-builder==1.0.2
+    # via
+    #   jupyterlab
+    #   notebook
 jupyter-client==8.9.1
     # via
     #   ipykernel
@@ -261,6 +265,7 @@ jupyter-console==6.6.3
 jupyter-core==5.9.1
     # via
     #   ipykernel
+    #   jupyter-builder
     #   jupyter-client
     #   jupyter-console
     #   jupyter-server
@@ -272,7 +277,7 @@ jupyter-events==0.12.1
     # via jupyter-server
 jupyter-lsp==2.3.1
     # via jupyterlab
-jupyter-server==2.19.0
+jupyter-server==2.20.0
     # via
     #   jupyter-lsp
     #   jupyterlab
@@ -281,7 +286,7 @@ jupyter-server==2.19.0
     #   notebook-shim
 jupyter-server-terminals==0.5.4
     # via jupyter-server
-jupyterlab==4.5.8
+jupyterlab==4.6.0
     # via
     #   jupyter
     #   notebook
@@ -350,7 +355,7 @@ nh3==0.3.5
     # via readme-renderer
 nodeenv==1.10.0
     # via pre-commit
-notebook==7.5.7
+notebook==7.6.0
     # via jupyter
 notebook-shim==0.2.4
     # via
@@ -440,7 +445,7 @@ pyproject-api==1.10.1
     # via tox
 pyproject-hooks==1.2.0
     # via build
-pytest==9.1.0
+pytest==9.1.1
     # via
     #   -r development.in
     #   -r test.in
@@ -638,6 +643,7 @@ traitlets==5.15.1
     #   ipykernel
     #   ipython
     #   ipywidgets
+    #   jupyter-builder
     #   jupyter-client
     #   jupyter-console
     #   jupyter-core
@@ -721,6 +727,3 @@ widgetsnbextension==4.0.15
     # via ipywidgets
 wrapt==2.2.1
     # via deprecated
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools

@@ -58,7 +58,7 @@ else:  # pragma: no cover
 if project_count_file_trv.is_file():
     project_count = pickle.loads(project_count_file_trv.read_bytes())
 else:  # pragma: no cover
-    project_count = 847196
+    project_count = 847805
 
 
 if meta_file_trv.is_file():

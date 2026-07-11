@@ -4,4 +4,3 @@
 #
 #    pip-compile base.in
 #
---index-url https://pkgs.safetycli.com/repository/none-4c687/pypi/simple/

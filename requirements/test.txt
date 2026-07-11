@@ -4,8 +4,6 @@
 #
 #    pip-compile test.in
 #
---index-url https://pkgs.safetycli.com/repository/none-4c687/pypi/simple/
-
 annotated-types==0.7.0
     # via pydantic
 argcomplete==3.6.3

@@ -4,8 +4,6 @@
 #
 #    pip-compile development.in
 #
---index-url https://pkgs.safetycli.com/repository/none-4c687/pypi/simple/
-
 alabaster==1.0.0
     # via sphinx
 annotated-types==0.7.0

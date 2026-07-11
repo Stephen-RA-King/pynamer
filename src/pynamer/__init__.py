@@ -22,7 +22,6 @@ handlers:
     stream: ext://sys.stdout
     formatter: basic
 
-
 formatters:
   basic:
     style: "{"
@@ -59,7 +58,7 @@ else:  # pragma: no cover
 if project_count_file_trv.is_file():
     project_count = pickle.loads(project_count_file_trv.read_bytes())
 else:  # pragma: no cover
-    project_count = 835515
+    project_count = 848592
 
 
 if meta_file_trv.is_file():

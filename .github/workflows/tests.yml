@@ -22,10 +22,10 @@ jobs:
             python-version: "3.14"
     steps:
       # Step 2. Check-out repository so we can access its contents
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7.0.0
 
       # Step 3. Set up Python
-      - uses: actions/setup-python@v6.2.0
+      - uses: actions/setup-python@v6.3.0
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -54,7 +54,7 @@ jobs:
           pytest tests/ --cov=pynamer --cov-report xml:coverage.xml
 
       # Step 8. Upload coverage to Codecov
-      - uses: codecov/codecov-action@v6
+      - uses: codecov/codecov-action@v7
         with:
           file: ./coverage.xml
           fail_build_if_error: true

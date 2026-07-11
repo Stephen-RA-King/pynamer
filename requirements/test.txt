@@ -4,11 +4,13 @@
 #
 #    pip-compile test.in
 #
+--index-url https://pkgs.safetycli.com/repository/none-4c687/pypi/simple/
+
 annotated-types==0.7.0
     # via pydantic
 argcomplete==3.6.3
     # via commitizen
-ast-serialize==0.5.0
+ast-serialize==0.6.0
     # via mypy
 bandit==1.9.4
     # via
@@ -18,15 +20,15 @@ black==26.5.1
     # via -r test.in
 cachetools==7.1.4
     # via tox
-certifi==2026.5.20
+certifi==2026.6.17
     # via requests
 cfgv==3.5.0
     # via pre-commit
-charset-normalizer==3.4.7
+charset-normalizer==3.4.9
     # via
     #   commitizen
     #   requests
-click==8.1.8
+click==8.4.2
     # via
     #   black
     #   click-option-group
@@ -40,9 +42,9 @@ colorama==0.4.6
     #   commitizen
     #   pytest
     #   tox
-commitizen==4.16.3
+commitizen==4.16.4
     # via -r test.in
-coverage[toml]==7.14.1
+coverage[toml]==7.15.0
     # via
     #   -r test.in
     #   coverage-conditional-plugin
@@ -59,7 +61,7 @@ distlib==0.4.3
     # via virtualenv
 dotty-dict==1.3.1
     # via python-semantic-release
-filelock==3.29.4
+filelock==3.29.7
     # via
     #   python-discovery
     #   tox
@@ -105,7 +107,7 @@ jinja2==3.1.6
     #   flake8-html
     #   pytest-html
     #   python-semantic-release
-librt==0.11.0
+librt==0.13.0
     # via mypy
 lxml==6.1.1
     # via -r test.in
@@ -117,7 +119,7 @@ mccabe==0.7.0
     # via flake8
 mdurl==0.1.2
     # via markdown-it-py
-mypy==2.1.0
+mypy==2.2.0
     # via -r test.in
 mypy-extensions==1.1.0
     # via
@@ -169,7 +171,7 @@ pygments==2.20.0
     #   rich
 pyproject-api==1.10.1
     # via tox
-pytest==9.1.0
+pytest==9.1.1
     # via
     #   -r test.in
     #   pytest-cov
@@ -195,13 +197,13 @@ pytest-repeat==0.9.4
     # via -r test.in
 pytest-timeout==2.4.0
     # via -r test.in
-python-discovery==1.4.2
+python-discovery==1.4.4
     # via
     #   tox
     #   virtualenv
-python-gitlab==6.5.0
+python-gitlab==8.4.0
     # via python-semantic-release
-python-semantic-release==10.5.3
+python-semantic-release==10.6.1
     # via -r test.in
 pytokens==0.4.1
     # via black
@@ -228,7 +230,7 @@ shellingham==1.5.4
     # via python-semantic-release
 smmap==5.0.3
     # via gitdb
-stevedore==5.8.0
+stevedore==5.9.0
     # via bandit
 termcolor==3.3.0
     # via commitizen
@@ -238,7 +240,7 @@ tomlkit==0.13.3
     # via
     #   commitizen
     #   python-semantic-release
-tox==4.55.1
+tox==4.56.4
     # via -r test.in
 types-beautifulsoup4==4.12.0.20250516
     # via -r test.in
@@ -258,7 +260,7 @@ types-urllib3==1.26.25.14
     # via -r test.in
 types-webencodings==0.5.0.20260408
     # via types-html5lib
-typing-extensions==4.15.0
+typing-extensions==4.16.0
     # via
     #   mypy
     #   pydantic
@@ -270,11 +272,11 @@ urllib3==2.7.0
     # via
     #   requests
     #   types-requests
-virtualenv==21.5.1
+virtualenv==21.6.1
     # via
     #   pre-commit
     #   tox
-wcwidth==0.8.1
+wcwidth==0.8.2
     # via prompt-toolkit
-wrapt==2.2.1
+wrapt==2.2.2
     # via deprecated

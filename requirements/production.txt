@@ -4,3 +4,4 @@
 #
 #    pip-compile production.in
 #
+--index-url https://pkgs.safetycli.com/repository/none-4c687/pypi/simple/

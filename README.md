@@ -66,7 +66,7 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 Some of you may have reached the point where you want to publish a package in the PyPI python repository.
 The first step of which is to choose a unique name. Here lies the problem.
 
-A recent look at the PyPI repository revealed there were over 848,592 projects, so many names have already been taken.
+A recent look at the PyPI repository revealed there were over 848,793 projects, so many names have already been taken.
 
 pip leaps to the rescue with its search utility... or does it?
 
@@ -135,7 +135,7 @@ Pynamer provides a way to optionally 'register' a name on PyPI by building a min
 
 ---
 
--   [x] Python >= 3.10
+-   [x] Python >= 3.11
 
 The following are optional but required for 'registering' a project name on PyPI
 
@@ -193,7 +193,7 @@ However, optimal installation can be achieved using [**pipx**][pipx-url]:
 
 Holy smoke batman! You've managed to identify a unique name.
 
-Yes, even though the odds were against you (given there are over 848,592 registered projects), you did it!
+Yes, even though the odds were against you (given there are over 848,793 registered projects), you did it!
 
 Even though the name has nothing in common with your project, or may not even be a real word... you did it!
 

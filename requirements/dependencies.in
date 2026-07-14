@@ -1,0 +1,12 @@
+beautifulsoup4
+build
+colorama
+jinja2
+packaging
+python-dateutil
+pyyaml
+requests
+rich
+tqdm
+twine
+wheel

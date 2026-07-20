@@ -143,21 +143,18 @@ def generate_pypi_index() -> None:
         if pypi_index_file.exists():
             pypi_index_file.unlink(missing_ok=True)
 
-    progress_bar = tqdm(total=config.project_count)
+    with tqdm(total=config.project_count) as progress_bar:
+        index_object_raw = requests.get(config.pypi_simple_index_url, timeout=5)
 
-    index_object_raw = requests.get(config.pypi_simple_index_url, timeout=5)
-
-    with pypi_index_file_trv.open("a") as file:  # type: ignore
-        for line in index_object_raw.iter_lines():
-            line = str(line)
-            project_text = re.search(pattern, line)
-            if project_text is not None:
-                new_count += 1
-                progress_bar.update(1)
-                project = "".join([project_text.group(1), " \n"])
-                file.write(project)
-
-    progress_bar.close()
+        with pypi_index_file_trv.open("a") as file:  # type: ignore
+            for line in index_object_raw.iter_lines():
+                line = str(line)
+                project_text = re.search(pattern, line)
+                if project_text is not None:
+                    new_count += 1
+                    progress_bar.update(1)
+                    project = "".join([project_text.group(1), " \n"])
+                    file.write(project)
 
     with (
         as_file(project_count_file_trv) as project_count_file,

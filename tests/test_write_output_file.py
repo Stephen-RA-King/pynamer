@@ -14,9 +14,9 @@ def test_write_output_file(monkeypatch):
     result_dict = {"pyball": [1, 1, 1]}
     pynamer.write_output_file(str(output_file), result_dict)
 
-    with open(expected_results_file) as f:
+    with Path(expected_results_file).open() as f:
         expected_text = f.read()
-    with open(output_file) as f:
+    with Path(output_file).open() as f:
         result_text = f.read()
 
     assert result_text == expected_text

@@ -3,7 +3,7 @@
 from pathlib import Path
 
 # First party modules
-from pynamer import builder, pynamer
+from pynamer import builder
 
 BASE_DIR = Path(__file__).parents[0]
 expected_content = """#!/usr/bin/env python3
@@ -34,7 +34,7 @@ def test_create_setup(create_env, monkeypatch):
     builder.create_setup("pynball")
 
     setup_file = BASE_DIR / "setup.py"
-    with open(setup_file, encoding="utf-8") as f:
+    with Path(setup_file).open(encoding="utf-8") as f:
         contents = f.read()
     assert contents == expected_content
 

@@ -365,7 +365,7 @@ def tests(c, open_browser=False):
     _clean_test()
     print(TEST_DIR)
     c.run(
-        f'pytest "{str(TEST_DIR)}" --cov=pynamer --cov-report=html'
+        f'pytest "{TEST_DIR!s}" --cov=pynamer --cov-report=html'
         f" --html=pytest-report.html -ra"
     )
     if open_browser:

@@ -8,7 +8,7 @@ import pickle
 import re
 from importlib.resources import as_file
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
 # Third party modules
 import requests
@@ -206,7 +206,7 @@ def check_version() -> None:
 
 
 @file_exception
-def process_input_file(file: str) -> list[Union[str, Any]]:
+def process_input_file(file: str) -> list[str | Any]:
     """Processes the contents of the file to a list of strings.
 
     Args:

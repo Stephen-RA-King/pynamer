@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
 # Core Library modules
-import pickle
 from pathlib import Path
 
 # Third party modules
-import pytest
-import requests
-from requests.exceptions import ConnectTimeout
-
 # First party modules
 import pynamer
 

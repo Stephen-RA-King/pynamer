@@ -3,7 +3,6 @@
 # Core Library modules
 import sys
 from pathlib import Path
-from typing import Optional
 
 # Local modules
 from . import project_count
@@ -12,7 +11,7 @@ from . import project_count
 class Config:
     """Configuration class"""
 
-    pypirc: Optional[Path] = None
+    pypirc: Path | None = None
     original_project_name: str = "project_name"
     no_cleanup: bool = False
     project_count: int = project_count

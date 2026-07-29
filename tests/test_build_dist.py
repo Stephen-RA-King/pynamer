@@ -27,7 +27,7 @@ setup(name='pynamer',
       zip_safe=False)"""
 
 
-@pytest.fixture()
+@pytest.fixture
 def pre_build_dist(monkeypatch):
     project_dir = BASE_DIR / "pynamer"
     project_dir.mkdir()

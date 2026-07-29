@@ -30,7 +30,7 @@ setup(name='{{ PROJECT_NAME }}',
       zip_safe=False)"""
 
 
-@pytest.fixture()
+@pytest.fixture
 def src_reset():
     meta = SRC_DIR / "meta.pickle"
     count = SRC_DIR / "project_count.pickle"
@@ -43,7 +43,7 @@ def src_reset():
     shutil.copy(base_setup, setup)
 
 
-@pytest.fixture()
+@pytest.fixture
 def create_env():
     project_dir = BASE_DIR / "project_name"
     project_dir.mkdir()
@@ -71,13 +71,13 @@ def create_env():
                 item.unlink()
 
 
-@pytest.fixture()
+@pytest.fixture
 def path_mock(mocker):
     mocker.patch.dict(os.environ, {"PATH": str(BASE_DIR)})
     mocker.patch("os.getcwd", return_value=str(BASE_DIR))
 
 
-@pytest.fixture()
+@pytest.fixture
 def project_path_mock(monkeypatch):
     monkeypatch.setattr(pynamer, "project_path", BASE_DIR)
 

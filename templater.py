@@ -2,7 +2,7 @@
 # Core Library modules
 import re
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 # Third party modules
 import requests
@@ -14,7 +14,7 @@ env_file = "".join([Path(__file__).stem, ".env"])
 
 def write_to_env_file(key: str, value: str) -> None:  # type: ignore
     entry = "".join([key, "=", value, "\n"])
-    with open(env_file, mode="a") as file:
+    with Path(env_file).open(mode="a") as file:
         file.write(entry)
 
 
@@ -36,7 +36,7 @@ def get_value1() -> None:
                 if "projects" in text:
                     break
 
-        match: Optional[re.Match] = re.search(pattern, text)
+        match: re.Match | None = re.search(pattern, text)
         if match is not None:
             matched_text: str = match.group()
             write_to_env_file("PROJECT_COUNT_HYPHEN", matched_text)

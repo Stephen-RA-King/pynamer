@@ -22,7 +22,7 @@ def ping_project(name):
     )
     url = "".join([pypi_project_url, name, "/"])
     r = requests.get(url, timeout=5)
-    with open(ping_file_name, "wb") as f:
+    with Path(ping_file_name).open("wb") as f:
         pickle.dump(r, f)
 
 
@@ -36,7 +36,7 @@ def json_save(name):
     url = "".join([pypi_json_url, name, "/json"])
     r = requests.get(url, timeout=5)
     # j = r.content.decode('utf-8')
-    with open(json_file_name, "wb") as f:
+    with Path(json_file_name).open("wb") as f:
         pickle.dump(r, f)
 
 
@@ -47,7 +47,7 @@ def json_open(name):
         / "resources"
         / "".join(["requests_get_json_", name, ".pickle"])
     )
-    with open(json_file_name, "rb") as f:
+    with Path(json_file_name).open("rb") as f:
         response = pickle.load(f)
     print(type(response))
     print(response.status_code)
@@ -68,7 +68,7 @@ def search(name):
     )
     params = {"q": {name}, "page": 1}
     r = requests.get(pypi_search_url, params=params, timeout=5)
-    with open(search_file_name, "wb") as f:
+    with Path(search_file_name).open("wb") as f:
         pickle.dump(r, f)
 
 
@@ -104,7 +104,7 @@ def manual_simple_index():
     response.status_code = 200
     response.headers = {"Content-Type": "application/json"}
     response._content = small_content
-    with open(index_file_name, "wb") as f:
+    with Path(index_file_name).open("wb") as f:
         pickle.dump(response, f)
 
 
@@ -122,7 +122,7 @@ def get_github_meta(url):
     print(repo_api_url)
     try:
         json_raw = requests.get(repo_api_url, timeout=5)
-    except requests.RequestException as e:
+    except requests.RequestException:
         return "".join([return_text, "GitHub can not be contacted."])
     if json_raw.status_code == 200:
         repo_json = json_raw.json()
@@ -142,7 +142,7 @@ def get_github_meta(url):
                 f"updated: {isoparse(repo_json['updated_at']).date()}",
             ]
         )
-    elif json_raw.status_code == 404:
+    if json_raw.status_code == 404:
         return "".join([return_text, "GitHub reports repository does not exist."])
 
 
@@ -163,7 +163,7 @@ def save_github_meta(url, project_name):
         )
     request_response = requests.get(repo_api_url, timeout=5)
     content = request_response.content
-    with open(json_file_name, "wb") as f:
+    with Path(json_file_name).open("wb") as f:
         pickle.dump(request_response, f)
 
 

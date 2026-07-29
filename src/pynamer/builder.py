@@ -10,7 +10,7 @@ import subprocess
 import sys
 from importlib.resources import as_file
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
 # Third party modules
 import build
@@ -85,14 +85,13 @@ def create_setup(new_project_name: str, new_meta: bool = False) -> None:
                 )
                 if re.search(_email_pattern, email):
                     break
-                else:
-                    print(
-                        Fore.YELLOW
-                        + Back.BLACK
-                        + Style.BRIGHT
-                        + "does not appear to be a valid email address"
-                        + Style.RESET_ALL
-                    )  # pragma: no cover
+                print(
+                    Fore.YELLOW
+                    + Back.BLACK
+                    + Style.BRIGHT
+                    + "does not appear to be a valid email address"
+                    + Style.RESET_ALL
+                )  # pragma: no cover
         except KeyboardInterrupt as e:  # pragma: no cover
             feedback("...bye!", "warning")
             raise SystemExit() from e
@@ -238,8 +237,8 @@ def cleanup(project_name: str) -> None:
 def run_command(
     *arguments: str,
     shell: bool = True,
-    working_dir: Union[Path, str, None] = None,
-    project: Union[None, str] = None,
+    working_dir: Path | str | None = None,
+    project: None | str = None,
 ) -> None:  # pragma: no cover
     """Utility designed to execute a command line utility.
 

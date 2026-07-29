@@ -9,7 +9,7 @@ import requests
 from requests.exceptions import ConnectTimeout
 
 # First party modules
-from pynamer import pynamer, utils
+from pynamer import utils
 
 BASE_DIR = Path(__file__).parents[0]
 

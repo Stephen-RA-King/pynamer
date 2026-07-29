@@ -1,10 +1,11 @@
 # Core Library modules
 import hashlib
+import pathlib
 
 
 def calculate_md5(filepath):
     md5_hash = hashlib.md5()
-    with open(filepath, "rb") as file:
+    with pathlib.Path(filepath).open("rb") as file:
         # Read the file in chunks to handle large files efficiently
         for chunk in iter(lambda: file.read(4096), b""):
             md5_hash.update(chunk)

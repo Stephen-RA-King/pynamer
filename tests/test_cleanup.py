@@ -12,7 +12,7 @@ from pynamer import builder, pynamer
 BASE_DIR = Path(__file__).parents[0]
 
 
-@pytest.fixture()
+@pytest.fixture
 def pre_cleanup(monkeypatch):
     project_dir = BASE_DIR / "pynamer"
     project_dir.mkdir()

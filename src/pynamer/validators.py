@@ -6,7 +6,7 @@ import json
 import re
 import string
 from datetime import datetime
-from typing import Any, Union
+from typing import Any
 
 # Third party modules
 import requests
@@ -32,11 +32,10 @@ def is_valid_package_name(project_name: str) -> bool:
         True:           If the name passes the basic check
         False:          If the name fails the basic check
     """
-    pattern = re.compile("^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$", re.I)
+    pattern = re.compile(r"^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$", re.I)
     if re.match(pattern, project_name) is not None:
         return True
-    else:
-        return False
+    return False
 
 
 def get_homepage(project_json: dict, project_name: str) -> tuple[str, str]:
@@ -236,7 +235,7 @@ def pypi_search_index(project_name: str) -> bool:
 
 def pypi_search(
     search_project: str,
-) -> tuple[list[list[Union[str, Any]]], list[list[Union[str, Any]]], str]:
+) -> tuple[list[list[str | Any]], list[list[str | Any]], str]:
     """Performs a get request to PyPI's search API for the project name.
 
     Args:

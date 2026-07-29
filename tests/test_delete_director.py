@@ -3,7 +3,7 @@
 from pathlib import Path
 
 # First party modules
-from pynamer import builder, pynamer
+from pynamer import builder
 
 BASE_DIR = Path(__file__).parents[0]
 

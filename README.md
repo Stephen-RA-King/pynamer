@@ -21,7 +21,7 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 [![license][license-image]][license-url]
 [![pydough][pydough-image]][pydough-url]
 [![Jinja-Genie][jinja-genie-image]][jinja-genie-url]
-<!-- [![OpenSSFScorecard][openssf-image]][openssf-url] -->
+[![OpenSSFScorecard][openssf-image]][openssf-url]
 
 
 ![](assets/pynamer1.png)
@@ -520,7 +520,7 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [mypy-image]: http://www.mypy-lang.org/static/mypy_badge.svg
 [mypy-url]: http://mypy-lang.org/
 [openssf-image]: https://api.securityscorecards.dev/projects/github.com/Stephen-RA-King/pynamer/badge
-[openssf-url]: https://api.securityscorecards.dev/projects/github.com/Stephen-RA-King/pynamer
+[openssf-url]: https://scorecard.dev/viewer/?uri=github.com/Stephen-RA-King/pynamer
 [pipx-url]: https://pypa.github.io/pipx/
 [pre-commit-image]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
 [pre-commit-url]: https://github.com/pre-commit/pre-commit

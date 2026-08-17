@@ -21,7 +21,7 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 [![license][license-image]][license-url]
 [![pydough][pydough-image]][pydough-url]
 [![Jinja-Genie][jinja-genie-image]][jinja-genie-url]
-[![OpenSSFScorecard][openssf-image]][openssf-url]
+<!-- [![OpenSSFScorecard][openssf-image]][openssf-url] -->
 
 
 ![](assets/pynamer1.png)
@@ -66,7 +66,7 @@ _**As a replacement for pip search, pynamer will quickly ascertain if a project 
 Some of you may have reached the point where you want to publish a package in the PyPI python repository.
 The first step of which is to choose a unique name. Here lies the problem.
 
-A recent look at the PyPI repository revealed there were over 873,643 projects, so many names have already been taken.
+A recent look at the PyPI repository revealed there were over 874,794 projects, so many names have already been taken.
 
 pip leaps to the rescue with its search utility... or does it?
 
@@ -193,7 +193,7 @@ However, optimal installation can be achieved using [**pipx**][pipx-url]:
 
 Holy smoke batman! You've managed to identify a unique name.
 
-Yes, even though the odds were against you (given there are over 873,643 registered projects), you did it!
+Yes, even though the odds were against you (given there are over 874,794 registered projects), you did it!
 
 Even though the name has nothing in common with your project, or may not even be a real word... you did it!
 
@@ -520,7 +520,7 @@ Digital object identifier: [![DOI](https://zenodo.org/badge/631029310.svg)](http
 [mypy-image]: http://www.mypy-lang.org/static/mypy_badge.svg
 [mypy-url]: http://mypy-lang.org/
 [openssf-image]: https://api.securityscorecards.dev/projects/github.com/Stephen-RA-King/pynamer/badge
-[openssf-url]: https://scorecard.dev/viewer/?uri=github.com/Stephen-RA-King/pynamer
+[openssf-url]: https://api.securityscorecards.dev/projects/github.com/Stephen-RA-King/pynamer
 [pipx-url]: https://pypa.github.io/pipx/
 [pre-commit-image]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
 [pre-commit-url]: https://github.com/pre-commit/pre-commit

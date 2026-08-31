@@ -36,7 +36,7 @@ repos:
         stages: [commit-msg]
 
   - repo: https://github.com/pycqa/isort
-    rev: 9.0.0b5
+    rev: 9.0.1
     hooks:
       - id: isort
         args: ["--filter-files"]

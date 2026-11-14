@@ -4,9 +4,9 @@
     # via -r requirements/base.in
 annotated-types==0.8.0
     # via pydantic
-argcomplete==3.7.0
+argcomplete==3.7.2
     # via commitizen
-ast-serialize==0.6.0
+ast-serialize==0.13.1
     # via mypy
 bandit==1.9.4
     # via
@@ -14,21 +14,21 @@ bandit==1.9.4
     #   flake8-bandit
 beautifulsoup4==4.15.0
     # via pynamer
-black==26.5.1
+black==26.10.1
     # via -r requirements/test.in
-build==1.5.0
+build==1.6.1
     # via pynamer
-cachetools==7.1.6
+cachetools==8.0.0
     # via tox
-certifi==2026.7.22
+certifi==2026.10.23
     # via requests
 cfgv==3.5.0
     # via pre-commit
-charset-normalizer==3.4.9
+charset-normalizer==3.5.2
     # via
     #   commitizen
     #   requests
-click==8.4.2
+click==8.5.1
     # via
     #   black
     #   click-option-group
@@ -39,15 +39,14 @@ colorama==0.4.6
     # via
     #   bandit
     #   build
-    #   click
     #   commitizen
     #   pynamer
     #   pytest
     #   tox
     #   tqdm
-commitizen==4.17.0
+commitizen==4.19.3
     # via -r requirements/test.in
-coverage==7.15.2
+coverage==7.17.3
     # via
     #   -r requirements/test.in
     #   coverage-conditional-plugin
@@ -57,19 +56,21 @@ coverage-conditional-plugin==0.9.0
 decli==0.6.3
     # via commitizen
 deprecated==1.3.1
-    # via commitizen
-distlib==0.4.3
+    # via
+    #   commitizen
+    #   python-semantic-release
+distlib==0.4.4
     # via virtualenv
 docutils==0.23
     # via readme-renderer
 dotty-dict==1.3.1
     # via python-semantic-release
-filelock==3.32.2
+filelock==4.2.10
     # via
     #   python-discovery
     #   tox
     #   virtualenv
-flake8==7.3.0
+flake8==7.5.0
     # via
     #   -r requirements/test.in
     #   flake8-bandit
@@ -86,25 +87,23 @@ flake8-plugin-utils==1.3.3
     # via flake8-pytest-style
 flake8-pytest-style==2.2.0
     # via -r requirements/test.in
-flake8-simplify==0.30.0
+flake8-simplify==0.31.1
     # via -r requirements/test.in
 gitdb==4.0.12
     # via gitpython
-gitpython==3.1.57
+gitpython==3.2.1
     # via python-semantic-release
 id==1.6.1
     # via twine
-identify==2.6.19
+identify==2.6.20
     # via pre-commit
-idna==3.18
+idna==3.20
     # via requests
-importlib-resources==6.5.2
-    # via python-semantic-release
-iniconfig==2.3.0
+iniconfig==2.3.1
     # via pytest
 invoke==3.0.3
     # via -r requirements/test.in
-isort==8.0.1
+isort==9.0.2
     # via -r requirements/test.in
 jaraco-classes==3.4.0
     # via keyring
@@ -121,33 +120,34 @@ jinja2==3.1.6
     #   python-semantic-release
 keyring==25.7.0
     # via twine
-librt==0.13.0
+librt==0.16.0
     # via mypy
-lxml==6.1.1
+lxml==6.1.3
     # via -r requirements/test.in
-markdown-it-py==4.2.0
+markdown-it-py==4.3.0
     # via rich
-markupsafe==3.0.3
+markupsafe==3.0.4
     # via jinja2
 mccabe==0.7.0
     # via flake8
 mdurl==0.1.2
     # via markdown-it-py
-more-itertools==11.1.0
+more-itertools==11.2.1
     # via
     #   jaraco-classes
     #   jaraco-functools
-mypy==2.3.0
+mypy==2.4.1
     # via -r requirements/test.in
-mypy-extensions==1.1.0
+mypy-extensions==1.2.0
     # via
     #   black
+    #   isort
     #   mypy
-nh3==0.3.6
+nh3==0.3.7
     # via readme-renderer
-nodeenv==1.10.0
+nodeenv==1.12.0
     # via pre-commit
-packaging==26.2
+packaging==26.3
     # via
     #   black
     #   build
@@ -158,46 +158,47 @@ packaging==26.2
     #   pytest
     #   tox
     #   twine
+    #   virtualenv
     #   wheel
 pathspec==1.1.1
     # via
     #   black
     #   mypy
-platformdirs==4.11.0
+platformdirs==4.14.5
     # via
     #   black
     #   tox
     #   virtualenv
-pluggy==1.6.0
+pluggy==1.7.0
     # via
     #   pytest
     #   pytest-cov
     #   tox
-pre-commit==4.6.1
+pre-commit==4.7.0
     # via -r requirements/test.in
 prompt-toolkit==3.0.53
     # via
     #   commitizen
     #   questionary
-pycodestyle==2.14.0
+pycodestyle==2.15.0
     # via flake8
-pydantic==2.13.4
+pydantic==2.14.3
     # via python-semantic-release
-pydantic-core==2.46.4
+pydantic-core==2.50.4
     # via pydantic
-pyflakes==3.4.0
+pyflakes==4.1.0
     # via flake8
-pygments==2.20.0
+pygments==2.21.0
     # via
     #   flake8-html
     #   pytest
     #   readme-renderer
     #   rich
-pyproject-api==1.11.0
+pyproject-api==1.12.5
     # via tox
-pyproject-hooks==1.2.0
+pyproject-hooks==1.3.3
     # via build
-pytest==9.1.1
+pytest==9.2.0
     # via
     #   -r requirements/test.in
     #   pytest-cov
@@ -215,23 +216,23 @@ pytest-metadata==3.1.1
     # via
     #   -r requirements/test.in
     #   pytest-html
-pytest-mock==3.15.1
+pytest-mock==3.17.0
     # via -r requirements/test.in
-pytest-randomly==4.1.0
+pytest-randomly==5.1.0
     # via -r requirements/test.in
 pytest-repeat==0.9.4
     # via -r requirements/test.in
 pytest-timeout==2.4.0
     # via -r requirements/test.in
-python-dateutil==2.9.0.post0
+python-dateutil==4.0.0
     # via pynamer
-python-discovery==1.5.1
+python-discovery==1.9.5
     # via
     #   tox
     #   virtualenv
-python-gitlab==4.13.0
+python-gitlab==8.6.0
     # via python-semantic-release
-python-semantic-release==9.3.1
+python-semantic-release==10.7.0
     # via -r requirements/test.in
 pytokens==0.4.1
     # via black
@@ -246,7 +247,7 @@ pyyaml==6.0.3
     #   pynamer
 questionary==2.1.1
     # via commitizen
-readme-renderer==45.0
+readme-renderer==46.0
     # via twine
 requests==2.34.2
     # via
@@ -269,25 +270,23 @@ rich==15.0.0
     #   twine
 shellingham==1.5.4
     # via python-semantic-release
-six==1.17.0
-    # via python-dateutil
 smmap==5.0.3
     # via gitdb
-soupsieve==2.9.1
+soupsieve==4.1
     # via beautifulsoup4
-stevedore==5.9.0
+stevedore==5.10.0
     # via bandit
 termcolor==3.3.0
     # via commitizen
 tomli-w==1.2.0
     # via tox
-tomlkit==0.15.1
+tomlkit==0.15.2
     # via
     #   commitizen
     #   python-semantic-release
-tox==4.58.0
+tox==4.67.13
     # via -r requirements/test.in
-tqdm==4.70.0
+tqdm==4.70.1
     # via pynamer
 twine==7.0.0
     # via pynamer
@@ -299,15 +298,15 @@ types-html5lib==1.1.11.20260518
     # via
     #   -r requirements/test.in
     #   types-beautifulsoup4
-types-python-dateutil==2.9.0.20260716
+types-python-dateutil==2.9.0.20261104
     # via -r requirements/test.in
-types-pyyaml==6.0.12.20260724
+types-pyyaml==6.0.12.20261113
     # via -r requirements/test.in
-types-requests==2.33.0.20260712
+types-requests==2.33.0.20261030
     # via -r requirements/test.in
 types-urllib3==1.26.25.14
     # via -r requirements/test.in
-types-webencodings==0.5.0.20260408
+types-webencodings==0.6.0.20261104
     # via types-html5lib
 typing-extensions==4.16.0
     # via
@@ -316,21 +315,23 @@ typing-extensions==4.16.0
     #   pydantic
     #   pydantic-core
     #   typing-inspection
-typing-inspection==0.4.2
+typing-inspection==0.4.5
     # via pydantic
-urllib3==2.7.0
+tzdata==2026.6
+    # via python-dateutil
+urllib3==2.8.0
     # via
     #   id
     #   requests
     #   twine
     #   types-requests
-virtualenv==21.7.1
+virtualenv==21.15.6
     # via
     #   pre-commit
     #   tox
-wcwidth==0.8.2
+wcwidth==0.9.4
     # via prompt-toolkit
-wheel==0.47.0
+wheel==0.48.0
     # via pynamer
-wrapt==2.3.0
+wrapt==2.5.2
     # via deprecated
